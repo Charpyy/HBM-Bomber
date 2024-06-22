@@ -309,7 +309,7 @@ public class EntityEffectHandler {
 				}
 
 				//end of contagion, drop dead
-				if(contagion == 0) {
+				if(contagion == 1) {
 					entity.attackEntityFrom(ModDamageSource.mku, 100000F);
 				}
 			}
