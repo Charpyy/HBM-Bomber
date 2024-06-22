@@ -17,6 +17,7 @@ import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.effect.EntityBlackHole;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.grenade.EntityGrenadeASchrab;
+import com.hbm.entity.grenade.EntityGrenadeBreach;
 import com.hbm.entity.grenade.EntityGrenadeNuclear;
 import com.hbm.entity.missile.EntityMIRV;
 import com.hbm.handler.ArmorUtil;

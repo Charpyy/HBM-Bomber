@@ -21,7 +21,6 @@ import com.hbm.packet.PacketDispatcher;
 
 import com.hbm.render.util.CoordinateConvert;
 import com.sun.jna.platform.win32.WinDef;
-import javafx.geometry.BoundingBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
