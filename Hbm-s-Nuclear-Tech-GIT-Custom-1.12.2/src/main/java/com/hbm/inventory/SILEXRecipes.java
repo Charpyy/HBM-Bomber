@@ -770,19 +770,19 @@ public class SILEXRecipes {
 
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_long, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), new SILEXRecipe(900, 100, EnumWavelengths.UV)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_solinium), 25))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_euphemium), 18))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_gh336), 16))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_tantalium), 8))
+//				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_euphemium), 18))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_gh336), 17)) //16
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_tantalium), 25)) //8
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_neodymium_tiny), 8))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 25))
 				);
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_long_depleted, 1, ItemWasteLong.WasteClass.SCHRABIDIUM.ordinal()), new SILEXRecipe(900, 100, EnumWavelengths.UV)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_solinium), 20))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_euphemium), 18))
+//				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_euphemium), 18))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_gh336), 15))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_tantalium), 8))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_tantalium), 25)) //8
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_neodymium_tiny), 8))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 31))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 32)) //31
 				);
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_short, 1, ItemWasteShort.WasteClass.SCHRABIDIUM.ordinal()), new SILEXRecipe(900, 100, EnumWavelengths.VISIBLE)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_pb209), 7)) //We don't have any spicy lanthanides, and lead 209 + gold 198 is already *severely* pushing it, but there's no
@@ -793,10 +793,10 @@ public class SILEXRecipes {
 				);
 		recipes.put(new ComparableStack(ModItems.nuclear_waste_short_depleted, 1, ItemWasteShort.WasteClass.SCHRABIDIUM.ordinal()), new SILEXRecipe(900, 100, EnumWavelengths.VISIBLE)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_bismuth), 7))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_mercury), 12))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_mercury), 7))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_cerium_tiny), 14))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_lanthanium_tiny), 15))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.dust), 20))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.dust), 25))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_tiny), 32))
 				);
 		

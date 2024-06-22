@@ -214,11 +214,11 @@ public class CentrifugeRecipes {
 				new ItemStack(ModItems.powder_meteorite_tiny, 1),
 				new ItemStack(ModItems.dust, 6) });
 		
-		recipes.put(new ComparableStack(ModBlocks.block_euphemium_cluster), new ItemStack[] {
+/*		recipes.put(new ComparableStack(ModBlocks.block_euphemium_cluster), new ItemStack[] {
 				new ItemStack(ModItems.nugget_euphemium, 7),
 				new ItemStack(ModItems.powder_schrabidium, 4),
 				new ItemStack(ModItems.ingot_starmetal, 2),
-				new ItemStack(ModItems.nugget_solinium, 2) });
+				new ItemStack(ModItems.nugget_solinium, 2) });*/
 		
 		recipes.put(P_RED.ore(), new ItemStack[] {
 				new ItemStack(Items.BLAZE_POWDER, 2),

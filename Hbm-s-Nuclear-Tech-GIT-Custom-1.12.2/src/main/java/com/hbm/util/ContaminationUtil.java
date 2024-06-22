@@ -670,6 +670,7 @@ public class ContaminationUtil {
 				e instanceof EntityMIRV ||
 				e instanceof EntityMiniNuke ||
 				e instanceof EntityMiniMIRV ||
+				e instanceof EntityGrenadeBreach ||
 				e instanceof EntityGrenadeASchrab ||
 				e instanceof EntityGrenadeNuclear ||
 				e instanceof EntityExplosiveBeam ||
