@@ -293,13 +293,13 @@ public class AnvilRecipes {
 				},
 				new AnvilOutput(new ItemStack(ModBlocks.bm_power_box))).setTier(5));
 		
-		constructionRecipes.add(new AnvilConstructionRecipe(
+		/*constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new ComparableStack(Items.BONE, 16),
 						new ComparableStack(Items.LEATHER, 4),
 						new ComparableStack(Items.FEATHER, 24)
 				},
-				new AnvilOutput(new ItemStack(ModItems.wings_limp))).setTier(2));
+				new AnvilOutput(new ItemStack(ModItems.wings_limp))).setTier(2));*/
 		constructionRecipes.add(new AnvilConstructionRecipe(
 				new AStack[] {
 						new OreDictStack(S.dust(), 8),
