@@ -15,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+
 public class CraneExtractor extends BlockCraneBase {
     public CraneExtractor(Material materialIn, String s) {
         super(materialIn);
@@ -38,7 +39,8 @@ public class CraneExtractor extends BlockCraneBase {
         TileEntity tileentity = world.getTileEntity(pos);
 
         if(tileentity instanceof TileEntityCraneExtractor) {
-            InventoryHelper.dropInventoryItems(world, pos, (TileEntityCraneExtractor) tileentity);
+            InventoryHelper.dropPartiallyInventoryItems(world, pos, (TileEntityCraneExtractor) tileentity,new int[]{9,10,11,12,13,14,15,16,17,18,19});
+            // InventoryHelper.dropInventoryItems(world, pos, (TileEntityCraneExtractor) tileentity);
         }
         super.breakBlock(world, pos, state);
     }
