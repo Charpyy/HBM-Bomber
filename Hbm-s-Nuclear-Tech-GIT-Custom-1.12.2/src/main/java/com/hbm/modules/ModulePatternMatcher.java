@@ -5,6 +5,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
+import com.hbm.main.MainRegistry;
+import org.apache.logging.log4j.Level;
+
+
 import java.util.List;
 
 public class ModulePatternMatcher {
@@ -24,11 +28,10 @@ public class ModulePatternMatcher {
 
         if(world.isRemote) return;
 
-        if(stack == null) {
+        if(stack == null || stack.isEmpty()) {
             modes[i] = null;
             return;
         }
-
         List<String> names = ItemStackUtil.getOreDictNames(stack);
 
         if(iterateAndCheck(names, i ,"ingot")) return;
@@ -120,9 +123,11 @@ public class ModulePatternMatcher {
         filter.setCount(1);
         ItemStack input = i.copy();
         input.setCount(1);
-        
         if(mode == null) {
             modes[index] = mode = MODE_EXACT;
+        }
+        if(input.isEmpty() || filter.isEmpty()){
+            return false;
         }
 
         switch(mode) {

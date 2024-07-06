@@ -112,7 +112,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
                             int index = access == null ? i : access[i];
                             ItemStack stack = inv.getStackInSlot(index);
 
-                            if(stack != ItemStack.EMPTY && (sided == null || sided.canExtractItem(index, stack, EnumFacing.getFront(inputSide.getOpposite().ordinal())))){
+                            if(stack != ItemStack.EMPTY && (!stack.isEmpty()) && (sided == null || sided.canExtractItem(index, stack, EnumFacing.getFront(inputSide.getOpposite().ordinal())))){
 
                                 boolean match = this.matchesFilter(stack);
 
@@ -138,7 +138,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
                     for(int index : allowed_slots) {
                         ItemStack stack = inventory.getStackInSlot(index);
 
-                        if(stack != ItemStack.EMPTY && (sided == null || sided.canExtractItem(index, stack, EnumFacing.getFront(inputSide.getOpposite().ordinal())))){
+                        if(stack != ItemStack.EMPTY && (!stack.isEmpty()) && (sided == null || sided.canExtractItem(index, stack, EnumFacing.getFront(inputSide.getOpposite().ordinal())))){
 
                             boolean match = this.matchesFilter(stack);
 
@@ -218,7 +218,7 @@ public class TileEntityCraneExtractor extends TileEntityCraneBase implements IGU
         for(int i = 0; i < 9; i++) {
             ItemStack filter = inventory.getStackInSlot(i);
 
-            if(filter != null && this.matcher.isValidForFilter(filter, i, stack)) {
+            if(filter != null && (!filter.isEmpty()) && this.matcher.isValidForFilter(filter, i, stack)) {
                 return true;
             }
         }
