@@ -606,6 +606,7 @@ public class FFUtils {
 		}
 		stack = fHandler.getContainer();
 		fStack = FluidUtil.getFluidContained(stack);
+		slots.setStackInSlot(slot1, stack);
 		if(fStack != null && fHandler.fill(new FluidStack(fStack.getFluid(), Integer.MAX_VALUE), false) <= 0) {
 			if(move) moveItems(slots, slot1, slot2, false);
 		}
