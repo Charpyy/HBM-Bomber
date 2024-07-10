@@ -361,7 +361,12 @@ public class JEIConfig implements IModPlugin {
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.gun_egon));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.warhead_volcano));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.missile_volcano));
-		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.gun_defabricator));
+		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.desh_sword));
+		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.desh_pickaxe));
+		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.desh_axe));
+		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.desh_shovel));
+		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.desh_hoe));
+		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.chocolate_milk));
 
 		blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.machine_coal_on));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.machine_electric_furnace_on));
