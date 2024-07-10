@@ -354,7 +354,7 @@ public class JEIConfig implements IModPlugin {
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.gun_bolter));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.gun_vortex));
 
-		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.ModItems.grenade_zomg));
+		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.grenade_zomg));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.grenade_black_hole));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.mp_warhead_15_volcano));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.gun_zomg));
