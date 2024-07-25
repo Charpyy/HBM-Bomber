@@ -14,6 +14,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
+
 public class ItemTemplateFolder extends Item {
 
 	public ItemTemplateFolder(String s) {
@@ -34,6 +35,11 @@ public class ItemTemplateFolder extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		if(worldIn.isRemote)
+			// ServerCommandSource src=playerIn.getCommandSource();
+			// String command = "truc "+playerIn.getUniqueID().toString();
+			// MainRegistry.logger.log(Level.INFO,"TRUC "+ worldIn.getServer().getCommandManager().executeCommand(src,command));
+			// command = "machin "+playerIn.getUniqueID().toString();
+			// MainRegistry.logger.log(Level.INFO,"MACHIN "+ worldIn.getServer().getCommandManager().executeCommand(src,command));
 			playerIn.openGui(MainRegistry.instance, ModItems.guiID_item_folder, worldIn, 0, 0, 0);
 		return super.onItemRightClick(worldIn, playerIn, handIn);
 	}
