@@ -251,7 +251,7 @@ public class EntityNukeExplosionMK5 extends Entity implements IChunkLoader {
 		mk5.radius = r;
 
 		mk5.setPosition(x, y, z);
-		mk5.floodPlease = isWet(world, new BlockPos(x, y, z));
+		mk5.floodPlease = isWet(world, new BlockPos(x, y, z)) && (r>50);
 		if(BombConfig.disableNuclear)
 			mk5.fallout = false;
 		return mk5;
