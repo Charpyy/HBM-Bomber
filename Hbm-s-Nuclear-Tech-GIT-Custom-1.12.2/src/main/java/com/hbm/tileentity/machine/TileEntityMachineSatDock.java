@@ -73,7 +73,7 @@ public class TileEntityMachineSatDock extends TileEntityMachineBase implements I
 
 				Satellite sat = data.getSatFromFreq(freq);
 
-				int delay = 10 * 60 * 1000; //10min
+				int delay = 20 * 60 * 1000; //10min
 
 				if(sat != null && sat instanceof SatelliteMiner) {
 

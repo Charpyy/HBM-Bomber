@@ -26,7 +26,7 @@ public class SatelliteLaser extends Satellite {
 	
 	public void onClick(World world, int x, int z) {
 		
-		if(lastOp + 10000 < System.currentTimeMillis()) {
+		if(lastOp + (20*60*1000) < System.currentTimeMillis()) {
     		lastOp = System.currentTimeMillis();
     		
     		int y = world.getHeight(x, z);
