@@ -325,6 +325,9 @@ public class RadiationSystemNT {
 							if(player.capabilities.isCreativeMode || player.isSpectator()){
 								continue;
 							}
+							if(world.getWorldInfo().getWorldName().contains("spawnn")){
+								continue;
+							}
 						}
 
 						float eRad = (float)HbmLivingProps.getRadiation(entity);
