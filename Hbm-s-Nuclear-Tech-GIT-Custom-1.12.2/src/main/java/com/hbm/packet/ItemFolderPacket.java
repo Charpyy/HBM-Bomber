@@ -19,6 +19,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import com.hbm.core.HbmDatabaseOpenwar;
+import com.hbm.inventory.AssemblerRecipes;
+
+
 public class ItemFolderPacket implements IMessage {
 
 	ItemStack stack;
@@ -68,7 +72,7 @@ public class ItemFolderPacket implements IMessage {
 					return;
 				
 				ItemStack stack = m.stack;
-				
+
 				if(p.capabilities.isCreativeMode) {
 					
 					p.inventory.addItemStackToInventory(stack.copy());
@@ -84,11 +88,13 @@ public class ItemFolderPacket implements IMessage {
 					}
 				}
 				if(stack.getItem() instanceof ItemAssemblyTemplate) {
-					if(Library.hasInventoryItem(p.inventory, Items.PAPER) && Library.hasInventoryItem(p.inventory, Items.DYE)) {
-						Library.consumeInventoryItem(p.inventory, Items.PAPER);
-						Library.consumeInventoryItem(p.inventory, Items.DYE);
-						if(!p.inventory.addItemStackToInventory(stack.copy()))
-							p.dropItem(stack, true);
+					if(HbmDatabaseOpenwar.canUseItem(p,AssemblerRecipes.getOutputFromTempate(stack).getItem())){
+						if(Library.hasInventoryItem(p.inventory, Items.PAPER) && Library.hasInventoryItem(p.inventory, Items.DYE)) {
+							Library.consumeInventoryItem(p.inventory, Items.PAPER);
+							Library.consumeInventoryItem(p.inventory, Items.DYE);
+							if(!p.inventory.addItemStackToInventory(stack.copy()))
+								p.dropItem(stack, true);
+						}
 					}
 				}
 				if(stack.getItem() instanceof ItemChemistryTemplate) {

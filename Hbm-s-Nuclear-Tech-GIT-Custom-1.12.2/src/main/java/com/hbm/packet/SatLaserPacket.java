@@ -11,6 +11,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import com.hbm.core.HbmDatabaseOpenwar;
+
 public class SatLaserPacket implements IMessage {
 
 	//0: Add
@@ -55,14 +57,15 @@ public class SatLaserPacket implements IMessage {
 				if(!ctx.getServerHandler().player.world.isBlockLoaded(new BlockPos(m.x, 0, m.z)))
 					return;
 				if(p.getHeldItemMainhand().getItem() instanceof ItemSatInterface) {
-					
-					int freq = ItemSatInterface.getFreq(p.getHeldItemMainhand());
-					
-					if(freq == m.freq) {
-					    Satellite sat = SatelliteSavedData.getData(p.world).getSatFromFreq(m.freq);
-					    
-					    if(sat != null)
-					    	sat.onClick(p.world, m.x, m.z);
+					if(HbmDatabaseOpenwar.isPlayerLevelAbove(p,55,true)){
+						int freq = ItemSatInterface.getFreq(p.getHeldItemMainhand());
+						
+						if(freq == m.freq) {
+							Satellite sat = SatelliteSavedData.getData(p.world).getSatFromFreq(m.freq);
+							
+							if(sat != null)
+								sat.onClick(p.world, m.x, m.z);
+						}
 					}
 				}
 			});
