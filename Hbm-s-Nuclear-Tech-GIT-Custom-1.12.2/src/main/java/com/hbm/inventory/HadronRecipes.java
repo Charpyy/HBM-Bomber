@@ -136,7 +136,7 @@ public class HadronRecipes {
 				));
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_strange),
-				new ItemStack(ModItems.powder_magic),
+				new ItemStack(ModItems.ModItems.powder_spark_mix),
 				500000,
 				new ItemStack(ModItems.particle_sparkticle),
 				new ItemStack(ModItems.dust),
@@ -161,7 +161,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_sparkticle),
 				new ItemStack(ModItems.particle_higgs),
-				1000000,
+				1000000*10,
 				new ItemStack(ModItems.particle_digamma),
 				new ItemStack(ModItems.particle_empty),
 				false
