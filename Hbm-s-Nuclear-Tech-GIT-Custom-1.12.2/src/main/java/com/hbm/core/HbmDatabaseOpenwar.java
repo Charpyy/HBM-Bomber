@@ -13,6 +13,9 @@ import com.hbm.blocks.ModBlocks;
 import net.minecraft.item.Item;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+
 public class HbmDatabaseOpenwar {
 
     private static final String DB_URL = "jdbc:mysql://localhost:3306/openwar";
@@ -21,7 +24,7 @@ public class HbmDatabaseOpenwar {
 
     public static Connection connection;
 	public static HashMap<Item,Integer> levelsMap = new HashMap<>();
-
+	@SideOnly(Side.SERVER)
     public HbmDatabaseOpenwar() throws SQLException {
 		if (connection==null){
 			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
