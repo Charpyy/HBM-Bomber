@@ -8,6 +8,7 @@ import com.hbm.util.I18nUtil;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockClean;
 import com.hbm.entity.effect.EntityFalloutUnderGround;
+import com.hbm.saveddata.RadiationSavedData;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityItem;
@@ -45,14 +46,15 @@ public class ItemContaminating extends ItemHazard {
 			if(isCleanGround(new BlockPos(entityItem.posX, entityItem.posY, entityItem.posZ), entityItem.world)){
 				return false;
 			}
-			if(falloutBallRadius > 1){
+			/*if(falloutBallRadius > 1){
 				EntityFalloutUnderGround falloutBall = new EntityFalloutUnderGround(entityItem.world);
 				falloutBall.posX = entityItem.posX;
 				falloutBall.posY = entityItem.posY+0.5F;
 				falloutBall.posZ = entityItem.posZ;
 				falloutBall.setScale(falloutBallRadius);
 				entityItem.world.spawnEntity(falloutBall);
-			}
+			}*/
+			RadiationSavedData.incrementRad(entityItem.world, new BlockPos(entityItem.posX, entityItem.posY, entityItem.posZ), falloutBallRadius*10, falloutBallRadius*100);
 			entityItem.setDead();
 			return true;
 		}
@@ -71,7 +73,7 @@ public class ItemContaminating extends ItemHazard {
 	@Override
 	public void addInformation(ItemStack stack, World world, List<String> list, ITooltipFlag flagIn){
 		super.addInformation(stack, world, list, flagIn);
-		if(falloutBallRadius > 1){
+		if(falloutBallRadius > 0){
 			list.add("§2["+I18nUtil.resolveKey("trait.contaminating")+"§2]");
 			list.add(" §a"+I18nUtil.resolveKey("trait.contaminating.radius", falloutBallRadius));
 		}
