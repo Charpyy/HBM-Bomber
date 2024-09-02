@@ -136,7 +136,7 @@ public class HadronRecipes {
 				));
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_strange),
-				new ItemStack(ModItems.ModItems.powder_spark_mix),
+				new ItemStack(ModItems.powder_spark_mix),
 				500000,
 				new ItemStack(ModItems.particle_sparkticle),
 				new ItemStack(ModItems.dust),
