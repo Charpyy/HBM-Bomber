@@ -450,6 +450,7 @@ public class CompatibilityConfig {
 	}
 
 	public static boolean isWarDim(World world){
+		System.out.println("World name of the isWarDim is ["+world.getWorldInfo().getWorldName()+"]");
 		return isWarDim(world.provider.getDimension())&&isWarDimMultiverse(world.getWorldInfo().getWorldName());
 	}
 

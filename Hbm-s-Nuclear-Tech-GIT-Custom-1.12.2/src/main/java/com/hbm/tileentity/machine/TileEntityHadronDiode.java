@@ -77,6 +77,7 @@ public class TileEntityHadronDiode extends TileEntityTickingBase {
 	}
 
 	public void setConfig(int side, int config) {
+		System.out.println("Diode setConfig : " + side + ":" + config);
 		sides[side] = DiodeConfig.values()[config];
 		this.markDirty();
 		sendSides();
