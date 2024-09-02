@@ -106,6 +106,7 @@ public class CompatibilityConfig {
 
 	public static boolean peaceDimensionsIsWhitelist = true;
 	public static HashSet peaceDimensions;
+	public static HashSet peaceDimensionsMultiverse;
 
 
 	
@@ -437,6 +438,8 @@ public class CompatibilityConfig {
 		peaceDimensionsIsWhitelist =  CommonConfig.createConfigBool(config, CATEGORY_NUKES, "07.05_peaceDimensionsIsWhitelist", "If true then the listed dimensions below are all peacefull. If false then the listed dimensions are the only ones where destruction happens.", true);
 		peaceDimensions = CommonConfig.createConfigHashSet(config, CATEGORY_BORES, "07.06_peaceDimensions", "List of Dimensions where block destruction and damage is disabled (Used for server lobbies/science servers/pvp arenas) - <dimID> (Int)", "Int", new String[]{
 		});
+		peaceDimensionsMultiverse = CommonConfig.createConfigHashSet(config, CATEGORY_BORES, "07.06_peaceDimensionsMultiverse", "List of Dimensions where block destruction and damage is disabled (Used for server lobbies/science servers/pvp arenas) - <dimName> (String)", "String", new String[]{
+		});
 
 		bedrockOreBlacklist = CommonConfig.createConfigHashSet(config, CATEGORY_BORES, "08.01_bedrockOreBlacklist", "List of OreDict entries that should not have bedrock ores - <ore> (String)", "String", new String[]{
 			"oreTh232",
@@ -447,7 +450,7 @@ public class CompatibilityConfig {
 	}
 
 	public static boolean isWarDim(World world){
-		return isWarDim(world.provider.getDimension());
+		return isWarDim(world.provider.getDimension())&&isWarDimMultiverse(world.getWorldInfo().getWorldName());
 	}
 
 	public static boolean isWarDim(int dimID){
@@ -455,5 +458,11 @@ public class CompatibilityConfig {
 			return !peaceDimensions.contains(dimID);
 		else
 			return peaceDimensions.contains(dimID);
+	}
+	public static boolean isWarDimMultiverse(String dimName){
+		if(peaceDimensionsIsWhitelist)
+			return !peaceDimensions.contains(dimName);
+		else
+			return peaceDimensions.contains(dimName);
 	}
 }
