@@ -26,7 +26,7 @@ public class TileEntityHadronDiode extends TileEntityTickingBase {
 
 			if(age >= 20) {
 				age = 0;
-				sendSides();
+				//sendSides();
 			}
 			
 			if(fatherIAskOfYouToUpdateMe) {
@@ -60,7 +60,8 @@ public class TileEntityHadronDiode extends TileEntityTickingBase {
 		for(int i = 0; i < 6; i++) {
 			sides[i] = DiodeConfig.values()[nbt.getInteger("" + i)];
 		}
-		//world.markBlockRangeForRenderUpdate(pos, pos);
+		BlockHadronDiode.resetBlockState(world, pos);
+		world.markBlockRangeForRenderUpdate(pos, pos);
 	}
 	
 	public DiodeConfig getConfig(int side) {
@@ -77,7 +78,6 @@ public class TileEntityHadronDiode extends TileEntityTickingBase {
 	}
 
 	public void setConfig(int side, int config) {
-		System.out.println("Diode setConfig : " + side + ":" + config);
 		sides[side] = DiodeConfig.values()[config];
 		this.markDirty();
 		sendSides();
