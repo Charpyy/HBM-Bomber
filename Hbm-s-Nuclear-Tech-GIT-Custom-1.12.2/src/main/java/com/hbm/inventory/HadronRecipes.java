@@ -161,7 +161,7 @@ public class HadronRecipes {
 		recipes.add(new HadronRecipe(
 				new ItemStack(ModItems.particle_sparkticle),
 				new ItemStack(ModItems.particle_higgs),
-				1000000*10,
+				1000000*1000,
 				new ItemStack(ModItems.particle_digamma),
 				new ItemStack(ModItems.particle_empty),
 				false
