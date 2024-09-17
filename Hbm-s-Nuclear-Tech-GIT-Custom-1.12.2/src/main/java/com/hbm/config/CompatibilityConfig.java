@@ -450,7 +450,7 @@ public class CompatibilityConfig {
 	}
 
 	public static boolean isWarDim(World world){
-		return isWarDim(world.provider.getDimension())&&isWarDimMultiverse(world.getWorldInfo().getWorldName());
+		return isWarDim(world.provider.getDimension())||isWarDimMultiverse(world.getWorldInfo().getWorldName());
 	}
 
 	public static boolean isWarDim(int dimID){
@@ -461,8 +461,8 @@ public class CompatibilityConfig {
 	}
 	public static boolean isWarDimMultiverse(String dimName){
 		if(peaceDimensionsIsWhitelist)
-			return !peaceDimensions.contains(dimName);
+			return !peaceDimensionsMultiverse.contains(dimName);
 		else
-			return peaceDimensions.contains(dimName);
+			return peaceDimensionsMultiverse.contains(dimName);
 	}
 }
