@@ -198,6 +198,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 		compound.setTag("plasma", plasma.writeToNBT(new NBTTagCompound()));
 		if(plasmaType != null)
 			compound.setString("plasma_type", plasmaType.getName());
+		compound.setLong("power", power);
 		return super.writeToNBT(compound);
 	}
 	
@@ -208,6 +209,7 @@ public class TileEntityMachinePlasmaHeater extends TileEntityMachineBase impleme
 		tanks[1].readFromNBT(compound.getCompoundTag("fuel_2"));
 		plasma.readFromNBT(compound.getCompoundTag("plasma"));
 		plasmaType = FluidRegistry.getFluid(compound.getString("plasma_type"));
+		power = compound.getLong("power");
 	}
 	
 	@Override
