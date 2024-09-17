@@ -22,7 +22,7 @@ public class BlockRadResistant extends Block implements IRadResistantBlock {
 		super(materialIn);
 		this.setRegistryName(s);
 		this.setUnlocalizedName(s);
-		
+		this.setHarvestLevel("pickaxe", 1);
 		ModBlocks.ALL_BLOCKS.add(this);
 	}
 	
