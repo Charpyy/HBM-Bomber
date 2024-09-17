@@ -2645,10 +2645,10 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModItems.billet_mox_fuel, 3), new Object[] { U238.billet(), U235.billet(), PURG.billet() });
 		addShapelessAuto(new ItemStack(ModItems.billet_mox_fuel, 1), new Object[] { U238.nugget(), U238.nugget(), U235.nugget(), U235.nugget(), PURG.nugget(), PURG.nugget() });
 		
-		addShapelessAuto(new ItemStack(ModItems.billet_les, 54), new Object[] { SA326.block(), NP237.block(), NP237.block(), NP237.block(), NP237.block(), BE.block(), BE.block(), BE.block() });
-		addShapelessAuto(new ItemStack(ModItems.ingot_les, 9), new Object[] { SA326.ingot(), NP237.ingot(), NP237.ingot(), NP237.ingot(), NP237.ingot(), BE.ingot(), BE.ingot(), BE.ingot() });
-		addShapelessAuto(new ItemStack(ModItems.billet_les, 9), new Object[] { SA326.billet(), NP237.billet(), NP237.billet(), NP237.billet(), NP237.billet(), BE.billet(), BE.billet(), BE.billet() });
-		addShapelessAuto(new ItemStack(ModItems.nugget_les, 9), new Object[] { SA326.nugget(), NP237.nugget(), NP237.nugget(), NP237.nugget(), NP237.nugget(), BE.nugget(), BE.nugget(), BE.nugget() });
+		//addShapelessAuto(new ItemStack(ModItems.billet_les, 54), new Object[] { SA326.block(), NP237.block(), NP237.block(), BE.block(), BE.block() }); //pb de conservation
+		addShapelessAuto(new ItemStack(ModItems.ingot_les, 5), new Object[] { SA326.ingot(), NP237.ingot(), NP237.ingot(), BE.ingot(), BE.ingot() });
+		addShapelessAuto(new ItemStack(ModItems.billet_les, 5), new Object[] { SA326.billet(), NP237.billet(), NP237.billet(), BE.billet(), BE.billet() });
+		addShapelessAuto(new ItemStack(ModItems.nugget_les, 5), new Object[] { SA326.nugget(), NP237.nugget(), NP237.nugget(), BE.nugget(), BE.nugget() });
 		
 		addShapelessAuto(new ItemStack(ModBlocks.block_schrabidium_fuel, 3), new Object[] { SA326.block(), NP237.block(), BE.block() });
 		addShapelessAuto(new ItemStack(ModItems.ingot_schrabidium_fuel, 3), new Object[] { SA326.ingot(), NP237.ingot(), BE.ingot() });
