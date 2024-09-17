@@ -49,7 +49,10 @@ public class BlockBase extends Block {
 			list.add(TextFormatting.GOLD + I18nUtil.resolveKey("trait.blastres", hardness));
 		}
 	}
-
+	public int getMobilityFlag()
+	{
+		return (this.getExplosionResistance(null)>1000)?2:0;
+	}
 	public Block setSoundType(SoundType sound){
 		return super.setSoundType(sound);
 	}

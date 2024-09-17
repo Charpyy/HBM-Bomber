@@ -35,6 +35,10 @@ public class BlockFluidPipeSolidRadResistant extends BlockFluidPipeSolid impleme
 	public boolean isRadResistant(World worldIn, BlockPos blockPos){
 		return true;
 	}
+	public int getMobilityFlag()
+	{
+		return (this.getExplosionResistance(null)>1000)?2:0;
+	}
 
 	@Override
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {

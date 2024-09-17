@@ -57,4 +57,8 @@ public class BlockRadResistant extends Block implements IRadResistantBlock {
 			tooltip.add("§6" + I18nUtil.resolveKey("trait.blastres", hardness));
 		}
 	}
+	public int getMobilityFlag()
+	{
+		return (this.getExplosionResistance(null)>1000)?2:0;
+	}
 }

@@ -44,4 +44,8 @@ public class WireCoatedRadResistant extends WireCoated implements IRadResistantB
 			tooltip.add("§6Blast Resistance: "+hardness+"§r");
 		}
 	}
+	public int getMobilityFlag()
+	{
+		return (this.getExplosionResistance(null)>1000)?2:0;
+	}
 }
