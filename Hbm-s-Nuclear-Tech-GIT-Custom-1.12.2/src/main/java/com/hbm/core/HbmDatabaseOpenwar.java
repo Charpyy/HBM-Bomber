@@ -1,5 +1,6 @@
 package com.hbm.core;
 import java.util.HashMap;
+import java.util.Properties;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -27,7 +28,11 @@ public class HbmDatabaseOpenwar {
 	@SideOnly(Side.SERVER)
     public HbmDatabaseOpenwar() throws SQLException {
 		if (connection==null){
-			connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+			Properties prop=new Properties();
+			prop.setProperty("user", DB_USER);
+			prop.setProperty("password", DB_PASSWORD);
+			prop.setProperty("autoReconnect", "true");
+			connection = DriverManager.getConnection(DB_URL, prop);
 		}
     }
 
