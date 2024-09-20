@@ -54,13 +54,10 @@ public class BlockHadronDiode extends BlockContainer implements IToolable {
 			return false;
 		
 		if(!world.isRemote) {
-			System.out.println("Diode screw : " + side.ordinal());
 			TileEntityHadronDiode diode = (TileEntityHadronDiode) world.getTileEntity(new BlockPos(x, y, z));
 			int config = diode.getConfig(side.ordinal()).ordinal();
-			System.out.println("Old config of side is : " + config);
 			config += 1;
 			config %= DiodeConfig.values().length;
-			System.out.println("New config of side is : " + config);
 			diode.setConfig(side.ordinal(), config);
 			resetBlockState(world, new BlockPos(x, y, z));
 		}
@@ -71,9 +68,7 @@ public class BlockHadronDiode extends BlockContainer implements IToolable {
 	public static void resetBlockState(World world, BlockPos pos){
 		TileEntityHadronDiode diode = (TileEntityHadronDiode) world.getTileEntity(pos);
 		IBlockState newState = ModBlocks.hadron_diode.getDefaultState();
-		System.out.println("Diode ResetWorldstate ");
 		for(int i = 0; i < 6; i++){
-			System.out.println("Diode side "+i+"is set to "+diode.sides[i].ordinal());
 			newState = newState.withProperty(BlockHadronDiode.textures[i], diode.sides[i].ordinal());
 		}
 		world.setBlockState(pos, newState);
@@ -93,12 +88,24 @@ public class BlockHadronDiode extends BlockContainer implements IToolable {
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
-		return 0;
+		int ret=0;
+		/*int multiplier=1;
+		for(int i = 0; i < 6; i++){
+			ret += state.getValue(BlockHadronDiode.textures[i])*multiplier;
+			multiplier*=3;
+		}*/
+		return ret;
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return this.getDefaultState();
+		IBlockState state = this.getDefaultState();
+		/*int divider=meta;
+		for(int i = 0; i < 6; i++){
+			state = state.withProperty(BlockHadronDiode.textures[i], divider%3);
+			divider/=3;
+		}*/
+		return state;
 	}
 	
 }

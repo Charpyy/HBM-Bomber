@@ -29,11 +29,12 @@ public class TileEntityHadronDiode extends TileEntityTickingBase {
 				//sendSides();
 			}
 			
-			if(fatherIAskOfYouToUpdateMe) {
-				fatherIAskOfYouToUpdateMe = false;
-				//world.markBlockRangeForRenderUpdate(pos, pos);
-				BlockHadronDiode.resetBlockState(world, pos);
-			}
+
+		}
+		if(fatherIAskOfYouToUpdateMe) {
+			fatherIAskOfYouToUpdateMe = false;
+			//world.markBlockRangeForRenderUpdate(pos, pos);
+			BlockHadronDiode.resetBlockState(world, pos);
 		}
 	}
 

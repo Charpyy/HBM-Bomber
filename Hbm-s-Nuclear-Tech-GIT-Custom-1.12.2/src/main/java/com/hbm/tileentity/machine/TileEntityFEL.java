@@ -231,7 +231,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements ITickable, I
 			PacketDispatcher.wrapper.sendToAll(new LoopedSoundPacket(pos.getX(), pos.getY(), pos.getZ()));
 			NBTTagCompound data = new NBTTagCompound();
 			data.setLong("power", power);
-			data.setString("mode", mode.toString());
+			data.setString("mode", mode.name());
 			data.setBoolean("isOn", isOn);
 			data.setBoolean("valid", missingValidSilex);
 			data.setInteger("distance", distance);
@@ -275,6 +275,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements ITickable, I
 		super.readFromNBT(nbt);
 		
 		this.power = nbt.getLong("power");
+		//System.out.println("READ : "+nbt);
 		this.mode = EnumWavelengths.valueOf(nbt.getString("mode"));
 		this.isOn = nbt.getBoolean("isOn");
 		this.missingValidSilex = nbt.getBoolean("valid");
@@ -290,6 +291,7 @@ public class TileEntityFEL extends TileEntityMachineBase implements ITickable, I
 		nbt.setBoolean("isOn", this.isOn);
 		nbt.setBoolean("valid", this.missingValidSilex);
 		nbt.setInteger("distance", this.distance);
+		//System.out.println("WRITE : "+nbt);
 		return nbt;
 	}
 	
