@@ -105,6 +105,7 @@ public class CompatibilityConfig {
 	public static HashMap fillCraterWithWater;
 
 	public static boolean peaceDimensionsIsWhitelist = true;
+	public static boolean peaceDimensionsIsMultiverse = true;
 	public static HashSet peaceDimensions;
 	public static HashSet peaceDimensionsMultiverse;
 
@@ -436,6 +437,7 @@ public class CompatibilityConfig {
 		fillCraterWithWater = CommonConfig.createConfigHashMap(config, CATEGORY_NUKES, "07.04_fillCraterWithWater", "Waterlevel per dimension which the nuke uses to fill the crater. {+n=>waterlevel height, 0=>dimension waterlevel, -n=> n blocks below dimension waterlevel } - <dimID:n> (Int:Int)", "Int", "Int", new String[]{ "0:0" }, ":");
 		
 		peaceDimensionsIsWhitelist =  CommonConfig.createConfigBool(config, CATEGORY_NUKES, "07.05_peaceDimensionsIsWhitelist", "If true then the listed dimensions below are all peacefull. If false then the listed dimensions are the only ones where destruction happens.", true);
+		peaceDimensionsIsMultiverse =  CommonConfig.createConfigBool(config, CATEGORY_NUKES, "07.05_peaceDimensionsIsMultiverse", "If true then the multiverse list is used.", true);
 		peaceDimensions = CommonConfig.createConfigHashSet(config, CATEGORY_BORES, "07.06_peaceDimensions", "List of Dimensions where block destruction and damage is disabled (Used for server lobbies/science servers/pvp arenas) - <dimID> (Int)", "Int", new String[]{
 		});
 		peaceDimensionsMultiverse = CommonConfig.createConfigHashSet(config, CATEGORY_BORES, "07.06_peaceDimensionsMultiverse", "List of Dimensions where block destruction and damage is disabled (Used for server lobbies/science servers/pvp arenas) - <dimName> (String)", "String", new String[]{
@@ -450,7 +452,11 @@ public class CompatibilityConfig {
 	}
 
 	public static boolean isWarDim(World world){
-		return isWarDim(world.provider.getDimension())||isWarDimMultiverse(world.getWorldInfo().getWorldName());
+		if(peaceDimensionsIsMultiverse){
+			return isWarDimMultiverse(world.getWorldInfo().getWorldName());
+		}else{
+			return isWarDim(world.provider.getDimension());
+		}
 	}
 
 	public static boolean isWarDim(int dimID){
