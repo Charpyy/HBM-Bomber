@@ -17,6 +17,7 @@ public class BlockFluidPipeSolidRadResistant extends BlockFluidPipeSolid impleme
 
 	public BlockFluidPipeSolidRadResistant(Material materialIn, String s) {
 		super(materialIn, s);
+		this.setHarvestLevel("pickaxe", 1);
 	}
 
 	@Override

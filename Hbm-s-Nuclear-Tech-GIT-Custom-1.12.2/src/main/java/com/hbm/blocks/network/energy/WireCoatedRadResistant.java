@@ -16,6 +16,7 @@ public class WireCoatedRadResistant extends WireCoated implements IRadResistantB
 
 	public WireCoatedRadResistant(Material materialIn, String s) {
 		super(materialIn, s);
+		this.setHarvestLevel("pickaxe", 1);
 	}
 
 	@Override
