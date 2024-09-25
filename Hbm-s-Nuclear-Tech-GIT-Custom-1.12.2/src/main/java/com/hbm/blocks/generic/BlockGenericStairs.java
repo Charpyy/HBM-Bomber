@@ -19,8 +19,8 @@ public class BlockGenericStairs extends BlockStairs {
 		super(modelState);
 		this.setUnlocalizedName(s);
 		this.setRegistryName(s);
-		
-		ModBlocks.ALL_BLOCKS.add(this);
+		this.setUnlocalizedName(s);
+		this.setHarvestLevel(modelState.getBlock().getHarvestTool(modelState),modelState.getBlock().getHarvestLevel(modelState));
 	}
 
 	@Override
