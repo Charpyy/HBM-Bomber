@@ -17,7 +17,9 @@ public class TileEntityMachineAmgen extends TileEntityLoadedBase implements ITic
 
 	public long power;
 	public long maxPower = 500;
-	
+	public int age=0;
+	public int powergen=0;
+
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		power = compound.getLong("power");
@@ -41,30 +43,35 @@ public class TileEntityMachineAmgen extends TileEntityLoadedBase implements ITic
 				RadiationSavedData.decrementRad(world, pos, 5F);
 				
 			} else {
-				
-				Block b = world.getBlockState(pos.down()).getBlock();
-				if(b == ModBlocks.geysir_water) {
-					power += 75;
-				} else if(b == ModBlocks.geysir_chlorine) {
-					power += 100;
-				} else if(b == ModBlocks.geysir_vapor) {
-					power += 50;
-				} else if(b == ModBlocks.geysir_nether) {
-					power += 500;
-				} else if(b == Blocks.LAVA) {
-					power += 100;
-				} else if(b == Blocks.FLOWING_LAVA) {
-					power += 25;
+				if(age==10){
+					age=0;
+					powergen=0;
+					Block b = world.getBlockState(pos.down()).getBlock();
+					if(b == ModBlocks.geysir_water) {
+						powergen += 75;
+					} else if(b == ModBlocks.geysir_chlorine) {
+						powergen += 100;
+					} else if(b == ModBlocks.geysir_vapor) {
+						powergen += 50;
+					} else if(b == ModBlocks.geysir_nether) {
+						powergen += 500;
+					} else if(b == Blocks.LAVA) {
+						powergen += 100;
+					} else if(b == Blocks.FLOWING_LAVA) {
+						powergen += 25;
+					}
+
+					b = world.getBlockState(pos.up()).getBlock();
+
+					if(b == Blocks.LAVA) {
+						powergen += 100;
+
+					} else if(b == Blocks.FLOWING_LAVA) {
+						powergen += 25;
+					}
 				}
-				
-				b = world.getBlockState(pos.up()).getBlock();
-				
-				if(b == Blocks.LAVA) {
-					power += 100;
-					
-				} else if(b == Blocks.FLOWING_LAVA) {
-					power += 25;
-				}
+				age++;
+				power+=powergen;
 			}
 			
 			if(power > maxPower)
