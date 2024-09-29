@@ -87,6 +87,7 @@ import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.world.generator.TimedGenerator;
+import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
@@ -707,7 +708,7 @@ public class ModEventHandler {
 			}
 
 			/// GHOST FIX END ///
-			
+			TileEntityMachineRadar.registerdentities.put(player,player.world.getTotalWorldTime() + 20);
 			/// BETA HEALTH START ///
 			if(Library.hasInventoryItem(player.inventory, ModItems.beta)) {
 				if(player.getFoodStats().getFoodLevel() < 10) {
@@ -783,7 +784,6 @@ public class ModEventHandler {
 		}
 		
 		if(!event.getEntityLiving().world.isRemote) {
-			
 			if(event.getSource() instanceof EntityDamageSource && ((EntityDamageSource)event.getSource()).getTrueSource() instanceof EntityPlayer
 					 && !(((EntityDamageSource)event.getSource()).getTrueSource() instanceof FakePlayer)) {
 				

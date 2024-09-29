@@ -12,6 +12,7 @@ import com.hbm.packet.PacketDispatcher;
 import api.hbm.entity.IRadarDetectable;
 import com.hbm.packet.LoopedEntitySoundPacket;
 import com.hbm.render.amlfrom1710.Vec3;
+import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -264,7 +265,6 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 
 		if(velocity < 5)
 			velocity += 0.005 * acceleration;
-
 		if(this.world.isRemote) {
 			Vec3 v = Vec3.createVectorHelper(motionX, motionY, motionZ);
 			v = v.normalize();
@@ -272,6 +272,8 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 				//PacketDispatcher.wrapper.sendToAllAround(new AuxParticlePacket(posX, posY, posZ, 2), new TargetPoint(world.provider.getDimension(), posX, posY, posZ, 300));
 				MainRegistry.proxy.spawnParticle(posX - v.xCoord * i, posY - v.yCoord * i, posZ - v.zCoord * i, "exDark", new float[]{(float)(this.motionX * -particleSpeed), (float)(this.motionY * -particleSpeed), (float)(this.motionZ * -particleSpeed)});
 			}
+		}else{
+			TileEntityMachineRadar.registerdentities.put(this,world.getTotalWorldTime() + 20);
 		}
 
 		Block b = this.world.getBlockState(new BlockPos((int) this.posX, (int) this.posY, (int) this.posZ)).getBlock();

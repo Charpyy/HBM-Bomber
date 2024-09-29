@@ -1,10 +1,10 @@
 package com.hbm.tileentity.machine;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.WeaponConfig;
+import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.lib.HBMSoundHandler;
 import com.hbm.lib.RefStrings;
 import com.hbm.lib.ForgeDirection;
@@ -128,17 +128,25 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ITi
 		boolean zAxisApproaching = (pos.getZ() < e.posZ && e.motionZ < 0) || (pos.getZ() > e.posZ && e.motionZ > 0);
 		return xAxisApproaching && zAxisApproaching;
 	}
-	
+	static public HashMap<Entity, Long> registerdentities= new HashMap();
 	private void allocateMissiles() {
 		
 		nearbyMissiles.clear();
 		entList.clear();
 		jammed = false;
-		
-		List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos.getX() + 0.5 - WeaponConfig.radarRange, 0D, pos.getZ() + 0.5 - WeaponConfig.radarRange, pos.getX() + 0.5 + WeaponConfig.radarRange, 10000, pos.getZ() + 0.5 + WeaponConfig.radarRange));
+		Iterator<Map.Entry<Entity, Long>> iterator = registerdentities.entrySet().iterator();
+		//List<Entity> list = world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB( - WeaponConfig.radarRange, 0D, pos.getZ() + 0.5 - WeaponConfig.radarRange, pos.getX() + 0.5 + WeaponConfig.radarRange, 10000, pos.getZ() + 0.5 + WeaponConfig.radarRange));
 
-		for(Entity e : list) {
-			
+		while(iterator.hasNext()) {
+			Map.Entry<Entity, Long> next = iterator.next();
+			if(next.getValue() < world.getTotalWorldTime()) {
+				iterator.remove();
+				continue;
+			}
+			Entity e=next.getKey();
+			if(Math.abs(pos.getX() + 0.5-e.posX)>WeaponConfig.radarRange || Math.abs(pos.getZ() + 0.5-e.posZ)>WeaponConfig.radarRange){
+				continue;
+			}
 			if(e.posY < pos.getY() + WeaponConfig.radarBuffer)
 				continue;
 			
@@ -200,7 +208,7 @@ public class TileEntityMachineRadar extends TileEntityTickingBase implements ITi
 				for(int i = 0; i < nearbyMissiles.size(); i++) {
 					
 					if(nearbyMissiles.get(i)[3] + 1 > power) {
-						power = nearbyMissiles.get(i)[3] + 1;
+						power = nearbyMissiles.get(i)[2] + 1;
 					}
 				}
 				

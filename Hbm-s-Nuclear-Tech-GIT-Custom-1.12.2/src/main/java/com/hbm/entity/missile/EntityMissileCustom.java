@@ -24,6 +24,8 @@ import com.hbm.packet.LoopedEntitySoundPacket;
 import com.hbm.render.amlfrom1710.Vec3;
 
 import api.hbm.entity.IRadarDetectable;
+import com.hbm.tileentity.machine.TileEntityMachineRadar;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.block.Block;
@@ -343,6 +345,8 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		if(world.isRemote){
 			template = this.getDataManager().get(TEMPLATE);
 			spawnRocketExhaust();
+		}else{
+			TileEntityMachineRadar.registerdentities.put(this,world.getTotalWorldTime() + 20);
 		}
 
 		WarheadType wType = (WarheadType)template.warhead.attributes[0];
