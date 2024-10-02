@@ -54,6 +54,7 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 	public static double acceleration = 1; 
 	private Ticket loaderTicket;
 	public int health = 50;
+	public Entity responsiveEntity;
 
 	public EntityMissileBaseAdvanced(World worldIn) {
 		super(worldIn);
@@ -81,7 +82,9 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 		velocity = 0.0;
 		this.setSize(1.5F, 9F);
 	}
-
+	public void setResponsiveEntity(Entity responsive){
+		responsiveEntity=responsive;
+	}
 	public void setAcceleration(double multiplier){
 		this.acceleration = multiplier;
 	}

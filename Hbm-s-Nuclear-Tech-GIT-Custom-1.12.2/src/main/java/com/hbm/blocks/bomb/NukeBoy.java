@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
+import com.hbm.interfaces.IResponsiveBomb;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.InventoryHelper;
 import com.hbm.main.MainRegistry;
@@ -36,7 +37,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class NukeBoy extends BlockContainer implements IBomb {
+public class NukeBoy extends BlockContainer implements IBomb, IResponsiveBomb {
 
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
@@ -78,12 +79,13 @@ public class NukeBoy extends BlockContainer implements IBomb {
 	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
 		TileEntityNukeBoy entity = (TileEntityNukeBoy) worldIn.getTileEntity(pos);
 		if(worldIn.isBlockIndirectlyGettingPowered(pos) > 0) {
-			if(entity.isReady() && !worldIn.isRemote) {
+			///Chapy don't want that
+			/*if(entity.isReady() && !worldIn.isRemote) {
 				this.onBlockDestroyedByPlayer(worldIn, pos, state);
 				entity.clearSlots();
 				worldIn.setBlockToAir(pos);
 				igniteTestBomb(worldIn, pos.getX(), pos.getY(), pos.getZ());
-			}
+			}*/
 		}
 	}
 
@@ -99,7 +101,6 @@ public class NukeBoy extends BlockContainer implements IBomb {
 		}
 		return false;
 	}
-
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()));
@@ -107,12 +108,25 @@ public class NukeBoy extends BlockContainer implements IBomb {
 
 	@Override
 	public void explode(World world, BlockPos pos) {
+		/*
 		TileEntityNukeBoy entity = (TileEntityNukeBoy) world.getTileEntity(pos);
 		if(entity.isReady()) {
 			this.onBlockDestroyedByPlayer(world, pos, world.getBlockState(pos));
 			entity.clearSlots();
 			world.setBlockToAir(pos);
 			igniteTestBomb(world, pos.getX(), pos.getY(), pos.getZ());
+		}
+		*/
+	}
+	@Override
+	public void explodeResponsive(World world, BlockPos pos, EntityLivingBase responsive) {
+		TileEntityNukeBoy entity = (TileEntityNukeBoy) world.getTileEntity(pos);
+		if(entity.isReady()) {
+			this.onBlockDestroyedByPlayer(world, pos, world.getBlockState(pos));
+			entity.clearSlots();
+			world.setBlockToAir(pos);
+			igniteTestBomb(world, pos.getX(), pos.getY(), pos.getZ());
+			System.out.println(responsive);
 		}
 	}
 	

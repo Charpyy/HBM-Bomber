@@ -1,10 +1,12 @@
 package com.hbm.items.tool;
 
 import java.util.List;
+
 import org.apache.logging.log4j.Level;
 
 import com.hbm.util.I18nUtil;
 import com.hbm.config.GeneralConfig;
+import com.hbm.interfaces.IResponsiveBomb;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.lib.HBMSoundHandler;
@@ -85,14 +87,18 @@ public class ItemDetonator extends Item {
 			 int y = stack.getTagCompound().getInteger("y");
 			 int z = stack.getTagCompound().getInteger("z");
 			 BlockPos pos = new BlockPos(x, y, z);
-			 if(world.isBlockLoaded(pos) && world.getBlockState(pos).getBlock() instanceof IBomb)
+			 if(world.isBlockLoaded(pos) && (world.getBlockState(pos).getBlock() instanceof IBomb || world.getBlockState(pos).getBlock() instanceof IResponsiveBomb))
 			 {
 				world.playSound(null, player.posX, player.posY, player.posZ, HBMSoundHandler.techBleep, SoundCategory.AMBIENT, 1.0F, 1.0F);
 				
 				
 				if(!world.isRemote)
 				{
-					((IBomb)world.getBlockState(pos).getBlock()).explode(world, pos);
+					if(world.getBlockState(pos).getBlock() instanceof IResponsiveBomb){
+						((IResponsiveBomb)world.getBlockState(pos).getBlock()).explodeResponsive(world, pos, player);
+					}else{
+						((IBomb)world.getBlockState(pos).getBlock()).explode(world, pos);
+					}
 		    		if(GeneralConfig.enableExtendedLogging)
 		    			MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by " + player.getDisplayName() + "!");
 				}
