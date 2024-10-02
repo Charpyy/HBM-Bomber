@@ -24,6 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
 
 public class DummyBlockFluidTank extends BlockContainer implements IDummy {
 
@@ -52,7 +53,11 @@ public class DummyBlockFluidTank extends BlockContainer implements IDummy {
     		TileEntity te = world.getTileEntity(pos);
     		if(te != null && te instanceof TileEntityDummy) {
     			if(!world.isRemote)
-    				world.destroyBlock(((TileEntityDummy)te).target, true);
+					try{
+						world.destroyBlock(((TileEntityDummy)te).target, true);
+					}catch(NullPointerException e){
+						MainRegistry.logger.log(Level.ERROR, "La fameuse erreur en symptomatique en ["+String.valueOf(pos)+"] cible : ["+String.valueOf(((TileEntityDummy)te).target)+"] et c un "+String.valueOf(state));
+					}
     		}
     	}
     	world.removeTileEntity(pos);
