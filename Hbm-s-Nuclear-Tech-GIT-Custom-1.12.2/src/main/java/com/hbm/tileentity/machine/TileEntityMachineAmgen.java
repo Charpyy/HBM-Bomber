@@ -43,7 +43,7 @@ public class TileEntityMachineAmgen extends TileEntityLoadedBase implements ITic
 				RadiationSavedData.decrementRad(world, pos, 5F);
 				
 			} else {
-				if(age==10){
+				if(age==20){
 					age=0;
 					powergen=0;
 					Block b = world.getBlockState(pos.down()).getBlock();
