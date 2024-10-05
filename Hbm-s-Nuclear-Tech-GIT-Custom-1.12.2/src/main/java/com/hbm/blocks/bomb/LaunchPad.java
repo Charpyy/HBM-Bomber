@@ -1,6 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.interfaces.IResponsiveBomb;
+import com.openwar.hbmapi.RaidAction;
 import net.minecraft.entity.EntityLivingBase;
 import org.apache.logging.log4j.Level;
 
@@ -54,7 +55,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
+import com.openwar.hbmapi.Main;
 public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb {
 
 	public LaunchPad(Material materialIn, String s) {
@@ -137,7 +138,8 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 		int x = pos.getX();
 		int y = pos.getY();
 		int z = pos.getZ();
-
+		RaidAction authorisation=new RaidAction();
+		authorisation.askAction(responsive.getUniqueID(),3);
 		{
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_anti_ballistic || entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_carrier || ((entity.inventory.getStackInSlot(1).getItem() == ModItems.designator || entity.inventory.getStackInSlot(1).getItem() == ModItems.designator_range || entity.inventory.getStackInSlot(1).getItem() == ModItems.designator_manual) && entity.inventory.getStackInSlot(1).getTagCompound() != null)) {
 				int xCoord = entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_anti_ballistic || entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_carrier ? 0 : entity.inventory.getStackInSlot(1).getTagCompound().getInteger("xCoord");
