@@ -1,9 +1,7 @@
 package com.openwar.hbmapi;
 
-import com.openwar.hbmapi.Discord.DiscordBot;
 import com.openwar.hbmapi.proxy.CommonProxy;
 import com.openwar.hbmapi.utils.Reference;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -18,7 +16,6 @@ public class Main {
     public static SimpleNetworkWrapper network;
     @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.COMMON_PROXY_CLASS)
     public static CommonProxy proxy;
-    private DiscordBot bot;
 
 
     @Mod.EventHandler
@@ -36,10 +33,5 @@ public class Main {
     }
     @Mod.EventHandler
     public void serverStarting(FMLServerStartingEvent evt) {
-        bot = new DiscordBot();
-        try {
-            bot.startBot("MTI1MDA0ODA2NjAzMTk3NjUyMA.GPLfy1.O8iq54lcnsDuaoQR0J9nzLTbhwU81E-yIAaVtU");
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
     }}
