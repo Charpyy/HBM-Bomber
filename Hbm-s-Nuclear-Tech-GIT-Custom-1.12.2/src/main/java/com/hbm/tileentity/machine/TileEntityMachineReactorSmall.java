@@ -307,22 +307,22 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ITickab
 
 	@SuppressWarnings("deprecation")
 	private boolean isContained() {
-		boolean side1 = blocksRad(pos.add(1, 1, 0));
+		boolean side1 = blockExternalRad(pos.add(1, 1, 0));
 		if(!side1){
 			return false;
 		}
 
-		boolean side2 = blocksRad(pos.add(-1, 1, 0));
+		boolean side2 = blockExternalRad(pos.add(-1, 1, 0));
 		if(!side2){
 			return false;
 		}
 
-		boolean side3 = blocksRad(pos.add(0, 1, 1));
+		boolean side3 = blockExternalRad(pos.add(0, 1, 1));
 		if(!side3){
 			return false;
 		}
 
-		boolean side4 = blocksRad(pos.add(0, 1, -1));
+		boolean side4 = blockExternalRad(pos.add(0, 1, -1));
 		if(!side4){
 			return false;
 		}
@@ -342,6 +342,9 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ITickab
 			return true;
 
 		return false;
+	}
+	private boolean blockExternalRad(BlockPos pos){
+		return blocksRad(pos)||world.getBlockState(pos).getBlock()==ModBlocks.machine_reactor;
 	}
 
 	private void generateSteam() {
@@ -418,7 +421,8 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ITickab
 				tanks[1].fill(new FluidStack(tankTypes[1], 5), true);
 			}
 		} else if(b == ModBlocks.machine_reactor) {
-
+			/*
+			//do nothing, the reactor do it himmslef
 			int[] pos1 = ((MachineReactor) ModBlocks.machine_reactor).findCore(world, pos.getX(), pos.getY(), pos.getZ());
 
 			if(pos1 != null) {
@@ -435,7 +439,7 @@ public class TileEntityMachineReactorSmall extends TileEntity implements ITickab
 					}
 				}
 			}
-
+			 */
 		} else if(te instanceof TileEntityNukeFurnace) {
 			TileEntityNukeFurnace reactor = (TileEntityNukeFurnace) te;
 			if(reactor.dualPower < 1 && this.coreHeat > 0)
