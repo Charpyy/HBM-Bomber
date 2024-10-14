@@ -104,10 +104,10 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 		return false;
 	}
 
-	public boolean checkRP(EntityLivingBase responsible, int point) {
+	public boolean checkRP(EntityLivingBase responsible, int point, int xTarget, int zTarget) {
 		HBMController hbmController = new HBMController();
 		String uniqueId = String.valueOf(responsible.getUniqueID());
-		boolean agree = hbmController.execute(uniqueId, point);
+		boolean agree = hbmController.execute(uniqueId, point, xTarget, zTarget);
 		return agree;
 	}
 
@@ -142,12 +142,12 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_incendiary && entity.power >= 75000) {
 				missile = new EntityMissileIncendiary(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(1.5D);
-				neededpoints=3;
+				neededpoints=2;
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_cluster && entity.power >= 75000) {
 				missile = new EntityMissileCluster(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(1.5D);
-				neededpoints=3;
+				neededpoints=2;
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_buster && entity.power >= 75000) {
 				missile = new EntityMissileBunkerBuster(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
@@ -157,51 +157,51 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_strong && entity.power >= 75000) {
 				missile = new EntityMissileStrong(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(1.25D);
-				neededpoints=4;
+				neededpoints=3;
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_incendiary_strong && entity.power >= 75000) {
 				missile = new EntityMissileIncendiaryStrong(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(1.25D);
-				neededpoints=5;
+				neededpoints=3;
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_cluster_strong && entity.power >= 75000) {
 				missile = new EntityMissileClusterStrong(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(1.25D);
-				neededpoints=5;
+				neededpoints=3;
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_buster_strong && entity.power >= 75000) {
 				missile = new EntityMissileBusterStrong(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(1.25D);
-				neededpoints=5;
+				neededpoints=4;
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_burst && entity.power >= 75000) {
 				missile = new EntityMissileBurst(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setResponsiveEntity(responsible);
-				neededpoints=6;
+				neededpoints=5;
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_inferno && entity.power >= 75000) {
 				missile = new EntityMissileInferno(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
-				neededpoints=7;
+				neededpoints=5;
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_rain && entity.power >= 75000) {
 				missile = new EntityMissileRain(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
-				neededpoints=7;
+				neededpoints=5;
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_drill && entity.power >= 75000) {
 				missile = new EntityMissileDrill(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
-				neededpoints=7;
+				neededpoints=6;
 			}
-			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_nuclear && entity.power >= 75000) {
+			/*if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_nuclear && entity.power >= 75000) {
 				missile = new EntityMissileNuclear(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
 				neededpoints=14;
-			}
+			}*/
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_n2 && entity.power >= 75000) {
 				missile = new EntityMissileN2(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
 				neededpoints=12;
 			}
-			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_endo && entity.power >= 75000) {
+			/*if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_endo && entity.power >= 75000) {
 				missile = new EntityMissileEndo(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
 				neededpoints=10;
@@ -210,13 +210,13 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				missile = new EntityMissileExo(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
 				neededpoints=10;
-			}
+			}*/
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_nuclear_cluster && entity.power >= 75000) {
 				missile = new EntityMissileMirv(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
 				neededpoints=16;
 			}
-			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_doomsday && entity.power >= 75000) {
+			/*if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_doomsday && entity.power >= 75000) {
 				missile = new EntityMissileDoomsday(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.5D);
 			}
@@ -237,7 +237,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				missile = new EntityMissileSchrabidium(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(2.0D);
 				neededpoints=15;
-			}
+			}*/
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_emp && entity.power >= 75000) {
 				missile = new EntityMissileEMP(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(2.0D);
@@ -248,10 +248,10 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				missile.setAcceleration(1.25D);
 				neededpoints=8;
 			}
-			if(entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_volcano) {
+			/*if(entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_volcano) {
 				missile = new EntityMissileVolcano(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
-			}
+			}*/
 
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_carrier && entity.power >= 75000) {
 				EntityCarrier rocket = new EntityCarrier(world);
@@ -280,7 +280,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				missile.posZ = z + 0.5F;
 				bypassconfirm=true;
 			}
-			if(missile!=null&&(bypassconfirm||checkRP(responsible,neededpoints))){
+			if(missile!=null&&(bypassconfirm||checkRP(responsible,neededpoints,xCoord,zCoord))){
 				if (!world.isRemote)
 					world.spawnEntity(missile);
 				entity.power -= 75000;

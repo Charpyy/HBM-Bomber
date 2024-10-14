@@ -12,8 +12,8 @@ public class HBMController {
         this.csvReader = new CSVReader(factionFile);
     }
 
-    public boolean execute(String uniqueId, int value) {
-        csvWriter.writeCSV(uniqueId, value);
+    public boolean execute(String uniqueId, int value, int x, int z) {
+        csvWriter.writeCSV(uniqueId, value, x, z);
         boolean result = false;
 
         long startTime = System.currentTimeMillis();

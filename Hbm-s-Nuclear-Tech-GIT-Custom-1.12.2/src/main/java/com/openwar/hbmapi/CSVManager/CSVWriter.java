@@ -11,9 +11,9 @@ public class CSVWriter {
         this.csvHBM = new File(new File(".").getAbsolutePath() + "/plugins/OpenWar-Core/faction.csv");
     }
 
-    public void writeCSV(String uniqueId, int value) {
+    public void writeCSV(String uniqueId, int value, int x, int z) {
         try (FileWriter writer = new FileWriter(csvHBM, true)) {
-            writer.write(uniqueId + " " + value + "\n");
+            writer.write(uniqueId + " " + value + x + " " + z + " " +"\n");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
