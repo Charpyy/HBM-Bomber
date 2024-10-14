@@ -108,6 +108,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 		HBMController hbmController = new HBMController();
 		String uniqueId = String.valueOf(responsible.getUniqueID());
 		boolean agree = hbmController.execute(uniqueId, point, xTarget, zTarget);
+		MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree?"YES":"NO")+" !");
 		return agree;
 	}
 
