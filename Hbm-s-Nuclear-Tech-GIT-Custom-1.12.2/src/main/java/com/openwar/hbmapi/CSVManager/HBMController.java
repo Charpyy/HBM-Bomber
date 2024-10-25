@@ -1,30 +1,43 @@
 package com.openwar.hbmapi.CSVManager;
 
 import java.io.File;
+import java.util.UUID;
 
 public class HBMController {
-    private CSVWriter csvWriter;
-    private CSVReader csvReader;
-
-    public HBMController() {
-        this.csvWriter = new CSVWriter();
-        File factionFile = new File(new File(".").getAbsolutePath() + "/plugins/OpenWar-Core/hbm.csv");
-        this.csvReader = new CSVReader(factionFile);
+    private static CSVWriter csvWriter;
+    private static CSVReader csvReader;
+    private static File factionFile;
+    private static File hbmFile;
+    private String actiontype;
+    public HBMController(String type) {
+        this.actiontype=type;
+        if(hbmFile==null){
+            hbmFile = new File(new File(".").getAbsolutePath() + "/plugins/OpenWar-Core/faction.csv");
+        }
+        if(csvWriter==null){
+            csvWriter = new CSVWriter(hbmFile);
+        }
+        if(factionFile==null){
+            factionFile = new File(new File(".").getAbsolutePath() + "/plugins/OpenWar-Core/hbm.csv");
+        }
+        if(csvReader==null){
+            csvReader = new CSVReader(factionFile);
+        }
     }
 
-    public boolean execute(String uniqueId, int value, int x, int z) {
-        csvWriter.writeCSV(uniqueId, value, x, z);
-        boolean result = false;
+    public boolean askRP(String playerId, String missile, int value, int x, int z) {
+        UUID requestId=UUID.randomUUID();
+        String[] data= {missile, String.valueOf(value), String.valueOf(x), String.valueOf(z)};
+        csvWriter.writeCSV(requestId.toString(),actiontype,playerId,data);
 
         long startTime = System.currentTimeMillis();
         long timeout = 5000;
 
         while (System.currentTimeMillis() - startTime < timeout) {
-            result = csvReader.checkForImmediateModification();
-            if (result || csvReader.isFalseResponse()) {
+            csvReader.checkForImmediateModification();
+            if (csvReader.hasResponse(requestId)) {
                 break;
             }
-
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -32,8 +45,6 @@ public class HBMController {
                 break;
             }
         }
-
-        csvReader.resetResponse();
-        return result;
+        return ((CSVReader.BooleanResponse)csvReader.popResponse(requestId)).getValue();
     }
 }

@@ -6,67 +6,75 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class CSVReader {
     private final File csvFile;
     private long lastModifiedTime;
-    private boolean hasResponse;  // Ajout pour vérifier la réponse
-    private boolean responseValue; // Pour stocker la valeur de la réponse
+    private Map<UUID,Response> responseList;
 
     public CSVReader(File csvFile) {
         this.csvFile = csvFile;
         this.lastModifiedTime = csvFile.lastModified();
-        this.hasResponse = false; // Initialisé à false
     }
 
-    public boolean checkForImmediateModification() {
+    public void checkForImmediateModification() {
         if (csvFile.exists()) {
             long currentModifiedTime = csvFile.lastModified();
             if (currentModifiedTime > lastModifiedTime) {
                 lastModifiedTime = currentModifiedTime;
-                return readCSV();
+                readCSV();
             }
         }
-        return false;
     }
 
-    private boolean readCSV() {
+    private void readCSV() {
         try {
             List<String> lines = Files.readAllLines(Paths.get(csvFile.getPath()));
             for (String line : lines) {
-                if (line.contains("true")) {
-                    clearCSVContents();
-                    hasResponse = true;
-                    responseValue = true;
-                    System.out.println("HBM A BIEN RECU LA REPONSE TRUE");
-                    return true;
-                } else if (line.contains("false")) {
-                    clearCSVContents();
-                    hasResponse = true;
-                    responseValue = false;
-                    System.out.println("HBM A BIEN RECU LA REPONSE FALSE");
-                    return false;
+                String[] datas=line.split(",");
+                if(datas.length>=2){
+                    if(datas[0]=="bool"){
+                        responseList.put(UUID.fromString(datas[1]),new BooleanResponse(datas));
+                    }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public void clearCSVContents() {
         try (FileWriter writer = new FileWriter(csvFile)) {
             writer.write("");
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    public boolean isFalseResponse() {
-        return hasResponse && !responseValue;
+    public boolean hasResponse(UUID requestId){
+        return responseList.containsKey(requestId);
+    }
+    public Response popResponse(UUID requestId) {
+        return responseList.remove(requestId);
     }
 
     public void resetResponse() {
-        hasResponse = false;
+        responseList.clear();
+    }
+    public abstract class Response{}
+    public class BooleanResponse extends Response{
+        private boolean value;
+        public BooleanResponse(String[] datas){
+            if(datas[3]=="true"){
+                value=true;
+            }else{
+                value=false;
+            }
+        }
+        public boolean getValue(){
+            return value;
+        }
     }
 }

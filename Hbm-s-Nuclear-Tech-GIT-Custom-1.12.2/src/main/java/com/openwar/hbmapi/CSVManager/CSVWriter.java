@@ -5,15 +5,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class CSVWriter {
-    private File csvHBM;
+    private File csvFile;
 
-    public CSVWriter() {
-        this.csvHBM = new File(new File(".").getAbsolutePath() + "/plugins/OpenWar-Core/faction.csv");
+    public CSVWriter(File csvFile) {
+        this.csvFile = csvFile;
     }
 
-    public void writeCSV(String uniqueId, int value, int x, int z) {
-        try (FileWriter writer = new FileWriter(csvHBM, true)) {
-            writer.write(uniqueId + " " + value + x + " " + z + " " +"\n");
+    public void writeCSV(String requestId,String action,String playerId, String[] datas) {
+        try (FileWriter writer = new FileWriter(csvFile, true)) {
+
+            writer.write(requestId + "," + action + ","+playerId);
+            for(int i=0;i<datas.length;i++){
+                writer.write(datas[i]+",");
+            }
+            writer.write("\n");
         } catch (IOException ex) {
             ex.printStackTrace();
         }

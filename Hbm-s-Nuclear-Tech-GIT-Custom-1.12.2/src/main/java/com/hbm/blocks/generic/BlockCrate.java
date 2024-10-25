@@ -64,7 +64,7 @@ public class BlockCrate extends BlockFalling {
     	} else {
 			if(world.isRemote)
 			{
-				player.sendMessage(new TextComponentTranslation("chat.crate.needcrowbar"));
+				//player.sendMessage(new TextComponentTranslation("chat.crate.needcrowbar"));
 			}
     	}
     	

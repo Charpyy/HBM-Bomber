@@ -103,11 +103,13 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return false;
 	}
-
-	public boolean checkRP(EntityLivingBase responsible, int point, int xTarget, int zTarget) {
-		HBMController hbmController = new HBMController();
+	static HBMController hbmController;
+    public boolean checkRP(EntityLivingBase responsible, String missile, int point, int xTarget, int zTarget) {
+        if(hbmController==null){
+			hbmController = new HBMController("checkRP");
+		}
 		String uniqueId = String.valueOf(responsible.getUniqueID());
-		boolean agree = hbmController.execute(uniqueId, point, xTarget, zTarget);
+		boolean agree = hbmController.askRP(uniqueId, missile, point, xTarget, zTarget);
 		MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree?"YES":"NO")+" !");
 		return agree;
 	}
@@ -135,7 +137,8 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 			EntityMissileBaseAdvanced missile=null;
 			boolean bypassconfirm=false;
 			int neededpoints=0;
-			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_generic && entity.power >= 75000) {
+			String missileName="";
+			/*if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_generic && entity.power >= 75000) {
 				missile = new EntityMissileGeneric(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(1.5D);
 				neededpoints=2;
@@ -192,17 +195,17 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				missile = new EntityMissileDrill(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				neededpoints=6;
 			}
-			/*if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_nuclear && entity.power >= 75000) {
+			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_nuclear && entity.power >= 75000) {
 				missile = new EntityMissileNuclear(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
 				neededpoints=14;
-			}*/
+			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_n2 && entity.power >= 75000) {
 				missile = new EntityMissileN2(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
 				neededpoints=12;
 			}
-			/*if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_endo && entity.power >= 75000) {
+			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_endo && entity.power >= 75000) {
 				missile = new EntityMissileEndo(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
 				neededpoints=10;
@@ -211,13 +214,13 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				missile = new EntityMissileExo(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
 				neededpoints=10;
-			}*/
+			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_nuclear_cluster && entity.power >= 75000) {
 				missile = new EntityMissileMirv(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
 				neededpoints=16;
 			}
-			/*if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_doomsday && entity.power >= 75000) {
+			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_doomsday && entity.power >= 75000) {
 				missile = new EntityMissileDoomsday(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.5D);
 			}
@@ -243,17 +246,18 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				missile = new EntityMissileEMP(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(2.0D);
 				neededpoints=6;
+				missileName="missile_emp";
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_emp_strong && entity.power >= 75000) {
 				missile = new EntityMissileEMPStrong(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(1.25D);
 				neededpoints=8;
+				missileName="missile_emp_strong";
 			}
 			/*if(entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_volcano) {
 				missile = new EntityMissileVolcano(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(0.8D);
-			}*/
-
+			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_carrier && entity.power >= 75000) {
 				EntityCarrier rocket = new EntityCarrier(world);
 				rocket.posX = x + 0.5F;
@@ -272,7 +276,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				entity.inventory.setStackInSlot(0, ItemStack.EMPTY);
 				world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, HBMSoundHandler.rocketTakeoff, SoundCategory.BLOCKS, 100.0F, 1.0F);
 				entity.clearingTimer = TileEntityLaunchPad.clearingDuraction;
-			}
+			}*/
 
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000) {
 				missile = new EntityMissileAntiBallistic(world);
@@ -281,14 +285,25 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				missile.posZ = z + 0.5F;
 				bypassconfirm=true;
 			}
-			if(missile!=null&&(bypassconfirm||checkRP(responsible,neededpoints,xCoord,zCoord))){
-				if (!world.isRemote)
-					world.spawnEntity(missile);
-				entity.power -= 75000;
-				entity.inventory.setStackInSlot(0, ItemStack.EMPTY);
-				world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 2.0F, 1.0F);
-				entity.clearingTimer = TileEntityLaunchPad.clearingDuraction;
-				missile.setResponsiveEntity(responsible);
+			if(missile!=null) {
+				if (bypassconfirm || world.isRemote) {
+					entity.power -= 75000;
+					entity.inventory.setStackInSlot(0, ItemStack.EMPTY);
+					world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 2.0F, 1.0F);
+					entity.clearingTimer = TileEntityLaunchPad.clearingDuraction;
+				}
+
+				if (!world.isRemote){
+					if(bypassconfirm){
+						world.spawnEntity(missile);
+						missile.setResponsiveEntity(responsible);
+					}else{
+						if(checkRP(responsible, missileName, neededpoints, xCoord, zCoord)){
+							world.spawnEntity(missile);
+							missile.setResponsiveEntity(responsible);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -509,7 +524,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 					entity.inventory.setStackInSlot(0, ItemStack.EMPTY);
 					world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 2.0F, 1.0F);
 					entity.clearingTimer = TileEntityLaunchPad.clearingDuraction;
-				}*/
+				}
 				if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_taint && entity.power >= 75000) {
 					EntityMissileTaint missile = new EntityMissileTaint(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 					missile.setAcceleration(2.0D);
@@ -520,7 +535,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 					entity.inventory.setStackInSlot(0, ItemStack.EMPTY);
 					world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 2.0F, 1.0F);
 					entity.clearingTimer = TileEntityLaunchPad.clearingDuraction;
-				}/*
+				}
 				if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_micro && entity.power >= 75000) {
 					EntityMissileMicro missile = new EntityMissileMicro(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 					missile.setAcceleration(2.0D);
@@ -531,7 +546,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 					entity.inventory.setStackInSlot(0, ItemStack.EMPTY);
 					world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 2.0F, 1.0F);
 					entity.clearingTimer = TileEntityLaunchPad.clearingDuraction;
-				}*/
+				}
 				if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_bhole && entity.power >= 75000) {
 					EntityMissileBHole missile = new EntityMissileBHole(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 					missile.setAcceleration(2.0D);
@@ -542,7 +557,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 					entity.inventory.setStackInSlot(0, ItemStack.EMPTY);
 					world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 2.0F, 1.0F);
 					entity.clearingTimer = TileEntityLaunchPad.clearingDuraction;
-				}/*
+				}
 				if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_schrabidium && entity.power >= 75000) {
 					EntityMissileSchrabidium missile = new EntityMissileSchrabidium(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 					missile.setAcceleration(2.0D);
@@ -553,7 +568,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 					entity.inventory.setStackInSlot(0, ItemStack.EMPTY);
 					world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 2.0F, 1.0F);
 					entity.clearingTimer = TileEntityLaunchPad.clearingDuraction;
-				}*/
+				}
 				if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_emp && entity.power >= 75000) {
 					EntityMissileEMP missile = new EntityMissileEMP(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 					missile.setAcceleration(2.0D);
@@ -606,7 +621,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 					entity.inventory.setStackInSlot(0, ItemStack.EMPTY);
 					world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, HBMSoundHandler.rocketTakeoff, SoundCategory.BLOCKS, 100.0F, 1.0F);
 					entity.clearingTimer = TileEntityLaunchPad.clearingDuraction;
-				}
+				}*/
 
 				if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_anti_ballistic && entity.power >= 75000) {
 					EntityMissileAntiBallistic missile = new EntityMissileAntiBallistic(world);
