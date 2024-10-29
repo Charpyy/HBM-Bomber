@@ -2,6 +2,7 @@ package com.hbm.items.tool;
 
 import java.util.List;
 
+import com.hbm.interfaces.IResponsiveBomb;
 import org.apache.logging.log4j.Level;
 
 import com.hbm.util.I18nUtil;
@@ -45,8 +46,12 @@ public class ItemLaserDetonator extends Item {
 		BlockPos pos = ray.getBlockPos();
 		if(!world.isRemote)
 		{
-	    	if(world.getBlockState(pos).getBlock() instanceof IBomb) {
-	    		((IBomb)world.getBlockState(pos).getBlock()).explode(world, pos);
+	    	if(world.getBlockState(pos).getBlock() instanceof IBomb || world.getBlockState(pos).getBlock() instanceof IResponsiveBomb) {
+				if(world.getBlockState(pos).getBlock() instanceof IResponsiveBomb){
+					((IResponsiveBomb)world.getBlockState(pos).getBlock()).explodeResponsive(world, pos, player);
+				}else{
+					((IBomb)world.getBlockState(pos).getBlock()).explode(world, pos);
+				}
 
 	    		if(GeneralConfig.enableExtendedLogging)
 	    			MainRegistry.logger.log(Level.INFO, "[DET] Tried to detonate block at " + pos.getX() + " / " + pos.getY() + " / " + pos.getZ() + " by " + player.getDisplayName() + "!");
