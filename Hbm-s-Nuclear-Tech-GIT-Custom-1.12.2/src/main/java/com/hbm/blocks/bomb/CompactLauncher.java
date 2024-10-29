@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IMultiBlock;
+import com.hbm.interfaces.IResponsiveBomb;
 import com.hbm.lib.InventoryHelper;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityCompactLauncher;
@@ -28,7 +29,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class CompactLauncher extends BlockContainer implements IMultiBlock, IBomb {
+public class CompactLauncher extends BlockContainer implements IMultiBlock, IBomb, IResponsiveBomb {
 
 	public static final AxisAlignedBB COMPACT_BOX = new AxisAlignedBB(0, 1, 0, 1, 1, 1);
 	
@@ -157,6 +158,11 @@ public class CompactLauncher extends BlockContainer implements IMultiBlock, IBom
 		TileEntityCompactLauncher entity = (TileEntityCompactLauncher) world.getTileEntity(pos);
 		if(entity.canLaunch())
 			entity.launch();
+	}
+	public void explodeResponsive(World world, BlockPos pos,EntityLivingBase responsible) {
+		TileEntityCompactLauncher entity = (TileEntityCompactLauncher) world.getTileEntity(pos);
+		if(entity.canLaunch())
+			entity.launch(responsible);
 	}
 	
 	@Override

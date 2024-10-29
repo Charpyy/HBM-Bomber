@@ -24,6 +24,8 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.render.amlfrom1710.Vec3;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.openwar.hbmapi.CSVManager.HBMController;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.common.Optional;
 
 import api.hbm.energy.IEnergyUser;
@@ -59,6 +61,7 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import org.apache.logging.log4j.Level;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityCompactLauncher extends TileEntityLoadedBase implements ITickable, IEnergyUser, IFluidHandler, ITankPacketAcceptor, SimpleComponent {
@@ -225,32 +228,48 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 
 	public void launch() {
 
+	}
+	public boolean checkRP(EntityLivingBase responsible, String missile, int point, int xTarget, int zTarget) {
+		if(HBMController.generalController==null){
+			HBMController.generalController = new HBMController();
+		}
+		String uniqueId = String.valueOf(responsible.getUniqueID());
+		boolean agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
+		MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree?"YES":"NO")+" !");
+		return agree;
+	}
+	public void launch(EntityLivingBase responsible) {
+		MissileStruct multipart=getStruct(inventory.getStackInSlot(0));
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 10.0F, 1.0F);
-
 		int tX = inventory.getStackInSlot(1).getTagCompound().getInteger("xCoord");
 		int tZ = inventory.getStackInSlot(1).getTagCompound().getInteger("zCoord");
-
-		ItemMissile chip = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(inventory.getStackInSlot(0), "chip"));
-		float c = (Float) chip.attributes[0];
-		float f = 1.0F;
-
-		if(getStruct(inventory.getStackInSlot(0)).fins != null) {
-			ItemMissile fins = (ItemMissile) Item.getItemById(ItemCustomMissile.readFromNBT(inventory.getStackInSlot(0), "stability"));
-			f = (Float) fins.attributes[0];
+		float distance=(tX-pos.getX())*(tX-pos.getX())+(tZ-pos.getZ())*(tZ-pos.getZ());
+		float inaccuracy=0.1F * (multipart.fins==null? 1 : (Float) multipart.fins.attributes[0]) * (Float) multipart.chip.attributes[0];
+		int tXm=tX+(int)(inaccuracy*distance*world.rand.nextGaussian());
+		int tZm=tZ+(int)(inaccuracy*distance*world.rand.nextGaussian());
+		int neededpoints=0;
+		String missilename="N/R";
+		ItemMissile wh=multipart.warhead;
+		if(wh==ModItems.mp_warhead_10_he){
+			neededpoints=3;
+			missilename="HE10";
+		}
+		if(wh==ModItems.mp_warhead_10_incendiary){
+			neededpoints=6;
+			missilename="IC10";
+		}
+		if(wh==ModItems.mp_warhead_10_buster){
+			neededpoints=3;
+			missilename="BU10";
 		}
 
-		Vec3 target = Vec3.createVectorHelper(pos.getX() - tX, 0, pos.getZ() - tZ);
-		target.xCoord *= c * f;
-		target.zCoord *= c * f;
-
-		target.rotateAroundY(world.rand.nextFloat() * 360);
-
-		EntityMissileCustom missile = new EntityMissileCustom(world, pos.getX() + 0.5F, pos.getY() + 1.5F, pos.getZ() + 0.5F, tX + (int) target.xCoord, tZ + (int) target.zCoord, getStruct(inventory.getStackInSlot(0)));
-		world.spawnEntity(missile);
-
-		subtractFuel();
-		clearingTimer = clearingDuraction;
-		inventory.setStackInSlot(0, ItemStack.EMPTY);
+		EntityMissileCustom missile = new EntityMissileCustom(world, pos.getX() + 0.5F, pos.getY() + 1.5F, pos.getZ() + 0.5F, tXm, tZm, multipart);
+		if(checkRP(responsible,missilename,neededpoints,tX,tZ)){
+			world.spawnEntity(missile);
+			subtractFuel();
+			clearingTimer = clearingDuraction;
+			inventory.setStackInSlot(0, ItemStack.EMPTY);
+		}
 	}
 
 	private boolean hasFuel() {
