@@ -101,6 +101,7 @@ public class ItemCustomMissile extends Item {
 			return null;
 		// This is a stupid fix
 		try {
+			ItemMissile chip = (ItemMissile) Item.getItemById(readFromNBT(stack, "chip"));
 			ItemMissile warhead = (ItemMissile) Item.getItemById(readFromNBT(stack, "warhead"));
 			ItemMissile fuselage = (ItemMissile) Item.getItemById(readFromNBT(stack, "fuselage"));
 			ItemMissile stability = null;
@@ -109,7 +110,7 @@ public class ItemCustomMissile extends Item {
 				stability = (ItemMissile) item;
 			ItemMissile thruster = (ItemMissile) Item.getItemById(readFromNBT(stack, "thruster"));
 
-			MissileStruct missile = new MissileStruct(warhead, fuselage, stability, thruster);
+			MissileStruct missile = new MissileStruct(chip, warhead, fuselage, stability, thruster);
 
 			return missile;
 		} catch(ClassCastException x) {

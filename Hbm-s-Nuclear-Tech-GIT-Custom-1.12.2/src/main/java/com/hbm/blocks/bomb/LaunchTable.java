@@ -5,6 +5,7 @@ import java.util.Random;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IMultiBlock;
+import com.hbm.interfaces.IResponsiveBomb;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.hbm.tileentity.machine.TileEntityDummy;
@@ -33,7 +34,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class LaunchTable extends BlockContainer implements IMultiBlock, IBomb {
+public class LaunchTable extends BlockContainer implements IMultiBlock, IBomb, IResponsiveBomb {
 
 	public static final PropertyDirection FACING = BlockHorizontal.FACING;
 	
@@ -232,6 +233,12 @@ public class LaunchTable extends BlockContainer implements IMultiBlock, IBomb {
 		
 		if(entity.canLaunch())
 			entity.launch();
+	}
+	public void explodeResponsive(World world, BlockPos pos, EntityLivingBase responsible) {
+		TileEntityLaunchTable entity = (TileEntityLaunchTable) world.getTileEntity(pos);
+
+		if(entity.canLaunch())
+			entity.launch(responsible);
 	}
 
 }

@@ -100,12 +100,13 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		
 		velocity = 0.0;
 
+		ItemMissile warhead = (ItemMissile) template.warhead;
 		ItemMissile fuselage = (ItemMissile) template.fuselage;
 		ItemMissile thruster = (ItemMissile) template.thruster;
-
+		ItemMissile fins = (ItemMissile) template.fins;
 		this.fuel = (Float)fuselage.attributes[1];
 		this.consumption = (Float)thruster.attributes[1];
-
+		this.health=(int)(warhead.health+fuselage.health+thruster.health+(fins==null?0:fins.health));
         this.setSize(1.5F, 11F);
 	}
 	
@@ -238,7 +239,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			template = null;
 			this.setDead();
 		} else {
-			template = new MissileStruct(Item.getItemById(nbt.getInteger("warhead")), Item.getItemById(nbt.getInteger("fuselage")), i < 0 ? null : Item.getItemById(i), Item.getItemById(nbt.getInteger("thruster")));
+			template = new MissileStruct(Item.getItemById(nbt.getInteger("chip")), Item.getItemById(nbt.getInteger("warhead")), Item.getItemById(nbt.getInteger("fuselage")), i < 0 ? null : Item.getItemById(i), Item.getItemById(nbt.getInteger("thruster")));
 		}
 		this.getDataManager().set(TEMPLATE, template);
 	}
@@ -265,6 +266,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 			//Drillgon200: Should never happen but apparently mo creatures likes spawning other people's mobs
 			nbt.setBoolean("noTemplate", true);	
 		} else {
+			nbt.setInteger("chip", Item.getIdFromItem(template.chip));
 			nbt.setInteger("warhead", Item.getIdFromItem(template.warhead));
 			nbt.setInteger("fuselage", Item.getIdFromItem(template.fuselage));
 			nbt.setInteger("fins", template.fins == null ? -1 : Item.getIdFromItem(template.fins));

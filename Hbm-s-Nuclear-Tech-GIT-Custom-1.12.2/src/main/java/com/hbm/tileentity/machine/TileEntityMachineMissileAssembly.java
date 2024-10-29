@@ -86,7 +86,7 @@ public class TileEntityMachineMissileAssembly extends TileEntity implements ITic
 	public void update() {
 		if(!world.isRemote) {
 			
-			MissileStruct multipart = new MissileStruct(inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3), inventory.getStackInSlot(4));
+			MissileStruct multipart = new MissileStruct(inventory.getStackInSlot(0),inventory.getStackInSlot(1), inventory.getStackInSlot(2), inventory.getStackInSlot(3), inventory.getStackInSlot(4));
 			if(cooldown == 0 && world.isBlockPowered(pos)){
 				construct();
 				cooldown = xCooldown;

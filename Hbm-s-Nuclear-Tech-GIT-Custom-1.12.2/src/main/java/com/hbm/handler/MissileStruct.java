@@ -18,6 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MissileStruct {
 
+	public ItemMissile chip;
 	public ItemMissile warhead;
 	public ItemMissile fuselage;
 	public ItemMissile fins;
@@ -25,8 +26,10 @@ public class MissileStruct {
 	
 	public MissileStruct() { }
 	
-	public MissileStruct(ItemStack w, ItemStack f, ItemStack s, ItemStack t) {
+	public MissileStruct(ItemStack c, ItemStack w, ItemStack f, ItemStack s, ItemStack t) {
 
+		if(c != null && c.getItem() instanceof ItemMissile)
+			chip = (ItemMissile) c.getItem();
 		if(w != null && w.getItem() instanceof ItemMissile)
 			warhead = (ItemMissile) w.getItem();
 		if(f != null && f.getItem() instanceof ItemMissile)
@@ -37,8 +40,10 @@ public class MissileStruct {
 			thruster = (ItemMissile) t.getItem();
 	}
 	
-	public MissileStruct(Item w, Item f, Item s, Item t) {
+	public MissileStruct(Item c, Item w, Item f, Item s, Item t) {
 
+		if(c instanceof ItemMissile)
+			chip = (ItemMissile) c;
 		if(w instanceof ItemMissile)
 			warhead = (ItemMissile) w;
 		if(f instanceof ItemMissile)
@@ -52,6 +57,10 @@ public class MissileStruct {
 	public void writeToByteBuffer(ByteBuf buf) {
 
 
+		if(chip != null && warhead.type == PartType.CHIP)
+			buf.writeInt(Item.getIdFromItem(chip));
+		else
+			buf.writeInt(0);
 		if(warhead != null && warhead.type == PartType.WARHEAD)
 			buf.writeInt(Item.getIdFromItem(warhead));
 		else
@@ -77,14 +86,18 @@ public class MissileStruct {
 		
 		MissileStruct multipart = new MissileStruct();
 
+		int c = buf.readInt();
 		int w = buf.readInt();
 		int f = buf.readInt();
 		int s = buf.readInt();
 		int t = buf.readInt();
-		
+
+		if(c != 0)
+			multipart.chip = (ItemMissile) Item.getItemById(c);
+
 		if(w != 0)
 			multipart.warhead = (ItemMissile) Item.getItemById(w);
-		
+
 		if(f != 0)
 			multipart.fuselage = (ItemMissile) Item.getItemById(f);
 		
@@ -114,12 +127,13 @@ public class MissileStruct {
 		if(!(obj instanceof MissileStruct))
 			return false;
 		MissileStruct str = (MissileStruct) obj;
-		return this.warhead == str.warhead && this.fuselage == str.fuselage && this.fins == str.fins && this.thruster == str.thruster;
+		return  this.chip == str.chip && this.warhead == str.warhead && this.fuselage == str.fuselage && this.fins == str.fins && this.thruster == str.thruster;
 	}
 	
 	@Override
 	public int hashCode() {
 		int hashcode = 17;
+		hashcode = 31 * hashcode + chip.hashCode();
 		hashcode = 31 * hashcode + warhead.hashCode();
 		hashcode = 31 * hashcode + fuselage.hashCode();
 		if(fins != null)
@@ -136,6 +150,7 @@ public class MissileStruct {
 				buf.writeInt(-1);
 				return;
 			}
+			buf.writeInt(Item.getIdFromItem(value.chip));
 			buf.writeInt(Item.getIdFromItem(value.warhead));
 			buf.writeInt(Item.getIdFromItem(value.fuselage));
 			buf.writeInt(value.fins == null ? -1 : Item.getIdFromItem(value.fins));
@@ -147,7 +162,8 @@ public class MissileStruct {
 			int i = buf.readInt();
 			if(i < 0)
 				return null;
-			Item w = Item.getItemById(i);
+			Item c = Item.getItemById(i);
+			Item w = Item.getItemById(buf.readInt());
 			Item f = Item.getItemById(buf.readInt());
 			Item s;
 			i = buf.readInt();
@@ -156,7 +172,7 @@ public class MissileStruct {
 			else
 				s = Item.getItemById(i);
 			Item t = Item.getItemById(buf.readInt());
-			return new MissileStruct(w, f, s, t);
+			return new MissileStruct(c, w, f, s, t);
 		}
 
 		@Override

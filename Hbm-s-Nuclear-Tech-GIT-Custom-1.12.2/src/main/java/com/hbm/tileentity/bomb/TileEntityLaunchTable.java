@@ -23,6 +23,7 @@ import com.hbm.packet.FluidTankPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.common.Optional;
 
 import api.hbm.energy.IEnergyUser;
@@ -213,15 +214,18 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		
 		return false;
 	}
-	
-	public void launch() {
-
+	public void launch() {}
+	public void launch(EntityLivingBase responsible) {
+		MissileStruct multipart=getStruct(inventory.getStackInSlot(0));
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 10.0F, 1.0F);
-
 		int tX = inventory.getStackInSlot(1).getTagCompound().getInteger("xCoord");
 		int tZ = inventory.getStackInSlot(1).getTagCompound().getInteger("zCoord");
-		
-		EntityMissileCustom missile = new EntityMissileCustom(world, pos.getX() + 0.5F, pos.getY() + 1.5F, pos.getZ() + 0.5F, tX, tZ, getStruct(inventory.getStackInSlot(0)));
+		float distance=(tX-pos.getX())*(tX-pos.getX())+(tZ-pos.getZ())*(tZ-pos.getZ());
+		float innacuracity=0.1F * (multipart.fins==null? 1 : (Float) multipart.fins.attributes[0]) * (Float) multipart.chip.attributes[0];
+		int tXm=tX+(int)(innacuracity*distance*world.rand.nextGaussian());
+		int tZm=tZ+(int)(innacuracity*distance*world.rand.nextGaussian());
+
+		EntityMissileCustom missile = new EntityMissileCustom(world, pos.getX() + 0.5F, pos.getY() + 1.5F, pos.getZ() + 0.5F, tXm, tZm, multipart);
 		world.spawnEntity(missile);
 		
 		subtractFuel();
