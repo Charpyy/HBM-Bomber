@@ -23,7 +23,9 @@ import com.hbm.packet.FluidTankPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.openwar.hbmapi.CSVManager.HBMController;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Optional;
 
 import api.hbm.energy.IEnergyUser;
@@ -56,6 +58,7 @@ import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
 import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import org.apache.logging.log4j.Level;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITickable, IEnergyUser, IFluidHandler, ITankPacketAcceptor, SimpleComponent {
@@ -132,7 +135,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 	public void update() {
 		updateTypes();
 		if (!world.isRemote) {
-			
+			HBMController.generalController.checkResponses();
 			if(clearingTimer > 0) clearingTimer--;
 			//updateTypes();
 			if(world.getTotalWorldTime() % 20 == 0)
@@ -214,6 +217,15 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		
 		return false;
 	}
+	public boolean checkRP(EntityLivingBase responsible, String missile, int point, int xTarget, int zTarget) {
+		if(HBMController.generalController==null){
+			HBMController.generalController = new HBMController();
+		}
+		String uniqueId = String.valueOf(responsible.getUniqueID());
+		boolean agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
+		MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree?"YES":"NO")+" !");
+		return agree;
+	}
 	public void launch() {}
 	public void launch(EntityLivingBase responsible) {
 		MissileStruct multipart=getStruct(inventory.getStackInSlot(0));
@@ -221,16 +233,44 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		int tX = inventory.getStackInSlot(1).getTagCompound().getInteger("xCoord");
 		int tZ = inventory.getStackInSlot(1).getTagCompound().getInteger("zCoord");
 		float distance=(tX-pos.getX())*(tX-pos.getX())+(tZ-pos.getZ())*(tZ-pos.getZ());
-		float innacuracity=0.1F * (multipart.fins==null? 1 : (Float) multipart.fins.attributes[0]) * (Float) multipart.chip.attributes[0];
-		int tXm=tX+(int)(innacuracity*distance*world.rand.nextGaussian());
-		int tZm=tZ+(int)(innacuracity*distance*world.rand.nextGaussian());
+		float inaccuracy=0.1F * (multipart.fins==null? 1 : (Float) multipart.fins.attributes[0]) * (Float) multipart.chip.attributes[0];
+		int tXm=tX+(int)(inaccuracy*distance*world.rand.nextGaussian());
+		int tZm=tZ+(int)(inaccuracy*distance*world.rand.nextGaussian());
+		int neededpoints=0;
+		String missilename="N/R";
+		ItemMissile wh=multipart.warhead;
+		if(wh==ModItems.mp_warhead_10_he){
+			neededpoints=3;
+			missilename="HE10";
+		}
+		if(wh==ModItems.mp_warhead_10_incendiary){
+			neededpoints=6;
+			missilename="IC10";
+		}
+		if(wh==ModItems.mp_warhead_10_buster){
+			neededpoints=3;
+			missilename="BU10";
+		}
+		if(wh==ModItems.mp_warhead_15_incendiary){
+			neededpoints=5;
+			missilename="IC15";
+		}
+		if(wh==ModItems.mp_warhead_15_he){
+			neededpoints=6;
+			missilename="HE15";
+		}
+		if(wh==ModItems.mp_warhead_15_nuclear){
+			neededpoints=12;
+			missilename="NUKE";
+		}
 
 		EntityMissileCustom missile = new EntityMissileCustom(world, pos.getX() + 0.5F, pos.getY() + 1.5F, pos.getZ() + 0.5F, tXm, tZm, multipart);
-		world.spawnEntity(missile);
-		
-		subtractFuel();
-		clearingTimer = clearingDuraction;
-		inventory.setStackInSlot(0, ItemStack.EMPTY);
+		if(checkRP(responsible,missilename,neededpoints,tX,tZ)){
+			world.spawnEntity(missile);
+			subtractFuel();
+			clearingTimer = clearingDuraction;
+			inventory.setStackInSlot(0, ItemStack.EMPTY);
+		}
 	}
 	
 	private boolean hasFuel() {

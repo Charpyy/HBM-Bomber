@@ -103,13 +103,13 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 	public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
 		return false;
 	}
-	static HBMController hbmController;
+
     public boolean checkRP(EntityLivingBase responsible, String missile, int point, int xTarget, int zTarget) {
-        if(hbmController==null){
-			hbmController = new HBMController("checkRP");
+        if(HBMController.generalController==null){
+			HBMController.generalController = new HBMController();
 		}
 		String uniqueId = String.valueOf(responsible.getUniqueID());
-		boolean agree = hbmController.askRP(uniqueId, missile, point, xTarget, zTarget);
+		boolean agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
 		MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree?"YES":"NO")+" !");
 		return agree;
 	}
@@ -245,13 +245,13 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_emp && entity.power >= 75000) {
 				missile = new EntityMissileEMP(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(2.0D);
-				neededpoints=6;
+				neededpoints=4;
 				missileName="missile_emp";
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_emp_strong && entity.power >= 75000) {
 				missile = new EntityMissileEMPStrong(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(1.25D);
-				neededpoints=8;
+				neededpoints=6;
 				missileName="missile_emp_strong";
 			}
 			/*if(entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_volcano) {
