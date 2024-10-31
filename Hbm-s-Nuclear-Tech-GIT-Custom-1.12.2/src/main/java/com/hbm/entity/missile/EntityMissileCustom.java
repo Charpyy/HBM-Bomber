@@ -291,7 +291,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		this.prevPosY = oldPosY;
 		
 		
-		if(fuel > 0 || world.isRemote) {
+		if(fuel > 0) {
 			
 			fuel -= consumption;
 	

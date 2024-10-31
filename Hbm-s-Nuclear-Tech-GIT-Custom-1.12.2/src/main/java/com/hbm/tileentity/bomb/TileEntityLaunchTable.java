@@ -244,7 +244,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 			missilename="HE10";
 		}
 		if(wh==ModItems.mp_warhead_10_incendiary){
-			neededpoints=6;
+			neededpoints=4;
 			missilename="IC10";
 		}
 		if(wh==ModItems.mp_warhead_10_buster){
@@ -292,26 +292,21 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		
 		switch((FuelType)fuselage.attributes[0]) {
 			case KEROSENE:
-				tanks[0].drain(fuel, true);
-				tanks[1].drain(fuel, true);
-				break;
 			case HYDROGEN:
+			case BALEFIRE:
 				tanks[0].drain(fuel, true);
 				tanks[1].drain(fuel, true);
 				break;
 			case XENON:
 				tanks[0].drain(fuel, true);
 				break;
-			case BALEFIRE:
-				tanks[0].drain(fuel, true);
-				tanks[1].drain(fuel, true);
-				break;
 			case SOLID:
 				this.solid -= fuel; break;
-			default: break;
+			default:
+				break;
 		}
 		needsUpdate = true;
-		this.power -= maxPower * 0.75;
+		this.power -= (long) (maxPower * 0.75);
 	}
 	
 	public static MissileStruct getStruct(ItemStack stack) {
