@@ -137,7 +137,7 @@ public class ExplosionLarge {
 					
 					if(block != Blocks.AIR) {
 						
-						if(block.getExplosionResistance(null) > 70)
+						if(rand.nextDouble()*block.getExplosionResistance(null)<1)
 							continue;
 			            
 			            EntityRubble rubble = new EntityRubble(world);
