@@ -1,8 +1,11 @@
 package com.hbm.entity.missile;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import com.hbm.capability.HbmLivingProps;
 import com.hbm.config.WeaponConfig;
 import com.hbm.entity.particle.EntitySmokeFX;
 import com.hbm.interfaces.IConstantRenderer;
@@ -16,6 +19,8 @@ import com.hbm.render.amlfrom1710.Vec3;
 
 import api.hbm.entity.IRadarDetectable;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -27,6 +32,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.hbm.tileentity.machine.TileEntityMachineRadar;
 
 public class EntityMissileAntiBallistic extends EntityMissileBaseAdvanced {
 	
@@ -100,22 +107,38 @@ public class EntityMissileAntiBallistic extends EntityMissileBaseAdvanced {
 
     private double[] targetMissile() {
     	//Targeting missiles - returns normalized vector pointing towards closest rocket
-		List<Entity> listOfMissiles = world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(posX - WeaponConfig.radarRange, 0, posZ - WeaponConfig.radarRange, posX + WeaponConfig.radarRange, 5000, posZ + WeaponConfig.radarRange));
-		
+		//List<Entity> listOfMissiles = world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(posX - WeaponConfig.radarRange, 0, posZ - WeaponConfig.radarRange, posX + WeaponConfig.radarRange, 5000, posZ + WeaponConfig.radarRange));
 		Entity target = null;
-		double closest = WeaponConfig.radarRange*2;
-		
-		for(Entity e : listOfMissiles) {
+		double closest = WeaponConfig.radarRange; //if entity is further than radar range, we keep null
+		Iterator<Map.Entry<Entity, Long>> iterator = TileEntityMachineRadar.registerdentities.entrySet().iterator();
+		while(iterator.hasNext()) {
+			Map.Entry<Entity, Long> next = iterator.next();
+			if(next.getValue() < world.getTotalWorldTime()) {
+				iterator.remove();
+				continue;
+			}
+			Entity e=next.getKey();
 			if(!(e instanceof EntityMissileAntiBallistic) && (e instanceof EntityMissileBaseAdvanced || e instanceof EntityMissileCustom)) {
 				double dis = Math.sqrt(Math.pow(e.posX - posX, 2) + Math.pow(e.posY - posY, 2) + Math.pow(e.posZ - posZ, 2));
-				
+
 				if(dis < closest) {
 					closest = dis;
 					target = e;
 				}
 			}
 		}
-		
+
+		/*for(Entity e : listOfMissiles) {
+			if(!(e instanceof EntityMissileAntiBallistic) && (e instanceof EntityMissileBaseAdvanced || e instanceof EntityMissileCustom)) {
+				double dis = Math.sqrt(Math.pow(e.posX - posX, 2) + Math.pow(e.posY - posY, 2) + Math.pow(e.posZ - posZ, 2));
+
+				if(dis < closest) {
+					closest = dis;
+					target = e;
+				}
+			}
+		}*/
+
 		if(target != null) {
 			Vec3 vec = Vec3.createVectorHelper(target.posX - posX, target.posY - posY, target.posZ - posZ);
 			vec = vec.normalize();
