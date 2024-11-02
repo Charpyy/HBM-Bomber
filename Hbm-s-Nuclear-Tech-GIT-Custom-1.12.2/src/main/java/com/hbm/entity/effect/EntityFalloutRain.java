@@ -8,6 +8,7 @@ import com.hbm.config.RadiationConfig;
 import com.hbm.config.VersatileConfig;
 import com.hbm.config.CompatibilityConfig;
 import com.hbm.interfaces.IConstantRenderer;
+import com.hbm.entity.effect.EntityFalloutUnderGround;
 import com.hbm.render.amlfrom1710.Vec3;
 import com.hbm.saveddata.AuxSavedData;
 
@@ -78,6 +79,8 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 	private final List<Long> outerChunksToProcess = new ArrayList<>();
 	private int falloutTickNumber = 0;
 
+	public int falloutBallRadius = 0;
+
 	public EntityFalloutRain(World world) {
 		super(world);
 		this.setSize(4, 20);
@@ -129,47 +132,47 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 	@Override
 	public void init(Ticket ticket) {
 		if(!world.isRemote) {
-			
-            if(ticket != null) {
-            	
-                if(loaderTicket == null) {
-                	
-                	loaderTicket = ticket;
-                	loaderTicket.bindEntity(this);
-                	loaderTicket.getModData();
-                }
 
-                ForgeChunkManager.forceChunk(loaderTicket, new ChunkPos(chunkCoordX, chunkCoordZ));
-            }
-        }
+			if(ticket != null) {
+
+				if(loaderTicket == null) {
+
+					loaderTicket = ticket;
+					loaderTicket.bindEntity(this);
+					loaderTicket.getModData();
+				}
+
+				ForgeChunkManager.forceChunk(loaderTicket, new ChunkPos(chunkCoordX, chunkCoordZ));
+			}
+		}
 	}
 
 	List<ChunkPos> loadedChunks = new ArrayList<ChunkPos>();
 	@Override
 	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
 		if(!world.isRemote && loaderTicket != null)
-        {
-            for(ChunkPos chunk : loadedChunks)
-            {
-                ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-            }
+		{
+			for(ChunkPos chunk : loadedChunks)
+			{
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 
-            loadedChunks.clear();
-            loadedChunks.add(new ChunkPos(newChunkX, newChunkZ));
-            loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ + 1));
-            loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ - 1));
-            loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ - 1));
-            loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ + 1));
-            loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ));
-            loadedChunks.add(new ChunkPos(newChunkX, newChunkZ + 1));
-            loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ));
-            loadedChunks.add(new ChunkPos(newChunkX, newChunkZ - 1));
+			loadedChunks.clear();
+			loadedChunks.add(new ChunkPos(newChunkX, newChunkZ));
+			loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ + 1));
+			loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ + 1));
+			loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ));
+			loadedChunks.add(new ChunkPos(newChunkX, newChunkZ + 1));
+			loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ));
+			loadedChunks.add(new ChunkPos(newChunkX, newChunkZ - 1));
 
-            for(ChunkPos chunk : loadedChunks)
-            {
-                ForgeChunkManager.forceChunk(loaderTicket, chunk);
-            }
-        }
+			for(ChunkPos chunk : loadedChunks)
+			{
+				ForgeChunkManager.forceChunk(loaderTicket, chunk);
+			}
+		}
 	}
 
 	private void gatherChunks() {
@@ -200,8 +203,8 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 	private void unloadAllChunks() {
 		if(loaderTicket != null){
 			for(ChunkPos chunk : loadedChunks) {
-		        ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-		    }
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 		}
 	}
 
@@ -215,7 +218,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 					stomp(new MutableBlockPos(x, 0, z), Math.hypot(x - posX, z - posZ));
 				}
 			}
-			
+
 		} else if (!outerChunksToProcess.isEmpty()) {
 			long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
 			int chunkPosX = (int) (chunkPos & Integer.MAX_VALUE);
@@ -228,7 +231,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 					}
 				}
 			}
-			
+
 		} else {
 			setDead();
 		}
@@ -256,9 +259,17 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 			falloutTickNumber++;
 
 			if(this.isDead) {
+				if(falloutBallRadius > 0){
+					EntityFalloutUnderGround falloutBall = new EntityFalloutUnderGround(this.world);
+					falloutBall.posX = this.posX;
+					falloutBall.posY = this.posY;
+					falloutBall.posZ = this.posZ;
+					falloutBall.setScale(falloutBallRadius);
+					this.world.spawnEntity(falloutBall);
+				}
 				unloadAllChunks();
 				this.done = true;
-				if(RadiationConfig.rain > 0) {
+				if(RadiationConfig.rain > 0 && doFlood) {
 					if((doFallout && getScale() > 100) || (doFlood && getScale() > 50)){
 						world.getWorldInfo().setRaining(true);
 						world.getWorldInfo().setRainTime(RadiationConfig.rain);
@@ -282,10 +293,10 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 			if(chance < fallChance)
 				return;
 		}
-		
+
 		int bottomHeight = lastGapHeight;
 		MutableBlockPos gapPos = new MutableBlockPos(pos.getX(), 0, pos.getZ());
-		
+
 		for(int i = lastGapHeight; i <= contactHeight; i++) {
 			pos.setY(i);
 			Block b = world.getBlockState(pos).getBlock();
@@ -298,7 +309,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 					world.setBlockToAir(pos);
 				}
 				bottomHeight++;
-			}	
+			}
 		}
 	}
 
@@ -339,7 +350,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 
 			if(bblock != Blocks.AIR && contactHeight == 420)
 				contactHeight = Math.min(y+1, 255);
-			
+
 			if(reachedStone && bmaterial != Material.AIR){
 				stoneDepth++;
 			}
@@ -349,7 +360,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 			if(reachedStone && stoneDepth > maxStoneDepth){
 				break;
 			}
-			
+
 			if(bmaterial == Material.AIR || bmaterial.isLiquid()){
 				if(y < contactHeight){
 					gapFound = true;
@@ -359,16 +370,16 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 			}
 
 			if(bblock == Blocks.BEDROCK || bblock == ModBlocks.ore_bedrock_oil || bblock == ModBlocks.ore_bedrock_block){
-				if(world.isAirBlock(pos.add(0, 1, 0))) world.setBlockState(pos.add(0, 1, 0), ModBlocks.toxic_block.getDefaultState());
+				if(world.isAirBlock(pos.up())) world.setBlockState(pos.up(), ModBlocks.toxic_block.getDefaultState());
 				break;
 			}
 
-			if(y == contactHeight-1 && bblock != ModBlocks.fallout && Math.abs(rand.nextGaussian() * (dist * dist) / (s0 * s0)) < 0.05 && rand.nextDouble() < 0.05 && ModBlocks.fallout.canPlaceBlockAt(world, pos.add(0, 1, 0))) {
-				placeBlockFromDist(dist, ModBlocks.fallout, pos.add(0, 1, 0));
+			if(y == contactHeight-1 && bblock != ModBlocks.fallout && Math.abs(rand.nextGaussian() * (dist * dist) / (s0 * s0)) < 0.05 && rand.nextDouble() < 0.05 && ModBlocks.fallout.canPlaceBlockAt(world, pos.up())) {
+				placeBlockFromDist(dist, ModBlocks.fallout, pos.up());
 			}
 
-			if(spawnFire && dist < s2 && bblock.isFlammable(world, pos, EnumFacing.UP) && world.isAirBlock(pos.add(0, 1, 0))) {
-				world.setBlockState(pos.add(0, 1, 0), Blocks.FIRE.getDefaultState());
+			if(spawnFire && dist < s2 && bblock.isFlammable(world, pos, EnumFacing.UP) && world.isAirBlock(pos.up())) {
+				world.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
 			}
 
 			if(bblock == ModBlocks.waste_leaves){
@@ -455,14 +466,14 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 				continue;
 
 			} else if(bblock instanceof BlockBush) {
-				if(world.getBlockState(pos.add(0, -1, 0)).getBlock() instanceof BlockDirt || world.getBlockState(pos.add(0, -1, 0)).getBlock() == Blocks.FARMLAND){
-					placeBlockFromDist(dist, ModBlocks.waste_dirt, pos.add(0, -1, 0));
+				if(world.getBlockState(pos.down()).getBlock() == Blocks.FARMLAND){
+					placeBlockFromDist(dist, ModBlocks.waste_dirt, pos.down());
 					placeBlockFromDist(dist, ModBlocks.waste_grass_tall, pos);
-				} else if(world.getBlockState(pos.add(0, -1, 0)).getBlock() instanceof BlockGrass){
-					placeBlockFromDist(dist, ModBlocks.waste_earth, pos.add(0, -1, 0));
+				} else if(world.getBlockState(pos.down()).getBlock() instanceof BlockGrass){
+					placeBlockFromDist(dist, ModBlocks.waste_earth, pos.down());
 					placeBlockFromDist(dist, ModBlocks.waste_grass_tall, pos);
-				} else if(world.getBlockState(pos.add(0, -1, 0)).getBlock() == Blocks.MYCELIUM){
-					placeBlockFromDist(dist, ModBlocks.waste_mycelium, pos.add(0, -1, 0));
+				} else if(world.getBlockState(pos.down()).getBlock() == Blocks.MYCELIUM){
+					placeBlockFromDist(dist, ModBlocks.waste_mycelium, pos.down());
 					world.setBlockState(pos, ModBlocks.mush.getDefaultState());
 				}
 				continue;
@@ -599,7 +610,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 					world.setBlockState(pos, ModBlocks.brick_concrete_broken.getDefaultState());
 				break;
 				// this piece stops the "stomp" from reaching below ground
-			} 
+			}
 			else if(bblock.getExplosionResistance(null) > 300){
 				break;
 			}
@@ -625,7 +636,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 
 			if(bblock.isCollidable() && contactHeight == 420)
 				contactHeight = Math.min(y+1, 255);
-			
+
 			if(reachedStone && bmaterial != Material.AIR){
 				stoneDepth++;
 			}
@@ -635,7 +646,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 			if(reachedStone && stoneDepth > maxStoneDepth){
 				break;
 			}
-			
+
 			if(bmaterial == Material.AIR || bmaterial.isLiquid()){
 				if(y < contactHeight){
 					gapFound = true;
@@ -706,11 +717,12 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 		}
 	}
 
-	
+
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbt) {
 		setScale(nbt.getInteger("scale"), nbt.getInteger("dropRadius"));
+		falloutBallRadius = nbt.getInteger("fBall");
 		if(nbt.hasKey("chunks"))
 			chunksToProcess.addAll(readChunksFromIntArray(nbt.getIntArray("chunks")));
 		if(nbt.hasKey("outerChunks"))
@@ -736,6 +748,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbt) {
 		nbt.setInteger("scale", getScale());
+		nbt.setInteger("fBall", falloutBallRadius);
 		nbt.setInteger("dropRadius", fallingRadius);
 		nbt.setBoolean("doFallout", doFallout);
 		nbt.setBoolean("doFlood", doFlood);

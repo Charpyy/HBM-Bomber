@@ -44,9 +44,8 @@ public class EntityNukeExplosionMK5 extends Entity implements IChunkLoader {
 	//Strength of the blast
 	public int strength;
 	//How many rays are calculated per tick
-	public int speed;
 	public int radius;
-	
+
 	public boolean mute = false;
 	public boolean spawnFire = false;
 
@@ -69,7 +68,6 @@ public class EntityNukeExplosionMK5 extends Entity implements IChunkLoader {
 	public EntityNukeExplosionMK5(World world, int strength, int speed, int radius) {
 		super(world);
 		this.strength = strength;
-		this.speed = speed;
 		this.radius = radius;
 	}
 
@@ -85,26 +83,30 @@ public class EntityNukeExplosionMK5 extends Entity implements IChunkLoader {
 		}
 		//load own chunk
 		loadMainChunk();
-		
-		float rads = 0;
-		
+
+		float rads, fire, blast;
+		rads = fire = blast = 0;
+
 		//radiate until there is fallout rain
 		if(fallout && falloutRain == null) {
 			rads = (float)(Math.pow(radius, 4) * (float)Math.pow(0.5, this.ticksExisted*0.125) + strength);
 			if(ticksExisted == 42)
 				EntityGlowingOne.convertInRadiusToGlow(world, this.posX, this.posY, this.posZ, radius * 1.5);
 		}
-		
-		if(ticksExisted < 2400 && ticksExisted % 10 == 0)
-			ContaminationUtil.radiate(world, this.posX, this.posY, this.posZ, Math.min(1000, radius * 2), rads, 0F, 10F * (float)Math.pow(radius, 3) * (float)Math.pow(0.5, this.ticksExisted*0.0125), (float)Math.pow(radius, 3) * 0.1F, this.ticksExisted * 1.5F);
 
+		if(ticksExisted < 2400 && ticksExisted % 10 == 0){
+			fire = (fallout ? 10F: 2F) * (float)Math.pow(radius, 3) * (float)Math.pow(0.5, this.ticksExisted*0.025);
+			blast = (float)Math.pow(radius, 3) * 0.2F;
+			ContaminationUtil.radiate(world, this.posX, this.posY, this.posZ, Math.min(1000, radius * 2), rads, 0F, fire, blast, this.ticksExisted * 1.5F);
+		}
 		//make some noise
 		if(!mute) {
-			if(this.radius > 15){
+			if(this.radius > 30){
 				this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LIGHTNING_THUNDER, SoundCategory.AMBIENT, this.radius * 0.05F, 0.8F + this.rand.nextFloat() * 0.2F);
-			}else{
 				if(rand.nextInt(5) == 0)
 					this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.AMBIENT, this.radius * 0.05F, 0.8F + this.rand.nextFloat() * 0.2F);
+			}else{
+				this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.AMBIENT, Math.max(2F, this.radius * 0.1F), 0.8F + this.rand.nextFloat() * 0.2F);
 			}
 		}
 
@@ -117,38 +119,38 @@ public class EntityNukeExplosionMK5 extends Entity implements IChunkLoader {
 		if(!explosion.isAusf3Complete) {
 			explosion.collectTip(BombConfig.mk5);
 
-		//Excecuting destruction
+			//Excecuting destruction
 		} else if(explosion.perChunk.size() > 0) {
 			explosion.processChunk(BombConfig.mk5);
-		
-		} else {
-			boolean craterReady = true;
-			if(fallout) {
-				//Do radial Fallout
-				if(falloutBall == null){
-					falloutBall = new EntityFalloutUnderGround(this.world);
-					falloutBall.posX = this.posX;
-					falloutBall.posY = this.posY;
-					falloutBall.posZ = this.posZ;
-					falloutBall.setScale((int) (this.radius * (BombConfig.falloutRange / 100F) + falloutAdd));
-					this.world.spawnEntity(falloutBall);
-				}
-				//Wait for falloutBall to be done
-				craterReady = falloutBall.done;
-			}
-			if(!craterReady) return;
 
-			
-			falloutRain = new EntityFalloutRain(this.world);
-			falloutRain.doFallout = fallout && !explosion.isContained;
-			falloutRain.doFlood = floodPlease;
-			falloutRain.posX = this.posX;
-			falloutRain.posY = this.posY;
-			falloutRain.posZ = this.posZ;
-			if(spawnFire)
-				falloutRain.spawnFire = true;
-			falloutRain.setScale((int) ((this.radius * 2.5F + falloutAdd) * BombConfig.falloutRange * 0.01F), this.radius+4);
-			this.world.spawnEntity(falloutRain);
+		} else {
+
+			if(fallout) {
+				EntityFalloutUnderGround falloutBall = new EntityFalloutUnderGround(this.world);
+				falloutBall.posX = this.posX;
+				falloutBall.posY = this.posY;
+				falloutBall.posZ = this.posZ;
+				falloutBall.setScale((int) (this.radius * (BombConfig.falloutRange / 100F) + falloutAdd));
+
+				falloutBall.falloutRainDoFallout = fallout && !explosion.isContained;
+				falloutBall.falloutRainDoFlood = floodPlease;
+				falloutBall.falloutRainFire = spawnFire;
+				falloutBall.falloutRainRadius1 = (int) ((this.radius * 2.5F + falloutAdd) * BombConfig.falloutRange * 0.01F);
+				falloutBall.falloutRainRadius2 = this.radius+4;
+				this.world.spawnEntity(falloutBall);
+			} else {
+				EntityFalloutRain falloutRain = new EntityFalloutRain(this.world);
+				falloutRain.doFallout = false;
+				falloutRain.doFlood = floodPlease;
+				falloutRain.posX = this.posX;
+				falloutRain.posY = this.posY;
+				falloutRain.posZ = this.posZ;
+				if(spawnFire)
+					falloutRain.spawnFire = true;
+				falloutRain.setScale((int) ((this.radius * 2.5F + falloutAdd) * BombConfig.falloutRange * 0.01F), this.radius+4);
+				this.world.spawnEntity(falloutRain);
+			}
+
 			this.clearLoadedChunks();
 			unloadMainChunk();
 			this.setDead();
@@ -163,15 +165,15 @@ public class EntityNukeExplosionMK5 extends Entity implements IChunkLoader {
 	@Override
 	public void init(Ticket ticket) {
 		if(!world.isRemote && ticket != null) {
-            	
-            if(loaderTicket == null) {
-            	loaderTicket = ticket;
-            	loaderTicket.bindEntity(this);
-            	loaderTicket.getModData();
-            }
 
-            ForgeChunkManager.forceChunk(loaderTicket, new ChunkPos(chunkCoordX, chunkCoordZ));
-        }
+			if(loaderTicket == null) {
+				loaderTicket = ticket;
+				loaderTicket.bindEntity(this);
+				loaderTicket.getModData();
+			}
+
+			ForgeChunkManager.forceChunk(loaderTicket, new ChunkPos(chunkCoordX, chunkCoordZ));
+		}
 	}
 
 
@@ -179,26 +181,26 @@ public class EntityNukeExplosionMK5 extends Entity implements IChunkLoader {
 	@Override
 	public void loadNeighboringChunks(int newChunkX, int newChunkZ) {
 		if(!world.isRemote && loaderTicket != null)
-        {
-            for(ChunkPos chunk : loadedChunks) {
-                ForgeChunkManager.unforceChunk(loaderTicket, chunk);
-            }
+		{
+			for(ChunkPos chunk : loadedChunks) {
+				ForgeChunkManager.unforceChunk(loaderTicket, chunk);
+			}
 
-            loadedChunks.clear();
-            loadedChunks.add(new ChunkPos(newChunkX, newChunkZ));
-            loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ + 1));
-            loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ - 1));
-            loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ - 1));
-            loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ + 1));
-            loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ));
-            loadedChunks.add(new ChunkPos(newChunkX, newChunkZ + 1));
-            loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ));
-            loadedChunks.add(new ChunkPos(newChunkX, newChunkZ - 1));
+			loadedChunks.clear();
+			loadedChunks.add(new ChunkPos(newChunkX, newChunkZ));
+			loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ + 1));
+			loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ - 1));
+			loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ + 1));
+			loadedChunks.add(new ChunkPos(newChunkX + 1, newChunkZ));
+			loadedChunks.add(new ChunkPos(newChunkX, newChunkZ + 1));
+			loadedChunks.add(new ChunkPos(newChunkX - 1, newChunkZ));
+			loadedChunks.add(new ChunkPos(newChunkX, newChunkZ - 1));
 
-            for(ChunkPos chunk : loadedChunks) {
-                ForgeChunkManager.forceChunk(loaderTicket, chunk);
-            }
-        }
+			for(ChunkPos chunk : loadedChunks) {
+				ForgeChunkManager.forceChunk(loaderTicket, chunk);
+			}
+		}
 	}
 
 	public void clearLoadedChunks() {
@@ -228,13 +230,32 @@ public class EntityNukeExplosionMK5 extends Entity implements IChunkLoader {
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound p_70037_1_) {
-
+	public void readEntityFromNBT(NBTTagCompound nbt) {
+		radius = nbt.getInteger("radius");
+		strength = nbt.getInteger("strength");
+		falloutAdd = nbt.getInteger("falloutAdd");
+		fallout = nbt.getBoolean("fallout");
+		floodPlease = nbt.getBoolean("floodPlease");
+		spawnFire = nbt.getBoolean("spawnFire");
+		mute = nbt.getBoolean("mute");
+		if(explosion == null) {
+			explosion = new ExplosionNukeRayBatched(world, (int) this.posX, (int) this.posY, (int) this.posZ, this.strength, this.radius);
+		}
+		explosion.readEntityFromNBT(nbt);
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound p_70014_1_) {
-
+	public void writeEntityToNBT(NBTTagCompound nbt) {
+		nbt.setInteger("radius", radius);
+		nbt.setInteger("strength", strength);
+		nbt.setInteger("falloutAdd", falloutAdd);
+		nbt.setBoolean("fallout", fallout);
+		nbt.setBoolean("floodPlease", floodPlease);
+		nbt.setBoolean("spawnFire", spawnFire);
+		nbt.setBoolean("mute", mute);
+		if(explosion != null) {
+			explosion.writeEntityToNBT(nbt);
+		}
 	}
 
 	public static EntityNukeExplosionMK5 statFac(World world, int r, double x, double y, double z) {
@@ -247,7 +268,6 @@ public class EntityNukeExplosionMK5 extends Entity implements IChunkLoader {
 		EntityNukeExplosionMK5 mk5 = new EntityNukeExplosionMK5(world);
 
 		mk5.strength = (int)(2*r);
-		mk5.speed = (int)Math.ceil(100000 / mk5.strength);
 		mk5.radius = r;
 
 		mk5.setPosition(x, y, z);
@@ -258,32 +278,32 @@ public class EntityNukeExplosionMK5 extends Entity implements IChunkLoader {
 	}
 
 	public static EntityNukeExplosionMK5 statFacFire(World world, int r, double x, double y, double z) {
-		
+
 		EntityNukeExplosionMK5 mk5 = statFac(world, r, x, y ,z);
 		mk5.spawnFire = true;
 		return mk5;
 	}
 
 	public static EntityNukeExplosionMK5 statFacNoRad(World world, int r, double x, double y, double z) {
-		
+
 		EntityNukeExplosionMK5 mk5 = statFac(world, r, x, y ,z);
 		mk5.fallout = false;
 		return mk5;
 	}
 
 	public static EntityNukeExplosionMK5 statFacNoRadFire(World world, int r, double x, double y, double z) {
-		
+
 		EntityNukeExplosionMK5 mk5 = statFac(world, r, x, y ,z);
 		mk5.fallout = false;
 		mk5.spawnFire = true;
 		return mk5;
 	}
-	
+
 	public EntityNukeExplosionMK5 moreFallout(int fallout) {
 		falloutAdd = fallout;
 		return this;
 	}
-	
+
 	public EntityNukeExplosionMK5 mute() {
 		this.mute = true;
 		return this;
