@@ -633,6 +633,9 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 			Block bblock = b.getBlock();
 			Material bmaterial = b.getMaterial();
 			lastReachedStone = reachedStone;
+			if(spawnFire && dist < s2 && bblock.isFlammable(world, pos, EnumFacing.UP) && world.isAirBlock(pos.up())) {
+				world.setBlockState(pos.up(), Blocks.FIRE.getDefaultState());
+			}
 
 			if(bblock.isCollidable() && contactHeight == 420)
 				contactHeight = Math.min(y+1, 255);
