@@ -7,6 +7,7 @@ import com.hbm.util.I18nUtil;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
@@ -18,9 +19,18 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 public class BlockBase extends Block {
-	
+
 	public BlockBase(Material m, String s){
 		super(m);
+		this.setUnlocalizedName(s);
+		this.setRegistryName(s);
+		this.setHarvestLevel("pickaxe", 0);
+		this.setCreativeTab(MainRegistry.controlTab);
+		ModBlocks.ALL_BLOCKS.add(this);
+	}
+
+	public BlockBase(Material m, MapColor c, String s){
+		super(m,c);
 		this.setUnlocalizedName(s);
 		this.setRegistryName(s);
 		this.setHarvestLevel("pickaxe", 0);

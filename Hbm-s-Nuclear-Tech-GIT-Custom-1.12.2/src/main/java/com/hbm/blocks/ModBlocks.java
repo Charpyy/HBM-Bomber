@@ -205,6 +205,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -263,23 +264,23 @@ public class ModBlocks {
 	
 	public static final Block concrete = new BlockBase(materialUnmovable, "concrete").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
 	public static final Block concrete_smooth = new BlockBase(materialUnmovable, "concrete_smooth").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_white = new BlockBase(materialUnmovable, "concrete_white").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_orange = new BlockBase(materialUnmovable, "concrete_orange").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_magenta = new BlockBase(materialUnmovable, "concrete_magenta").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_light_blue = new BlockBase(materialUnmovable, "concrete_light_blue").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_yellow = new BlockBase(materialUnmovable, "concrete_yellow").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_lime = new BlockBase(materialUnmovable, "concrete_lime").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_pink = new BlockBase(materialUnmovable, "concrete_pink").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_gray = new BlockBase(materialUnmovable, "concrete_gray").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_silver = new BlockBase(materialUnmovable, "concrete_silver").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_cyan = new BlockBase(materialUnmovable, "concrete_cyan").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_purple = new BlockBase(materialUnmovable, "concrete_purple").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_blue = new BlockBase(materialUnmovable, "concrete_blue").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_brown = new BlockBase(materialUnmovable, "concrete_brown").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_green = new BlockBase(materialUnmovable, "concrete_green").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_red = new BlockBase(materialUnmovable, "concrete_red").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_black = new BlockBase(materialUnmovable, "concrete_black").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
-	public static final Block concrete_hazard = new BlockBase(materialUnmovable, "concrete_hazard").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_white = new BlockBase(materialUnmovable, MapColor.SNOW, "concrete_white").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_orange = new BlockBase(materialUnmovable, MapColor.ADOBE, "concrete_orange").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_magenta = new BlockBase(materialUnmovable, MapColor.MAGENTA, "concrete_magenta").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_light_blue = new BlockBase(materialUnmovable, MapColor.LIGHT_BLUE,"concrete_light_blue").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_yellow = new BlockBase(materialUnmovable, MapColor.YELLOW, "concrete_yellow").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_lime = new BlockBase(materialUnmovable, MapColor.LIME, "concrete_lime").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_pink = new BlockBase(materialUnmovable, MapColor.PINK, "concrete_pink").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_gray = new BlockBase(materialUnmovable, MapColor.GRAY, "concrete_gray").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_silver = new BlockBase(materialUnmovable, MapColor.SILVER, "concrete_silver").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_cyan = new BlockBase(materialUnmovable, MapColor.CYAN, "concrete_cyan").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_purple = new BlockBase(materialUnmovable, MapColor.PURPLE, "concrete_purple").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_blue = new BlockBase(materialUnmovable, MapColor.BLUE, "concrete_blue").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_brown = new BlockBase(materialUnmovable, MapColor.BROWN, "concrete_brown").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_green = new BlockBase(materialUnmovable, MapColor.GREEN, "concrete_green").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_red = new BlockBase(materialUnmovable, MapColor.RED, "concrete_red").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_black = new BlockBase(materialUnmovable, MapColor.BLACK, "concrete_black").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
+	public static final Block concrete_hazard = new BlockBase(materialUnmovable, MapColor.YELLOW, "concrete_hazard").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
 
 	public static final Block concrete_asbestos = new BlockOutgas(true, 20, true, "concrete_asbestos").addAsbestos(6).toBlock().setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
 	public static final Block concrete_pillar = new BlockRotatablePillar(Material.ROCK, "concrete_pillar").setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(40.0F);
@@ -1603,7 +1604,7 @@ public class ModBlocks {
 	public static final Block pink_slab = new BlockGenericSlab(Material.WOOD, false, "pink_slab").setSoundType(SoundType.WOOD).setCreativeTab(null);
 	public static final Block pink_double_slab = new BlockGenericSlab(Material.WOOD, true, "pink_double_slab").setSoundType(SoundType.WOOD).setCreativeTab(null);
 	public static final Block pink_stairs = new BlockGenericStairs(pink_planks.getDefaultState(), "pink_stairs").setSoundType(SoundType.WOOD).setCreativeTab(null);
-	
+
 	public static void preInit(){
 		for(Block block : ALL_BLOCKS){
 			ForgeRegistries.BLOCKS.register(block);

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.hbm.config.CompatibilityConfig;
-import com.hbm.entity.logic.EntityNukeExplosionMK5;
+import com.hbm.entity.logic.EntityNukeExplosionMK6;
 import com.hbm.entity.particle.EntityGasFlameFX;
 import com.hbm.entity.projectile.EntityOilSpill;
 import com.hbm.entity.projectile.EntityRubble;
@@ -217,7 +217,7 @@ public class ExplosionLarge {
 
 	public static void explode(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {
 		if(CompatibilityConfig.isWarDim(world)){
-			world.spawnEntity(EntityNukeExplosionMK5.statFacNoRad(world, (int)strength, x, y, z));
+			world.spawnEntity(EntityNukeExplosionMK6.statFac(world, (int)strength, x, y, z));
 		
 			ContaminationUtil.radiate(world, x, y, z, strength, 0, 0, 0, strength*15F);
 		}
@@ -244,7 +244,7 @@ public class ExplosionLarge {
 	
 	public static void explodeFire(World world, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {
 		if(CompatibilityConfig.isWarDim(world)){
-			world.spawnEntity(EntityNukeExplosionMK5.statFacNoRadFire(world, (int)strength, x, y, z));
+			world.spawnEntity(EntityNukeExplosionMK6.statFacFire(world, (int)strength, x, y, z));
 			
 			ContaminationUtil.radiate(world, x, y, z, strength, 0, 0, strength*20F, strength*5F);
 		}
@@ -277,7 +277,7 @@ public class ExplosionLarge {
 			for(int i = 0; i <= depth; i += 3) {
 				
 				ContaminationUtil.radiate(world, x + vector.xCoord * i, y + vector.yCoord * i, z + vector.zCoord * i, strength, 0, 0, 0, strength*10F);
-				world.spawnEntity(EntityNukeExplosionMK5.statFacNoRad(world, (int)strength, x + vector.xCoord * i, y + vector.yCoord * i, z + vector.zCoord * i));
+				world.spawnEntity(EntityNukeExplosionMK6.statFac(world, (int)strength, x + vector.xCoord * i, y + vector.yCoord * i, z + vector.zCoord * i));
 			}
 		}
 		spawnParticles(world, x, y+2, z, cloudFunction((int)strength));

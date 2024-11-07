@@ -7,6 +7,7 @@ import com.hbm.capability.HbmLivingCapability;
 import com.hbm.capability.HbmLivingProps;
 import com.hbm.config.CompatibilityConfig;
 import com.hbm.config.GeneralConfig;
+import com.hbm.entity.logic.EntityNukeExplosionMK6;
 import com.hbm.entity.mob.EntityNuclearCreeper;
 import com.hbm.entity.mob.EntityQuackos;
 import com.hbm.entity.projectile.EntityBulletBase;
@@ -668,6 +669,7 @@ public class ContaminationUtil {
 		if (e instanceof EntityOcelot ||
 				e instanceof EntityNukeTorex ||
 				e instanceof EntityNukeExplosionMK5 ||
+				e instanceof EntityNukeExplosionMK6 ||
 				e instanceof EntityMIRV ||
 				e instanceof EntityMiniNuke ||
 				e instanceof EntityMiniMIRV ||

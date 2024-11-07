@@ -1023,7 +1023,7 @@ public class ModItems {
 	public static final Item gun_ar15 = new ItemGunBase(Gun50BMGFactory.getAR15Config(), "gun_ar15").setCreativeTab(MainRegistry.weaponTab);
 	public static final Item gun_uboinik = new ItemGunBase(Gun12GaugeFactory.getUboinikConfig(), "gun_uboinik").setCreativeTab(MainRegistry.weaponTab);
 	public static final Item gun_supershotgun = new ItemGunShotty(Gun12GaugeFactory.getShottyConfig(), "gun_supershotgun").setCreativeTab(MainRegistry.weaponTab);
-	public static final Item jshotgun = new ItemGunJShotty(Gun12GaugeFactory.getJShotgunConfig(), "gun_jshotgun").setCreativeTab(MainRegistry.weaponTab);
+	public static final Item gun_jshotgun = new ItemGunJShotty(Gun12GaugeFactory.getJShotgunConfig(), "gun_jshotgun").setCreativeTab(MainRegistry.weaponTab);
 	public static final Item gun_ks23 = new ItemGunBase(Gun4GaugeFactory.getKS23Config(), "gun_ks23").setCreativeTab(MainRegistry.weaponTab);
 	public static final Item gun_sauer = new ItemGunBase(Gun4GaugeFactory.getSauerConfig(), "gun_sauer").setCreativeTab(MainRegistry.weaponTab);
 	public static final Item gun_calamity = new ItemGunBase(Gun50BMGFactory.getCalamityConfig(), "gun_calamity").setCreativeTab(MainRegistry.weaponTab);
@@ -3671,8 +3671,8 @@ public class ModItems {
 	
 	public static final Item mysteryshovel = new ItemMS("mysteryshovel").setFull3D().setMaxStackSize(1).setCreativeTab(CreativeTabs.TOOLS);
 	public static final Item memory = new ItemBattery(Long.MAX_VALUE / 100L, 100000000000000L, 100000000000000L, "memory").setMaxStackSize(1).setCreativeTab(null);
-	
-	public static void preInit(){
+
+    public static void preInit(){
 		for(Item item : ALL_ITEMS){
 			ForgeRegistries.ITEMS.register(item);
 		}
