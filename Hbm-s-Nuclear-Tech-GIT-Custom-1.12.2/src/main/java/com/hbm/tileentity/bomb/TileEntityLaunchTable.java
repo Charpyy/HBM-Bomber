@@ -135,7 +135,9 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 	public void update() {
 		updateTypes();
 		if (!world.isRemote) {
-			HBMController.generalController.checkResponses();
+			if(HBMController.generalController!=null) {
+				HBMController.generalController.checkResponses();
+			}
 			if(clearingTimer > 0) clearingTimer--;
 			//updateTypes();
 			if(world.getTotalWorldTime() % 20 == 0)
