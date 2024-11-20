@@ -399,8 +399,6 @@ public class JEIConfig implements IModPlugin {
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.injector_5htp));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.injector_knife));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.ink));
-		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.jackt));
-		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.jackt2));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.jetpack_boost));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.jetpack_break));
 		blacklist.addIngredientToBlacklist(new ItemStack(ModItems.jetpack_fly));
