@@ -11,6 +11,7 @@ import com.hbm.config.BombConfig;
 import com.hbm.config.CompatibilityConfig;
 import com.hbm.render.amlfrom1710.Vec3;
 
+import com.hbm.tileentity.machine.rbmk.RBMKDials;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
@@ -122,11 +123,14 @@ public class ExplosionLargeRay {
 			System.out.println("NTM C "+raysProcessed+" "+Math.round(10000D * 100D*gspNum/(double)gspNumMax)/10000D+"% "+gspNum+"/"+gspNumMax);
 			age = 0;
 		}
+		double dev1= RBMKDials.getGamerule(this.world,RBMKDials.KEY_MK6_GEN_MODIF);
+		float dev2= (float) RBMKDials.getGamerule(this.world,RBMKDials.KEY_MK6_BACK_MODIF);
+		float dev3= (float) RBMKDials.getGamerule(this.world,RBMKDials.KEY_MK6_SELF_MODIF);
 		while(this.gspNumMax >= this.gspNum){
 			// Get Cartesian coordinates for spherical coordinates
 			vec = this.getSpherical2cartesian();
 
-			rayStrength = Math.pow(radius,3) * 0.3; //changer cste
+			rayStrength = Math.pow(radius,3) * dev1; //changer cste
 			//calculating the pseudoresistance
 			for(int i = radius+10; i>=0; i--){
 				iY = (int) Math.floor(posY + (vec.yCoord * i));
@@ -146,7 +150,7 @@ public class ExplosionLargeRay {
 					pseudoresistance[i]=actres;
 				}else{
 					//on prend en gros le truc le plus faible : la resistance du bloc ou celle de son accroche (on considère qu'il est 10% attaché par lui même)
-					pseudoresistance[i]=1/(1/actres+1/(0.1F*actres+pseudoresistance[i+1]));
+					pseudoresistance[i]=1/(1/actres+1/(dev3*actres+dev3*pseudoresistance[i+1]));
 					isair[i]= b == Blocks.AIR;
 				}
 			}

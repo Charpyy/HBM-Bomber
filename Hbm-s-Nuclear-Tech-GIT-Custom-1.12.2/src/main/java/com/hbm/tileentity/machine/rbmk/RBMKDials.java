@@ -7,8 +7,9 @@ import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
 public class RBMKDials {
-public static final String KEY_SAVE_DIALS = "dialSaveDials";
-	
+	public static final String KEY_SAVE_DIALS = "dialSaveDials";
+	public static final String KEY_SAVE_MK6 = "mk6Save";
+
 	public static final String KEY_PASSIVE_COOLING = "dialPassiveCooling";
 	public static final String KEY_COLUMN_HEAT_FLOW = "dialColumnHeatFlow";
 	public static final String KEY_FUEL_DIFFUSION_MOD = "dialDiffusionMod";
@@ -26,10 +27,13 @@ public static final String KEY_SAVE_DIALS = "dialSaveDials";
 	public static final String KEY_REASIM_MOD = "dialReasimOutputMod";
 	public static final String KEY_REASIM_BOILERS = "dialReasimBoilers";
 	public static final String KEY_REASIM_BOILER_SPEED = "dialReasimBoilerSpeed";
-	
+	public static final String KEY_MK6_GEN_MODIF = "mk6GeneralStrenghtModifier";
+	public static final String KEY_MK6_BACK_MODIF = "mk6BackBlockResistanceModifier";
+	public static final String KEY_MK6_SELF_MODIF = "mk6SelfFixationModifier";
+
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
-		
+
 		if(!rules.getBoolean(KEY_SAVE_DIALS)) {
 			rules.setOrCreateGameRule(KEY_PASSIVE_COOLING, "1.0");
 			rules.setOrCreateGameRule(KEY_COLUMN_HEAT_FLOW, "0.2");
@@ -50,8 +54,16 @@ public static final String KEY_SAVE_DIALS = "dialSaveDials";
 			rules.setOrCreateGameRule(KEY_REASIM_BOILERS, "false");
 			rules.setOrCreateGameRule(KEY_REASIM_BOILER_SPEED, "0.05");
 		}
+		if(!rules.getBoolean(KEY_SAVE_MK6)) {
+			rules.setOrCreateGameRule(KEY_MK6_GEN_MODIF, "0.3");
+			rules.setOrCreateGameRule(KEY_MK6_BACK_MODIF, "1.0");
+			rules.setOrCreateGameRule(KEY_MK6_SELF_MODIF, "0.1");
+			rules.setOrCreateGameRule(KEY_SAVE_MK6, "true");
+		}
 	}
-	
+	public static double getGamerule(World world,String key){
+		return shittyWorkaroundParseDouble(world.getGameRules().getString(key),1.0);
+	}
 	/**
 	 * Returns the amount of heat per tick removed from components passively
 	 * @param world
