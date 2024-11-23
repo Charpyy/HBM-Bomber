@@ -30,6 +30,7 @@ public class RBMKDials {
 	public static final String KEY_MK6_GEN_MODIF = "mk6GeneralStrenghtModifier";
 	public static final String KEY_MK6_BACK_MODIF = "mk6BackBlockResistanceModifier";
 	public static final String KEY_MK6_SELF_MODIF = "mk6SelfFixationModifier";
+	public static final String KEY_MK6_RAY_MODIF = "mk6RayDensityModifier";
 
 	public static void createDials(World world) {
 		GameRules rules = world.getGameRules();
@@ -58,6 +59,7 @@ public class RBMKDials {
 			rules.setOrCreateGameRule(KEY_MK6_GEN_MODIF, "0.3");
 			rules.setOrCreateGameRule(KEY_MK6_BACK_MODIF, "1.0");
 			rules.setOrCreateGameRule(KEY_MK6_SELF_MODIF, "0.1");
+			rules.setOrCreateGameRule(KEY_MK6_RAY_MODIF, "2.5");
 			rules.setOrCreateGameRule(KEY_SAVE_MK6, "true");
 		}
 	}

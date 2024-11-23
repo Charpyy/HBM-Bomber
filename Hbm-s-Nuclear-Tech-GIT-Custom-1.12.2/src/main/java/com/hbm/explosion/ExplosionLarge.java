@@ -136,26 +136,27 @@ public class ExplosionLarge {
 					}
 					
 					if(block != Blocks.AIR) {
-						
-						if(rand.nextDouble()*block.getExplosionResistance(null)<1)
-							continue;
-			            
-			            EntityRubble rubble = new EntityRubble(world);
-						rubble.posX = x0 + 0.5F;
-						rubble.posY = y0 + 0.5F;
-						rubble.posZ = z0 + 0.5F;
-						rubble.setMetaBasedOnBlock(block, block.getMetaFromState(blockstate));
-						
-						Vec3d vec4 = new Vec3d(posX - rubble.posX, posY - rubble.posY, posZ - rubble.posZ);
-						vec4.normalize();
 
-						rubble.motionX = vec4.x * vel;
-						rubble.motionY = vec4.y * vel;
-						rubble.motionZ = vec4.z * vel;
-						
-						world.spawnEntity(rubble);
-					
-						world.setBlockToAir(pos);
+						if (rand.nextDouble() * block.getExplosionResistance(null) *0.001 < 1){ //A remonter peut etre
+
+
+							EntityRubble rubble = new EntityRubble(world);
+							rubble.posX = x0 + 0.5F;
+							rubble.posY = y0 + 0.5F;
+							rubble.posZ = z0 + 0.5F;
+							rubble.setMetaBasedOnBlock(block, block.getMetaFromState(blockstate));
+
+							Vec3d vec4 = new Vec3d(posX - rubble.posX, posY - rubble.posY, posZ - rubble.posZ);
+							vec4.normalize();
+
+							rubble.motionX = vec4.x * vel;
+							rubble.motionY = vec4.y * vel;
+							rubble.motionZ = vec4.z * vel;
+
+							world.spawnEntity(rubble);
+
+							world.setBlockToAir(pos);
+						}
 						break;
 					}
 				}

@@ -56,7 +56,7 @@ public class ExplosionLargeRay {
 		this.radius = radius;
 
 		// Total number of points
-		this.gspNumMax = (int)(5.0 * Math.PI * Math.pow(this.radius, 2));
+		this.gspNumMax = (int)(RBMKDials.getGamerule(this.world,RBMKDials.KEY_MK6_RAY_MODIF) * Math.PI * Math.pow(this.radius, 2)); ///ancien = 2.5
 		this.gspNum = 1;
 
 		// The beginning of the generalized spiral points
@@ -150,7 +150,7 @@ public class ExplosionLargeRay {
 					pseudoresistance[i]=actres;
 				}else{
 					//on prend en gros le truc le plus faible : la resistance du bloc ou celle de son accroche (on considère qu'il est 10% attaché par lui même)
-					pseudoresistance[i]=1/(1/actres+1/(dev2*actres+dev3*pseudoresistance[i+1]));
+					pseudoresistance[i]=2/(1/actres+1/(dev2*actres+dev3*pseudoresistance[i+1]));
 					isair[i]= b == Blocks.AIR;
 				}
 			}

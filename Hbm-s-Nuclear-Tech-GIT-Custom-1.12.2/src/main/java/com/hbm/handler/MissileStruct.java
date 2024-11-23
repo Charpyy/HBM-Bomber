@@ -57,7 +57,7 @@ public class MissileStruct {
 	public void writeToByteBuffer(ByteBuf buf) {
 
 
-		if(chip != null && warhead.type == PartType.CHIP)
+		if(chip != null && chip.type == PartType.CHIP)
 			buf.writeInt(Item.getIdFromItem(chip));
 		else
 			buf.writeInt(0);

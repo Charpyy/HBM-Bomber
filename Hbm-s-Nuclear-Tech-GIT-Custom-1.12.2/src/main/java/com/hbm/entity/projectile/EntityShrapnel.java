@@ -86,7 +86,7 @@ public class EntityShrapnel extends EntityThrowable {
 					}
 					
 					if(motionY > 0) {
-						ExplosionNT explosion = new ExplosionNT(world, null, mop.getBlockPos().getX() + 0.5, mop.getBlockPos().getY() + 0.5, mop.getBlockPos().getZ() + 0.5, 7);
+						ExplosionNT explosion = new ExplosionNT(world, null, mop.getBlockPos().getX() + 0.5, mop.getBlockPos().getY() + 0.5, mop.getBlockPos().getZ() + 0.5, 2); ///7 avant
 						explosion.addAttrib(ExAttrib.NODROP);
 						explosion.addAttrib(ExAttrib.LAVA_V);
 						explosion.addAttrib(ExAttrib.NOSOUND);
