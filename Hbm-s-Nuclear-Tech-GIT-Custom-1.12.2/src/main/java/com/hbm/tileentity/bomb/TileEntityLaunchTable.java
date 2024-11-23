@@ -23,6 +23,7 @@ import com.hbm.packet.FluidTankPacket;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.openwar.hbmapi.CSVManager.CSVReader;
 import com.openwar.hbmapi.CSVManager.HBMController;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.common.Mod;
@@ -220,13 +221,15 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		return false;
 	}
 	public boolean checkRP(EntityLivingBase responsible, String missile, int point, int xTarget, int zTarget) {
-		if(HBMController.generalController==null){
-			HBMController.generalController = new HBMController();
-		}
+		HBMController.createControllerIfNotExist();
 		String uniqueId = String.valueOf(responsible.getUniqueID());
-		boolean agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
+		CSVReader.BooleanResponse agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
 		MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree?"YES":"NO")+" !");
-		return agree;
+		if(agree!=null){
+			return agree.getValue();
+		}else{
+			return true; ///POUR LES TEST, FALSE MIEUX
+		}
 	}
 	public void launch() {}
 	public void launch(EntityLivingBase responsible) {

@@ -17,7 +17,7 @@ public class HBMController {
         factionFile = new File(new File(".").getAbsolutePath() + "/plugins/OpenWar-Core/hbm.csv");
         csvReader = new CSVReader(factionFile);
     }
-    public boolean askLvl(String playerId, int level){
+    public CSVReader.BooleanResponse askLvl(String playerId, int level){
         UUID requestId=UUID.randomUUID();
         String[] data= {String.valueOf(level)};
         csvWriter.writeCSV(requestId.toString(),"checkLvl",playerId,data);
@@ -37,9 +37,9 @@ public class HBMController {
                 break;
             }
         }
-        return csvReader.hasResponse(requestId)?((CSVReader.BooleanResponse)csvReader.popResponse(requestId)).getValue():null;
+        return csvReader.hasResponse(requestId)?(CSVReader.BooleanResponse)csvReader.popResponse(requestId):null;
     }
-    public boolean askRP(String playerId, String missile, int value, int x, int z) {
+    public CSVReader.BooleanResponse askRP(String playerId, String missile, int value, int x, int z) {
         UUID requestId=UUID.randomUUID();
         String[] data= {missile, String.valueOf(value), String.valueOf(x), String.valueOf(z)};
         csvWriter.writeCSV(requestId.toString(),"checkRP",playerId,data);
@@ -59,9 +59,14 @@ public class HBMController {
                 break;
             }
         }
-        return csvReader.hasResponse(requestId)?((CSVReader.BooleanResponse)csvReader.popResponse(requestId)).getValue():null;
+        return csvReader.hasResponse(requestId)?(CSVReader.BooleanResponse)csvReader.popResponse(requestId):null;
     }
     public void checkResponses(){
 
+    }
+    public static void createControllerIfNotExist(){
+        if(HBMController.generalController==null){
+            HBMController.generalController = new HBMController();
+        }
     }
 }
