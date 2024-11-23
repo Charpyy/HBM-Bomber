@@ -224,10 +224,11 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		HBMController.createControllerIfNotExist();
 		String uniqueId = String.valueOf(responsible.getUniqueID());
 		CSVReader.BooleanResponse agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
-		MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree?"YES":"NO")+" !");
 		if(agree!=null){
+			MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree.getValue()?"YES":"NO")+" !");
 			return agree.getValue();
 		}else{
+			MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was NO ANSWER !");
 			return true; ///POUR LES TEST, FALSE MIEUX
 		}
 	}

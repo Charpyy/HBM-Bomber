@@ -2,6 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.entity.missile.*;
 import com.hbm.interfaces.IResponsiveBomb;
+import com.openwar.hbmapi.CSVManager.CSVReader;
 import net.minecraft.entity.EntityLivingBase;
 import org.apache.logging.log4j.Level;
 
@@ -109,9 +110,14 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 			HBMController.generalController = new HBMController();
 		}
 		String uniqueId = String.valueOf(responsible.getUniqueID());
-		boolean agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
-		MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree?"YES":"NO")+" !");
-		return agree;
+		CSVReader.BooleanResponse agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
+		if(agree!=null){
+			MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree.getValue()?"YES":"NO")+" !");
+			return agree.getValue();
+		}else{
+			MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was NO ANSWER !");
+			return true; ///POUR LES TEST, FALSE MIEUX
+		}
 	}
 
 	@Override

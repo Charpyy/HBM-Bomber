@@ -24,6 +24,7 @@ import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.TEMissileMultipartPacket;
 import com.hbm.render.amlfrom1710.Vec3;
 import com.hbm.tileentity.TileEntityLoadedBase;
+import com.openwar.hbmapi.CSVManager.CSVReader;
 import com.openwar.hbmapi.CSVManager.HBMController;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.fml.common.Optional;
@@ -234,9 +235,14 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 			HBMController.generalController = new HBMController();
 		}
 		String uniqueId = String.valueOf(responsible.getUniqueID());
-		boolean agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
-		MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree?"YES":"NO")+" !");
-		return agree;
+		CSVReader.BooleanResponse agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
+		if(agree!=null){
+			MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree.getValue()?"YES":"NO")+" !");
+			return agree.getValue();
+		}else{
+			MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was NO ANSWER !");
+			return true; ///POUR LES TEST, FALSE MIEUX
+		}
 	}
 	public void launch(EntityLivingBase responsible) {
 		MissileStruct multipart=getStruct(inventory.getStackInSlot(0));
