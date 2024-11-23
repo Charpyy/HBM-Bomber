@@ -37,7 +37,7 @@ public class HBMController {
                 break;
             }
         }
-        return ((CSVReader.BooleanResponse)csvReader.popResponse(requestId)).getValue();
+        return csvReader.hasResponse(requestId)?((CSVReader.BooleanResponse)csvReader.popResponse(requestId)).getValue():null;
     }
     public boolean askRP(String playerId, String missile, int value, int x, int z) {
         UUID requestId=UUID.randomUUID();
@@ -59,7 +59,7 @@ public class HBMController {
                 break;
             }
         }
-        return ((CSVReader.BooleanResponse)csvReader.popResponse(requestId)).getValue();
+        return csvReader.hasResponse(requestId)?((CSVReader.BooleanResponse)csvReader.popResponse(requestId)).getValue():null;
     }
     public void checkResponses(){
 

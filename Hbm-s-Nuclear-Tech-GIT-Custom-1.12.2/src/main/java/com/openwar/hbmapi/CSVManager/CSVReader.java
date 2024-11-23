@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -17,6 +18,7 @@ public class CSVReader {
     public CSVReader(File csvFile) {
         this.csvFile = csvFile;
         this.lastModifiedTime = csvFile.lastModified();
+        this.responseList=new HashMap<>();
     }
 
     public void checkForImmediateModification() {
@@ -40,6 +42,7 @@ public class CSVReader {
                     }
                 }
             }
+            clearCSVContents();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,7 +51,6 @@ public class CSVReader {
     public void clearCSVContents() {
         try (FileWriter writer = new FileWriter(csvFile)) {
             writer.write("");
-            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

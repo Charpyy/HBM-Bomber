@@ -16,7 +16,7 @@ public class CSVWriter {
 
             writer.write(requestId + "," + action + ","+playerId);
             for(int i=0;i<datas.length;i++){
-                writer.write(datas[i]+",");
+                writer.write(","+datas[i]);
             }
             writer.write("\n");
         } catch (IOException ex) {
