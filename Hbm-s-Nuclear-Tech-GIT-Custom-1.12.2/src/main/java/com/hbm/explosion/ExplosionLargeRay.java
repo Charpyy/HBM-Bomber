@@ -126,6 +126,7 @@ public class ExplosionLargeRay {
 		double dev1= RBMKDials.getGamerule(this.world,RBMKDials.KEY_MK6_GEN_MODIF);
 		float dev2= (float) RBMKDials.getGamerule(this.world,RBMKDials.KEY_MK6_BACK_MODIF);
 		float dev3= (float) RBMKDials.getGamerule(this.world,RBMKDials.KEY_MK6_SELF_MODIF);
+		float dev4= 1.0F+ 1.0F/(dev2+dev3);
 		while(this.gspNumMax >= this.gspNum){
 			// Get Cartesian coordinates for spherical coordinates
 			vec = this.getSpherical2cartesian();
