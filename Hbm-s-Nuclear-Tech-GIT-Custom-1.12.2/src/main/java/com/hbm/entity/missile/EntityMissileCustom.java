@@ -109,7 +109,13 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 		this.health=(int)(warhead.health+fuselage.health+thruster.health+(fins==null?0:fins.health));
         this.setSize(1.5F, 11F);
 	}
-	
+	public void redirectMissile(int tX,int tZ){
+		targetX = tX;
+		targetZ = tZ;
+		Vec3d vector = new Vec3d(targetX - startX, 0, targetZ - startZ);
+		accelXZ = decelY = 1/vector.lengthVector();
+		decelY *= 2;
+	}
 	@Override
 	public boolean canBeCollidedWith() {
 		return true;

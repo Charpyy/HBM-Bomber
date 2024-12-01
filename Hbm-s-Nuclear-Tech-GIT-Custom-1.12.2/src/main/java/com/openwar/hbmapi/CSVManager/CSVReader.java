@@ -38,7 +38,7 @@ public class CSVReader {
                 String[] datas=line.split(",");
                 if(datas.length>=2){
                     if(datas[0]=="bool"){
-                        responseList.put(UUID.fromString(datas[1]),new BooleanResponse(datas));
+                        responseList.put(UUID.fromString(datas[1]), new BooleanResponse(datas));
                     }
                 }
             }
@@ -65,15 +65,11 @@ public class CSVReader {
     public void resetResponse() {
         responseList.clear();
     }
-    public abstract class Response{}
-    public class BooleanResponse extends Response{
-        private boolean value;
+    public abstract static class Response{}
+    public static class BooleanResponse extends Response{
+        private final boolean value;
         public BooleanResponse(String[] datas){
-            if(datas[3]=="true"){
-                value=true;
-            }else{
-                value=false;
-            }
+            value=datas[3].equals("true");
         }
         public boolean getValue(){
             return value;

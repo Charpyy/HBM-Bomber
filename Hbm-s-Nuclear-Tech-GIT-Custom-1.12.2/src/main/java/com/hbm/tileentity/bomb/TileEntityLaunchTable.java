@@ -26,7 +26,6 @@ import com.hbm.tileentity.TileEntityLoadedBase;
 import com.openwar.hbmapi.CSVManager.CSVReader;
 import com.openwar.hbmapi.CSVManager.HBMController;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Optional;
 
 import api.hbm.energy.IEnergyUser;
@@ -223,7 +222,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 	public boolean checkRP(EntityLivingBase responsible, String missile, int point, int xTarget, int zTarget) {
 		HBMController.createControllerIfNotExist();
 		String uniqueId = String.valueOf(responsible.getUniqueID());
-		CSVReader.BooleanResponse agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
+		CSVReader.BooleanResponse agree = null;
 		if(agree!=null){
 			MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree.getValue()?"YES":"NO")+" !");
 			return agree.getValue();
@@ -271,14 +270,28 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		}
 
 		EntityMissileCustom missile = new EntityMissileCustom(world, pos.getX() + 0.5F, pos.getY() + 1.5F, pos.getZ() + 0.5F, tXm, tZm, multipart);
-		if(checkRP(responsible,missilename,neededpoints,tX,tZ)){
-			world.spawnEntity(missile);
-			subtractFuel();
-			clearingTimer = clearingDuraction;
-			inventory.setStackInSlot(0, ItemStack.EMPTY);
+		HBMController.createControllerIfNotExist();
+		MissileLauncher action=new MissileLauncher(missile);
+		String uniqueId = String.valueOf(responsible.getUniqueID());
+		HBMController.generalController.askRP(uniqueId, missilename, neededpoints, tX, tZ,action);
+	}
+	class MissileLauncher extends HBMController.Action<CSVReader.BooleanResponse> {
+		EntityMissileCustom missile;
+		public MissileLauncher(EntityMissileCustom missile){
+			this.missile=missile;
+		}
+
+		@Override
+		public void execute(CSVReader.BooleanResponse response) {
+			MainRegistry.logger.log(Level.INFO, "[MISSILE] the answer was"+(response.getValue()?"YES":"NO"));
+			if(response.getValue()){
+				world.spawnEntity(missile);
+				subtractFuel();
+				clearingTimer = clearingDuraction;
+				inventory.setStackInSlot(0, ItemStack.EMPTY);
+			}
 		}
 	}
-	
 	private boolean hasFuel() {
 
 		return solidState() != 0 && liquidState() != 0 && oxidizerState() != 0;

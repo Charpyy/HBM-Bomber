@@ -2,6 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.entity.missile.*;
 import com.hbm.interfaces.IResponsiveBomb;
+import com.hbm.tileentity.bomb.TileEntityLaunchTable;
 import com.openwar.hbmapi.CSVManager.CSVReader;
 import net.minecraft.entity.EntityLivingBase;
 import org.apache.logging.log4j.Level;
@@ -105,20 +106,6 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 		return false;
 	}
 
-    public boolean checkRP(EntityLivingBase responsible, String missile, int point, int xTarget, int zTarget) {
-        if(HBMController.generalController==null){
-			HBMController.generalController = new HBMController();
-		}
-		String uniqueId = String.valueOf(responsible.getUniqueID());
-		CSVReader.BooleanResponse agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
-		if(agree!=null){
-			MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree.getValue()?"YES":"NO")+" !");
-			return agree.getValue();
-		}else{
-			MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was NO ANSWER !");
-			return true; ///POUR LES TEST, FALSE MIEUX
-		}
-	}
 
 	@Override
 	public void explodeResponsive(World world, BlockPos pos, EntityLivingBase responsible){
@@ -143,7 +130,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 			EntityMissileBaseAdvanced missile=null;
 			boolean bypassconfirm=false;
 			int neededpoints=0;
-			String missileName="";
+			String missilename="";
 			/*if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_generic && entity.power >= 75000) {
 				missile = new EntityMissileGeneric(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(1.5D);
@@ -252,13 +239,13 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				missile = new EntityMissileEMP(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(2.0D);
 				neededpoints=4;
-				missileName="missile_emp";
+				missilename="EMP WEAK";
 			}
 			if (entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_emp_strong && entity.power >= 75000) {
 				missile = new EntityMissileEMPStrong(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
 				missile.setAcceleration(1.25D);
 				neededpoints=6;
-				missileName="missile_emp_strong";
+				missilename="EMP STRONG";
 			}
 			/*if(entity.inventory.getStackInSlot(0).getItem() == ModItems.missile_volcano) {
 				missile = new EntityMissileVolcano(world, x + 0.5F, y + 1.5F, z + 0.5F, xCoord, zCoord);
@@ -292,6 +279,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				bypassconfirm=true;
 			}
 			if(missile!=null) {
+				missile.setResponsiveEntity(responsible);
 				if (bypassconfirm || world.isRemote) {
 					entity.power -= 75000;
 					entity.inventory.setStackInSlot(0, ItemStack.EMPTY);
@@ -302,17 +290,41 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 				if (!world.isRemote){
 					if(bypassconfirm){
 						world.spawnEntity(missile);
-						missile.setResponsiveEntity(responsible);
 					}else{
-						if(checkRP(responsible, missileName, neededpoints, xCoord, zCoord)){
-							world.spawnEntity(missile);
-							missile.setResponsiveEntity(responsible);
-						}
+						HBMController.createControllerIfNotExist();
+						MissileLauncher action= new MissileLauncher(missile, world, pos, entity);
+						String uniqueId = String.valueOf(responsible.getUniqueID());
+						HBMController.generalController.askRP(uniqueId, missilename, neededpoints, xCoord, zCoord,action);
 					}
 				}
 			}
 		}
 	}
+	static class MissileLauncher extends HBMController.Action<CSVReader.BooleanResponse> {
+		EntityMissileBaseAdvanced missile;
+		World world;
+		TileEntityLaunchPad te;
+		BlockPos pos;
+		public MissileLauncher(EntityMissileBaseAdvanced missile, World world, BlockPos position, TileEntityLaunchPad entity){
+			this.missile=missile;
+			this.world=world;
+			this.pos=position;
+			this.te=entity;
+		}
+
+		@Override
+		public void execute(CSVReader.BooleanResponse response) {
+			MainRegistry.logger.log(Level.INFO, "[MISSILE] the answer was"+(response.getValue()?"YES":"NO"));
+			if(response.getValue()){
+				world.spawnEntity(missile);
+				te.power -= 75000;
+				te.inventory.setStackInSlot(0, ItemStack.EMPTY);
+				world.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 2.0F, 1.0F);
+				te.clearingTimer = TileEntityLaunchPad.clearingDuraction;
+			}
+		}
+	}
+
 	@Override
 	public void explode(World world, BlockPos pos) {
 		TileEntityLaunchPad entity = (TileEntityLaunchPad) world.getTileEntity(pos);

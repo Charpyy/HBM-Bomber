@@ -17,7 +17,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -35,7 +34,6 @@ import li.cil.oc.api.network.SimpleComponent;
 
 @Optional.InterfaceList({@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")})
 public class TileEntityLaunchPad extends TileEntityLoadedBase implements ITickable, IEnergyUser, SimpleComponent {
-	public static HBMController hbmController;
 	public ItemStackHandler inventory;
 
 	public long power;
@@ -102,8 +100,8 @@ public class TileEntityLaunchPad extends TileEntityLoadedBase implements ITickab
 	@Override
 	public void update() {
 		if (!world.isRemote) {
-			if(hbmController!=null){
-				hbmController.checkResponses();
+			if(HBMController.generalController!=null) {
+				HBMController.generalController.checkResponses();
 			}
 			if(clearingTimer > 0) clearingTimer--;
 			this.updateConnections();

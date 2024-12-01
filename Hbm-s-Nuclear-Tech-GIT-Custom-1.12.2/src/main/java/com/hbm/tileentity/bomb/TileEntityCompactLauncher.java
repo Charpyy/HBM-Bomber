@@ -135,7 +135,9 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	public void update() {
 		updateTypes();
 		if(!world.isRemote) {
-
+			if(HBMController.generalController!=null) {
+				HBMController.generalController.checkResponses();
+			}
 			if(clearingTimer > 0) clearingTimer--;
 			if(this.inputValidForTank(0, 2))
 				if(FFUtils.fillFromFluidContainer(inventory, tanks[0], 2, 6))
@@ -230,20 +232,6 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	public void launch() {
 
 	}
-	public boolean checkRP(EntityLivingBase responsible, String missile, int point, int xTarget, int zTarget) {
-		if(HBMController.generalController==null){
-			HBMController.generalController = new HBMController();
-		}
-		String uniqueId = String.valueOf(responsible.getUniqueID());
-		CSVReader.BooleanResponse agree = HBMController.generalController.askRP(uniqueId, missile, point, xTarget, zTarget);
-		if(agree!=null){
-			MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was"+(agree.getValue()?"YES":"NO")+" !");
-			return agree.getValue();
-		}else{
-			MainRegistry.logger.log(Level.INFO, "[MISSILE] "+responsible.getUniqueID()+" tried to launch missile to " + xTarget + " / " + zTarget + " and the answer was NO ANSWER !");
-			return true; ///POUR LES TEST, FALSE MIEUX
-		}
-	}
 	public void launch(EntityLivingBase responsible) {
 		MissileStruct multipart=getStruct(inventory.getStackInSlot(0));
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 10.0F, 1.0F);
@@ -270,14 +258,28 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		}
 
 		EntityMissileCustom missile = new EntityMissileCustom(world, pos.getX() + 0.5F, pos.getY() + 1.5F, pos.getZ() + 0.5F, tXm, tZm, multipart);
-		if(checkRP(responsible,missilename,neededpoints,tX,tZ)){
-			world.spawnEntity(missile);
-			subtractFuel();
-			clearingTimer = clearingDuraction;
-			inventory.setStackInSlot(0, ItemStack.EMPTY);
+		HBMController.createControllerIfNotExist();
+		MissileLauncher action=new MissileLauncher(missile);
+		String uniqueId = String.valueOf(responsible.getUniqueID());
+		HBMController.generalController.askRP(uniqueId, missilename, neededpoints, tX, tZ,action);
+	}
+	class MissileLauncher extends HBMController.Action<CSVReader.BooleanResponse> {
+		EntityMissileCustom missile;
+		public MissileLauncher(EntityMissileCustom missile){
+			this.missile=missile;
+		}
+
+		@Override
+		public void execute(CSVReader.BooleanResponse response) {
+			MainRegistry.logger.log(Level.INFO, "[MISSILE] the answer was"+(response.getValue()?"YES":"NO"));
+			if(response.getValue()){
+				world.spawnEntity(missile);
+				subtractFuel();
+				clearingTimer = clearingDuraction;
+				inventory.setStackInSlot(0, ItemStack.EMPTY);
+			}
 		}
 	}
-
 	private boolean hasFuel() {
 
 		return solidState() != 0 && liquidState() != 0 && oxidizerState() != 0;
