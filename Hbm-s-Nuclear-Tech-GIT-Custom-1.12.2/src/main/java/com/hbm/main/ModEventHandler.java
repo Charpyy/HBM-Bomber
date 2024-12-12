@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import com.openwar.hbmapi.CSVManager.HBMController;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.Level;
 
@@ -709,6 +710,8 @@ public class ModEventHandler {
 
 			/// GHOST FIX END ///
 			TileEntityMachineRadar.registerdentities.put(player,player.world.getTotalWorldTime() + 20);
+			HBMController.createControllerIfNotExist();
+			HBMController.generalController.checkResponses();
 			/// BETA HEALTH START ///
 			if(Library.hasInventoryItem(player.inventory, ModItems.beta)) {
 				if(player.getFoodStats().getFoodLevel() < 10) {
