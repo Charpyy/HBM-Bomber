@@ -8,10 +8,14 @@ import com.hbm.items.machine.ItemCassette;
 import com.hbm.items.machine.ItemChemistryTemplate;
 import com.hbm.items.machine.ItemForgeFluidIdentifier;
 import com.hbm.lib.Library;
+import com.openwar.hbmapi.CSVManager.CSVReader;
+import com.openwar.hbmapi.CSVManager.HBMController;
+import com.openwar.hbmapi.LevelManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
@@ -57,7 +61,25 @@ public class ItemFolderPacket implements IMessage {
 		}
 		buf.writeBytes(buffer);
 	}
+	static class AssemblyMachine extends HBMController.Action<CSVReader.BooleanResponse> {
+		EntityPlayer p;
+		ItemStack stack;
+		public AssemblyMachine(EntityPlayer p,ItemStack stack){
+			this.p=p;
+			this.stack=stack;
+		}
 
+		@Override
+		public void execute(CSVReader.BooleanResponse response) {
+			if(response.getValue()){
+				Library.consumeInventoryItem(p.inventory, Items.PAPER);
+				Library.consumeInventoryItem(p.inventory, Items.DYE);
+				if (!p.inventory.addItemStackToInventory(stack.copy())) {
+					p.dropItem(stack, true);
+				}
+			}
+		}
+	}
 	public static class Handler implements IMessageHandler<ItemFolderPacket, IMessage> {
 
 		@Override
@@ -88,12 +110,20 @@ public class ItemFolderPacket implements IMessage {
 					}
 				}
 				if(stack.getItem() instanceof ItemAssemblyTemplate) {
-					if(HbmDatabaseOpenwar.canUseItem(p,AssemblerRecipes.getOutputFromTempate(stack).getItem())){
-						if(Library.hasInventoryItem(p.inventory, Items.PAPER) && Library.hasInventoryItem(p.inventory, Items.DYE)) {
+					if(Library.hasInventoryItem(p.inventory, Items.PAPER) && Library.hasInventoryItem(p.inventory, Items.DYE)) {
+						Item craftedItem = AssemblerRecipes.getOutputFromTempate(stack).getItem();
+						LevelManager.regiseterIfNot();
+						if(LevelManager.isItemLeveled(craftedItem)) {
+							int level=LevelManager.getItemLevel(craftedItem);
+							AssemblyMachine action=new AssemblyMachine(p,stack);
+							HBMController.createControllerIfNotExist();
+							HBMController.generalController.askLvl(p.getUniqueID().toString(),level,action);
+						} else {
 							Library.consumeInventoryItem(p.inventory, Items.PAPER);
 							Library.consumeInventoryItem(p.inventory, Items.DYE);
-							if(!p.inventory.addItemStackToInventory(stack.copy()))
+							if (!p.inventory.addItemStackToInventory(stack.copy())) {
 								p.dropItem(stack, true);
+							}
 						}
 					}
 				}

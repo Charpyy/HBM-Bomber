@@ -20,11 +20,13 @@ public class HBMController {
         waitingrequests=new ConcurrentHashMap<>();
         expirationtime=new ConcurrentHashMap<>();
     }
-    public CSVReader.BooleanResponse askLvl(String playerId, int level){
+    public void askLvl(String playerId, int level, Action action){
         UUID requestId=UUID.randomUUID();
         String[] data= {String.valueOf(level)};
+        waitingrequests.put(requestId,action);
+        expirationtime.put(requestId,System.currentTimeMillis()+5000);
         csvWriter.writeCSV(requestId.toString(),"checkLvl",playerId,data);
-
+/*
         long startTime = System.currentTimeMillis();
         long timeout = 5000;
 
@@ -40,7 +42,7 @@ public class HBMController {
                 break;
             }
         }
-        return csvReader.hasResponse(requestId)?(CSVReader.BooleanResponse)csvReader.popResponse(requestId):null;
+        return csvReader.hasResponse(requestId)?(CSVReader.BooleanResponse)csvReader.popResponse(requestId):null;*/
     }
     public void askRP(String playerId, String missile, int value, int x, int z, Action action) {
         UUID requestId=UUID.randomUUID();

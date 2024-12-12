@@ -779,7 +779,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 		this.s5 = 0.2D * i;
 		this.s6 = 0.1D * i;
 		this.fallingRadius = craterRadius;
-		this.doDrop = this.fallingRadius > 20;
+		this.doDrop = this.fallingRadius > 50;
 	}
 
 	public int getScale() {
