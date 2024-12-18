@@ -37,7 +37,8 @@ public class CSVReader {
             for (String line : lines) {
                 String[] datas=line.split(",");
                 if(datas.length>=2){
-                    if(datas[0]=="bool"){
+                    if(datas[0].equals("bool")){
+                        System.out.println("Bool response GOT : "+datas[1]);
                         responseList.put(UUID.fromString(datas[1]), new BooleanResponse(datas));
                     }
                 }
@@ -67,12 +68,42 @@ public class CSVReader {
     }
     public abstract static class Response{}
     public static class BooleanResponse extends Response{
-        private final boolean value;
+        protected final boolean value;
         public BooleanResponse(String[] datas){
-            value=datas[3].equals("true");
+            value=datas[2].equals("true");
         }
         public boolean getValue(){
             return value;
+        }
+    }
+    public static class TrolleanResponse extends BooleanResponse{
+        protected final boolean troll;
+        protected int trollX=0;
+        protected int trollZ=0;
+        public TrolleanResponse(String[] datas){
+            super(datas);
+            if(datas.length>=6){
+                troll=datas[3].equals("true");
+                trollX=Integer.parseInt(datas[4]);
+                trollZ=Integer.parseInt(datas[5]);
+            }else{
+                troll=false;
+            }
+        }
+        public boolean getValue(){
+            return value;
+        }
+
+        public boolean isTroll() {
+            return troll;
+        }
+
+        public int getTrollX() {
+            return trollX;
+        }
+
+        public int getTrollZ() {
+            return trollZ;
         }
     }
 }

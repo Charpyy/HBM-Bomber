@@ -117,7 +117,11 @@ public class ItemFolderPacket implements IMessage {
 							int level=LevelManager.getItemLevel(craftedItem);
 							AssemblyMachine action=new AssemblyMachine(p,stack);
 							HBMController.createControllerIfNotExist();
-							HBMController.generalController.askLvl(p.getUniqueID().toString(),level,action);
+							if(LevelManager.isTeam(craftedItem)){
+								HBMController.generalController.askTmLvl(p.getUniqueID().toString(),level,action);
+							}else {
+								HBMController.generalController.askLvl(p.getUniqueID().toString(),level,action);
+							}
 						} else {
 							Library.consumeInventoryItem(p.inventory, Items.PAPER);
 							Library.consumeInventoryItem(p.inventory, Items.DYE);

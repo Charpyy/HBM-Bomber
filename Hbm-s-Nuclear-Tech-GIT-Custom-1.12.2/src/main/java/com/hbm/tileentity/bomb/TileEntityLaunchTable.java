@@ -74,6 +74,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 	public boolean needsUpdate;
 	public PartSize padSize;
 	public int height;
+	public boolean inLaunching=false;
 	
 	public MissileStruct load;
 
@@ -214,7 +215,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 	
 	public boolean canLaunch() {
 		
-		if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel() && clearingTimer == 0)
+		if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel() && clearingTimer == 0 && !inLaunching)
 			return true;
 		
 		return false;
@@ -273,6 +274,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		HBMController.createControllerIfNotExist();
 		MissileLauncher action=new MissileLauncher(missile);
 		String uniqueId = String.valueOf(responsible.getUniqueID());
+		inLaunching=true;
 		HBMController.generalController.askRP(uniqueId, missilename, neededpoints, tX, tZ,action);
 	}
 	class MissileLauncher extends HBMController.Action<CSVReader.BooleanResponse> {
@@ -290,6 +292,11 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 				clearingTimer = clearingDuraction;
 				inventory.setStackInSlot(0, ItemStack.EMPTY);
 			}
+			inLaunching=false;
+		}
+		@Override
+		public void reject(){
+			inLaunching=false;
 		}
 	}
 	private boolean hasFuel() {

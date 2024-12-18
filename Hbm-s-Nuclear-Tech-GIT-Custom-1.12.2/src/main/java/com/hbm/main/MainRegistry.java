@@ -1100,7 +1100,7 @@ public class MainRegistry {
 		EngineRecipes.registerEngineRecipes();
 		FluidCombustionRecipes.registerFluidCombustionRecipes();
 		HbmDetox.init();
-		HbmDatabaseOpenwar.registerLevels();
+		//HbmDatabaseOpenwar.registerLevels();
 
 		FluidContainerRegistry.registerContainer(Item.getItemFromBlock(ModBlocks.lox_barrel), ModItems.tank_steel, new FluidStack(ModForgeFluids.oxygen, 10000));
 		FluidContainerRegistry.registerContainer(Item.getItemFromBlock(ModBlocks.pink_barrel), ModItems.tank_steel, new FluidStack(ModForgeFluids.kerosene, 10000));

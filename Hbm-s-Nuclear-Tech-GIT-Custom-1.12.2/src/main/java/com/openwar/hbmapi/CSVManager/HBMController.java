@@ -44,6 +44,13 @@ public class HBMController {
         }
         return csvReader.hasResponse(requestId)?(CSVReader.BooleanResponse)csvReader.popResponse(requestId):null;*/
     }
+    public void askTmLvl(String playerId, int level, Action action){
+        UUID requestId=UUID.randomUUID();
+        String[] data= {String.valueOf(level)};
+        waitingrequests.put(requestId,action);
+        expirationtime.put(requestId,System.currentTimeMillis()+5000);
+        csvWriter.writeCSV(requestId.toString(),"checkTmLvl",playerId,data);
+    }
     public void askRP(String playerId, String missile, int value, int x, int z, Action action) {
         UUID requestId=UUID.randomUUID();
         String[] data= {missile, String.valueOf(value), String.valueOf(x), String.valueOf(z)};
@@ -79,8 +86,9 @@ public class HBMController {
                     waitingrequests.get(request).execute(csvReader.popResponse(request));
                     waitingrequests.remove(request);
                     expirationtime.remove(request);
-                } else if (expirationtime.get(request)>System.currentTimeMillis()) {
-                    waitingrequests.remove(request);
+                } else if (expirationtime.get(request)<System.currentTimeMillis()) {
+                    Action action=waitingrequests.remove(request);
+                    action.reject();
                     expirationtime.remove(request);
                     System.out.println("Request "+request.toString()+" expired !");
                 }
@@ -94,5 +102,7 @@ public class HBMController {
     }
     public static abstract class Action<T extends CSVReader.Response>{
         public abstract void execute(T response);
+
+        public void reject() {}
     }
 }
