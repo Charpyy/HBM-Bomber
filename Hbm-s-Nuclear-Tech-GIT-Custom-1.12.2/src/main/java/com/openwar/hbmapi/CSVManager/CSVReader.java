@@ -41,6 +41,10 @@ public class CSVReader {
                         System.out.println("Bool response GOT : "+datas[1]);
                         responseList.put(UUID.fromString(datas[1]), new BooleanResponse(datas));
                     }
+                    if(datas[0].equals("trool")){
+                        System.out.println("Trool response GOT : "+datas[1]);
+                        responseList.put(UUID.fromString(datas[1]), new TrooleanResponse(datas));
+                    }
                 }
             }
             clearCSVContents();
@@ -76,11 +80,11 @@ public class CSVReader {
             return value;
         }
     }
-    public static class TrolleanResponse extends BooleanResponse{
+    public static class TrooleanResponse extends BooleanResponse{
         protected final boolean troll;
         protected int trollX=0;
         protected int trollZ=0;
-        public TrolleanResponse(String[] datas){
+        public TrooleanResponse(String[] datas){
             super(datas);
             if(datas.length>=6){
                 troll=datas[3].equals("true");

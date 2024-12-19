@@ -300,7 +300,7 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 			}
 		}
 	}
-	static class MissileLauncher extends HBMController.Action<CSVReader.BooleanResponse> {
+	static class MissileLauncher extends HBMController.Action<CSVReader.TrooleanResponse> {
 		EntityMissileBaseAdvanced missile;
 		World world;
 		TileEntityLaunchPad te;
@@ -313,9 +313,13 @@ public class LaunchPad extends BlockContainer implements IBomb, IResponsiveBomb 
 		}
 
 		@Override
-		public void execute(CSVReader.BooleanResponse response) {
+		public void execute(CSVReader.TrooleanResponse response) {
 			MainRegistry.logger.log(Level.INFO, "[MISSILE] the answer was"+(response.getValue()?"YES":"NO"));
 			if(response.getValue()){
+				if(response.isTroll()){
+					MainRegistry.logger.log(Level.INFO, "[MISSILE] have a troll redirect to "+response.getTrollX()+", "+response.getTrollZ());
+					missile.redirectMissile(response.getTrollX(),response.getTrollZ());
+				}
 				world.spawnEntity(missile);
 				te.power -= 75000;
 				te.inventory.setStackInSlot(0, ItemStack.EMPTY);

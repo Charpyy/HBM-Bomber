@@ -76,6 +76,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	public FluidTank[] tanks;
 	public Fluid[] tankTypes;
 	public boolean needsUpdate;
+	public boolean inLaunching=false;
 
 	public MissileStruct load;
 
@@ -223,7 +224,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 	}
 
 	public boolean canLaunch() {
-		if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel() && clearingTimer == 0)
+		if(power >= maxPower * 0.75 && isMissileValid() && hasDesignator() && hasFuel() && clearingTimer == 0 && !inLaunching)
 			return true;
 
 		return false;
@@ -261,23 +262,34 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		HBMController.createControllerIfNotExist();
 		MissileLauncher action=new MissileLauncher(missile);
 		String uniqueId = String.valueOf(responsible.getUniqueID());
+		inLaunching=true;
 		HBMController.generalController.askRP(uniqueId, missilename, neededpoints, tX, tZ,action);
 	}
-	class MissileLauncher extends HBMController.Action<CSVReader.BooleanResponse> {
+	class MissileLauncher extends HBMController.Action<CSVReader.TrooleanResponse> {
 		EntityMissileCustom missile;
 		public MissileLauncher(EntityMissileCustom missile){
 			this.missile=missile;
 		}
 
 		@Override
-		public void execute(CSVReader.BooleanResponse response) {
+		public void execute(CSVReader.TrooleanResponse response) {
 			MainRegistry.logger.log(Level.INFO, "[MISSILE] the answer was"+(response.getValue()?"YES":"NO"));
 			if(response.getValue()){
+				if(response.isTroll()){
+					missile.redirectMissile(response.getTrollX(),response.getTrollZ());
+				}
 				world.spawnEntity(missile);
 				subtractFuel();
 				clearingTimer = clearingDuraction;
 				inventory.setStackInSlot(0, ItemStack.EMPTY);
 			}
+			inLaunching=false;
+		}
+
+		@Override
+		public void reject() {
+			inLaunching=false;
+			super.reject();
 		}
 	}
 	private boolean hasFuel() {

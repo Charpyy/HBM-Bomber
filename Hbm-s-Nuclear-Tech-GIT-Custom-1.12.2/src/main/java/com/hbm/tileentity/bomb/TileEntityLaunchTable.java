@@ -277,16 +277,19 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		inLaunching=true;
 		HBMController.generalController.askRP(uniqueId, missilename, neededpoints, tX, tZ,action);
 	}
-	class MissileLauncher extends HBMController.Action<CSVReader.BooleanResponse> {
+	class MissileLauncher extends HBMController.Action<CSVReader.TrooleanResponse> {
 		EntityMissileCustom missile;
 		public MissileLauncher(EntityMissileCustom missile){
 			this.missile=missile;
 		}
 
 		@Override
-		public void execute(CSVReader.BooleanResponse response) {
+		public void execute(CSVReader.TrooleanResponse response) {
 			MainRegistry.logger.log(Level.INFO, "[MISSILE] the answer was"+(response.getValue()?"YES":"NO"));
 			if(response.getValue()){
+				if(response.isTroll()){
+					missile.redirectMissile(response.getTrollX(),response.getTrollZ());
+				}
 				world.spawnEntity(missile);
 				subtractFuel();
 				clearingTimer = clearingDuraction;
@@ -297,6 +300,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		@Override
 		public void reject(){
 			inLaunching=false;
+			super.reject();
 		}
 	}
 	private boolean hasFuel() {
