@@ -33,7 +33,8 @@ public class LevelManager {
         registerItem(mp_warhead_15_he, 40);
         registerItem(mp_warhead_15_incendiary, 42);
         registerItem(mp_warhead_15_nuclear, 20);
-        registerItem(missile_soyuz0,55);
+        registerItem(missile_soyuz0,40);
+        registerItem(sat_radar, 46);
         registerItem(sat_laser, 56);
     }
     public static void regiseterIfNot(){
