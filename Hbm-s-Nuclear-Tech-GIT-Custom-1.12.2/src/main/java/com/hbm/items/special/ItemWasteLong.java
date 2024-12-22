@@ -44,10 +44,10 @@ public class ItemWasteLong extends ItemContaminating {
 	public enum WasteClass {
 
 		//all decayed versions include lead-types and classic nuclear waste
-		THORIUM("Thorium-232", 0, 0),		//uranium 233 and uranium 235 / -
+		THORIUM("Thorium-232", 0, 50),		//uranium 233 and uranium 235 / -
 		URANIUM233("Uranium-233", 0, 50),	//uranium 235, plutonium 239, neptunium 237 / -
-		URANIUM235("Uranium-235", 0, 0),	//plutonium 239 and 240, neptunium 237 / -
-		NEPTUNIUM("Neptunium-237", 0, 100),	//plutonium 239 and uranium 238 / -
+		URANIUM235("Uranium-235", 0, 50),	//plutonium 239 and 240, neptunium 237 / -
+		NEPTUNIUM("Neptunium-237", 0, 50),	//plutonium 239 and uranium 238 / -
 		SCHRABIDIUM("Schrabidium-326", 0, 250); //tantalum, neodymium, solinium, euphemium, ghiorsium-336 / -
 		
 		public String name;

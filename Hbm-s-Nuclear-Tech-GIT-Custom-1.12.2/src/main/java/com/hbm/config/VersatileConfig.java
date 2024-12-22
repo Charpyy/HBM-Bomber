@@ -36,10 +36,10 @@ public class VersatileConfig {
 	static int hour = 60 * minute;
 	
 	public static int getLongDecayChance() {
-		return GeneralConfig.enable528 ? 15 * hour : 3 * hour;
+		return GeneralConfig.enable528 ? 15 * hour : 5 * hour;
 	}
 
 	public static int getShortDecayChance() {
-		return GeneralConfig.enable528 ? 3 * hour : 15 * minute;
+		return GeneralConfig.enable528 ? 3 * hour : 5 * minute;
 	}
 }

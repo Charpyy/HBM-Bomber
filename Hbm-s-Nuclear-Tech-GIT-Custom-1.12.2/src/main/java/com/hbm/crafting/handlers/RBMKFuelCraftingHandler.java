@@ -38,7 +38,7 @@ public class RBMKFuelCraftingHandler extends net.minecraftforge.registries.IForg
 			if(rod.pellet == null)
 				return ItemStack.EMPTY;
 			
-			if(ItemRBMKRod.getEnrichment(stack) > 0.99D)
+			if(ItemRBMKRod.getEnrichment(stack) > 0.95D)
 				return ItemStack.EMPTY;
 			
 			if(ItemRBMKRod.getHullHeat(stack) < 50 && ItemRBMKRod.getCoreHeat(stack) < 50) {

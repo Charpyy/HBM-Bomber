@@ -26,18 +26,18 @@ public class BreederRecipes {
 		addRecipe(new ComparableStack(ModItems.rod_lithium), ModItems.rod_tritium, 1);
 		addRecipe(new ComparableStack(ModItems.rod_dual_lithium), ModItems.rod_dual_tritium, 1);
 		addRecipe(new ComparableStack(ModItems.rod_quad_lithium), ModItems.rod_quad_tritium, 1);
-		addRecipe(new ComparableStack(ModItems.rod_uranium), ModItems.rod_plutonium, 4);
+/*		addRecipe(new ComparableStack(ModItems.rod_uranium), ModItems.rod_plutonium, 4);
 		addRecipe(new ComparableStack(ModItems.rod_dual_uranium), ModItems.rod_dual_plutonium, 4);
 		addRecipe(new ComparableStack(ModItems.rod_quad_uranium), ModItems.rod_quad_plutonium, 4);
 		addRecipe(new ComparableStack(ModItems.rod_plutonium), ModItems.rod_waste, 4);
 		addRecipe(new ComparableStack(ModItems.rod_dual_plutonium), ModItems.rod_dual_waste, 4);
 		addRecipe(new ComparableStack(ModItems.rod_quad_plutonium), ModItems.rod_quad_waste, 4);
-		
+*/
 		//isotopes
 		addRecipe(new ComparableStack(ModItems.rod_th232), ModItems.rod_thorium_fuel, 2);
 		addRecipe(new ComparableStack(ModItems.rod_dual_th232), ModItems.rod_dual_thorium_fuel, 2);
 		addRecipe(new ComparableStack(ModItems.rod_quad_th232), ModItems.rod_quad_thorium_fuel, 2);
-		addRecipe(new ComparableStack(ModItems.rod_u233), ModItems.rod_u235, 2);
+/*addRecipe(new ComparableStack(ModItems.rod_u233), ModItems.rod_u235, 2);
 		addRecipe(new ComparableStack(ModItems.rod_dual_u233), ModItems.rod_dual_u235, 2);
 		addRecipe(new ComparableStack(ModItems.rod_quad_u233), ModItems.rod_quad_u235, 2);
 		addRecipe(new ComparableStack(ModItems.rod_u235), ModItems.rod_neptunium, 3);
@@ -58,7 +58,7 @@ public class BreederRecipes {
 		addRecipe(new ComparableStack(ModItems.rod_pu240), ModItems.rod_waste, 3);
 		addRecipe(new ComparableStack(ModItems.rod_dual_pu240), ModItems.rod_dual_waste, 3);
 		addRecipe(new ComparableStack(ModItems.rod_quad_pu240), ModItems.rod_quad_waste, 3);
-
+*/
 		//NEW
 		addRecipe(new ComparableStack(ModItems.rod_cobalt), ModItems.rod_co60, 2);
 		addRecipe(new ComparableStack(ModItems.rod_dual_cobalt), ModItems.rod_dual_co60, 2);

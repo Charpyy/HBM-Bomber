@@ -194,12 +194,15 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.hazmat, 8), new Object[] { "###", "# #", "###", '#', ModItems.hazmat_cloth });
 		addRecipeAuto(new ItemStack(ModItems.hazmat_cloth, 1), new Object[] { "#", '#', ModBlocks.hazmat });
 
-		addShapelessAuto(new ItemStack(ModItems.ingot_uranium_fuel, 1), new Object[] { U235.nugget(), U235.nugget(), U235.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget() });
-		addShapelessAuto(new ItemStack(ModItems.ingot_uranium_fuel, 1), new Object[] { U233.nugget(), U233.nugget(), U233.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget() });
-		addShapelessAuto(new ItemStack(ModItems.ingot_thorium_fuel, 1), new Object[] { U233.nugget(), U233.nugget(), U233.nugget(), TH232.nugget(), TH232.nugget(), TH232.nugget(), TH232.nugget(), TH232.nugget(), TH232.nugget() });
-		addShapelessAuto(new ItemStack(ModItems.ingot_plutonium_fuel, 1), new Object[] { PU238.nugget(), PU239.nugget(), PU239.nugget(), PU239.nugget(), PU239.nugget(), PU239.nugget(), PU240.nugget(), PU240.nugget(), PU240.nugget() });
+//		addShapelessAuto(new ItemStack(ModItems.ingot_uranium_fuel, 1), new Object[] { U235.nugget(), U235.nugget(), U235.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget() });
+//		addShapelessAuto(new ItemStack(ModItems.ingot_uranium_fuel, 1), new Object[] { U233.nugget(), U233.nugget(), U233.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget() });
+//		addShapelessAuto(new ItemStack(ModItems.ingot_thorium_fuel, 1), new Object[] { U233.nugget(), U233.nugget(), U233.nugget(), TH232.nugget(), TH232.nugget(), TH232.nugget(), TH232.nugget(), TH232.nugget(), TH232.nugget() });
+//		addShapelessAuto(new ItemStack(ModItems.ingot_plutonium_fuel, 1), new Object[] { PU238.nugget(), PU239.nugget(), PU239.nugget(), PU239.nugget(), PU239.nugget(), PU239.nugget(), PU240.nugget(), PU240.nugget(), PU240.nugget() });
 		addShapelessAuto(new ItemStack(ModItems.ingot_mox_fuel, 1), new Object[] { U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), PU239.nugget(), PU239.nugget(), PU239.nugget() });
-		addShapelessAuto(new ItemStack(ModItems.ingot_mox_fuel, 1), new Object[] { U235.nugget(), U235.nugget(), U235.nugget(), U238.nugget(), U238.nugget(), PU238.nugget(), PU239.nugget(), PU239.nugget(), PU239.nugget() });
+		addShapelessAuto(new ItemStack(ModItems.ingot_mox_fuel, 1), new Object[] { U.nugget(), U.nugget(), U.nugget(), U.nugget(), U.nugget(), U.nugget(), PURG.nugget(), PURG.nugget(), PURG.nugget() });
+		addShapelessAuto(new ItemStack(ModItems.ingot_mox_fuel, 1), new Object[] { ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, PU238.nugget(), PURG.nugget(), PURG.nugget() });
+		addShapelessAuto(new ItemStack(ModItems.ingot_mox_fuel, 1), new Object[] { U238.nugget(), U238.nugget(), U238.nugget(), ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, PURG.nugget(), PURG.nugget(), PURG.nugget() });
+		addShapelessAuto(new ItemStack(ModItems.ingot_mox_fuel, 1), new Object[] { U238.nugget(), U238.nugget(), U238.nugget(), ModItems.nugget_uranium_fuel, ModItems.nugget_uranium_fuel, U238.nugget(), PU.nugget(), PU.nugget(), PU.nugget() });
 		addShapelessAuto(new ItemStack(ModItems.ingot_schrabidium_fuel, 1), new Object[] { SA326.nugget(), SA326.nugget(), SA326.nugget(), NP237.nugget(), NP237.nugget(), NP237.nugget(), BE.nugget(), BE.nugget(), BE.nugget() });
 		addShapelessAuto(new ItemStack(ModItems.ingot_hes, 1), new Object[] { SA326.nugget(), SA326.nugget(), SA326.nugget(), SA326.nugget(), SA326.nugget(), NP237.nugget(), NP237.nugget(), BE.nugget(), BE.nugget() });
 		addShapelessAuto(new ItemStack(ModItems.ingot_les, 1), new Object[] { SA326.nugget(), NP237.nugget(), NP237.nugget(), NP237.nugget(), NP237.nugget(), BE.nugget(), BE.nugget(), BE.nugget(), BE.nugget() });
@@ -1037,7 +1040,7 @@ public class CraftingManager {
 //		addRecipeAuto(new ItemStack(ModItems.gun_bolt_action_saturnite, 1), new Object[] { "PPI", "SWD", 'P', BIGMT.plate(), 'I', ModItems.mechanism_rifle_1, 'S', Items.STICK, 'D', KEY_PLANKS, 'W', ModItems.wire_tungsten });
 //		addRecipeAuto(new ItemStack(ModItems.gun_b92, 1), new Object[] { "DDD", "SSC", "  R", 'D', ModItems.plate_dineutronium, 'S', STAR.ingot(), 'C', ModItems.circuit_targeting_tier6, 'R', ModItems.gun_revolver_schrabidium });
 //		addRecipeAuto(new ItemStack(ModItems.gun_b92_ammo, 1), new Object[] { "PSP", "ESE", "PSP", 'P', STEEL.plate(), 'S', STAR.ingot(), 'E', ModItems.powder_spark_mix });
-		addShapelessAuto(new ItemStack(ModItems.weaponized_starblaster_cell, 1), new Object[] { new IngredientContainsTag(ItemFluidTank.getFullTank(ModForgeFluids.acid)), new IngredientContainsTag(GunB92Cell.getFullCell()), ModItems.wire_copper });
+		//addShapelessAuto(new ItemStack(ModItems.weaponized_starblaster_cell, 1), new Object[] { new IngredientContainsTag(ItemFluidTank.getFullTank(ModForgeFluids.acid)), new IngredientContainsTag(GunB92Cell.getFullCell()), ModItems.wire_copper });
 //		addRecipeAuto(new ItemStack(ModItems.gun_uzi, 1), new Object[] { "SMS", " PB", " P ", 'S', STEEL.ingot(), 'M', ModItems.mechanism_rifle_2, 'P', STEEL.plate(), 'B', ModItems.bolt_dura_steel });
 //		addRecipeAuto(new ItemStack(ModItems.gun_uzi_silencer, 1), new Object[] { "P  ", " P ", "  U", 'P', ANY_PLASTIC.ingot(), 'U', ModItems.gun_uzi });
 //		addRecipeAuto(new ItemStack(ModItems.gun_uzi_saturnite, 1), new Object[] { "SMS", " PB", " P ", 'S', BIGMT.ingot(), 'M', ModItems.mechanism_rifle_2, 'P', BIGMT.plate(), 'B', ModItems.bolt_tungsten });
@@ -2516,6 +2519,7 @@ public class CraftingManager {
 
 		addShapelessAuto(new ItemStack(ModItems.billet_uranium, 2), new Object[] { ModItems.billet_uranium_fuel, U238.billet() });
 		addRecipeAuto(new ItemStack(ModItems.billet_uranium, 2), new Object[] { "ABC", "BB ", "BB ", 'A', U238.billet(), 'B', U238.nugget(), 'C', U235.nugget() });
+		addShapelessAuto(new ItemStack(ModItems.billet_plutonium, 3), new Object[] { PURG.billet(), PURG.billet(), PURG.nugget(), PURG.nugget(), PURG.nugget(), PU238.nugget(), PU241.nugget(), PU241.nugget()});
 
 		addBillet(ModItems.billet_uranium, ModItems.nugget_uranium, U.nugget());
 		addBillet(ModItems.billet_u233, ModItems.nugget_u233, U233.nugget());
@@ -2639,8 +2643,8 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(ModItems.billet_neptunium_fuel, 3), new Object[] { U238.billet(), U238.billet(), NP237.billet() });
 		addShapelessAuto(new ItemStack(ModItems.billet_neptunium_fuel, 1), new Object[] { U238.nugget(), U238.nugget(), U238.nugget(), U238.nugget(), NP237.nugget(), NP237.nugget() });
 		
-		addShapelessAuto(new ItemStack(ModBlocks.block_mox_fuel, 3), new Object[] { U238.block(), U235.block(), PURG.block() });
-		addShapelessAuto(new ItemStack(ModItems.ingot_mox_fuel, 3), new Object[] { U238.ingot(), U235.ingot(), PURG.ingot() });
+		addShapelessAuto(new ItemStack(ModBlocks.block_mox_fuel, 3), new Object[] { U238.block(), ModBlocks.block_uranium_fuel, PURG.block() });
+		addShapelessAuto(new ItemStack(ModItems.ingot_mox_fuel, 3), new Object[] { U238.ingot(), ModItems.ingot_uranium_fuel, PURG.ingot() });
 		addShapelessAuto(new ItemStack(ModItems.billet_mox_fuel, 3), new Object[] { U238.billet(), U235.billet(), PURG.billet() });
 		addShapelessAuto(new ItemStack(ModItems.billet_mox_fuel, 1), new Object[] { U238.nugget(), U238.nugget(), U235.nugget(), U235.nugget(), PURG.nugget(), PURG.nugget() });
 		

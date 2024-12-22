@@ -2838,6 +2838,7 @@ public class ModItems {
 	public static final ItemRBMKRod rbmk_fuel_hea241 = (ItemRBMKRod) new ItemRBMKRod(rbmk_pellet_hea241, "rbmk_fuel_hea241")
 			.setYield(100000000D)
 			.setStats(6.5, 15)
+			.setDepletionFunction(EnumDepleteFunc.RAISING_SLOPE)
 			.setFunction(EnumBurnFunc.SQUARE_ROOT)
 			.setHeat(1.85D)
 			.setMeltingPoint(3986)

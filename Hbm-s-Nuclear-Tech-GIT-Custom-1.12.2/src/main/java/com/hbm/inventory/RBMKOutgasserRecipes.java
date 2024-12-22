@@ -52,12 +52,12 @@ public class RBMKOutgasserRecipes {
 		addRecipe(90000, TH232.ingot(), new ItemStack(ModItems.ingot_thorium_fuel));
 		addRecipe(90000 * ItemHazard.block, TH232.block(), new ItemStack(ModBlocks.block_thorium_fuel));
 		
-		addRecipe(60000 * ItemHazard.nugget, U233.nugget(), new ItemStack(ModItems.nugget_u235));
+/*		addRecipe(60000 * ItemHazard.nugget, U233.nugget(), new ItemStack(ModItems.nugget_u235));
 		addRecipe(60000 * ItemHazard.billet, U233.billet(), new ItemStack(ModItems.billet_u235));
 		addRecipe(60000, U233.ingot(), new ItemStack(ModItems.ingot_u235));
 		addRecipe(60000 * ItemHazard.block, U233.block(), new ItemStack(ModBlocks.block_u235));
-		
-		addRecipe(100000 * ItemHazard.nugget, U235.nugget(), new ItemStack(ModItems.nugget_neptunium_fuel));
+*/
+/*		addRecipe(100000 * ItemHazard.nugget, U235.nugget(), new ItemStack(ModItems.nugget_neptunium_fuel));
 		addRecipe(100000 * ItemHazard.billet, U235.billet(), new ItemStack(ModItems.billet_neptunium_fuel));
 		addRecipe(100000, U235.ingot(), new ItemStack(ModItems.ingot_neptunium_fuel));
 		
@@ -70,12 +70,12 @@ public class RBMKOutgasserRecipes {
 		addRecipe(190000 * ItemHazard.billet, U238.billet(), new ItemStack(ModItems.billet_pu239));
 		addRecipe(190000, U238.ingot(), new ItemStack(ModItems.ingot_pu239));
 		addRecipe(190000 * ItemHazard.block, U238.block(), new ItemStack(ModBlocks.block_pu239));
-		
+
 		addRecipe(150000 * ItemHazard.nugget, PU238.nugget(), new ItemStack(ModItems.nugget_pu239));
 		addRecipe(150000 * ItemHazard.billet, PU238.billet(), new ItemStack(ModItems.billet_pu239));
 		addRecipe(150000, PU238.ingot(), new ItemStack(ModItems.ingot_pu239));
 		addRecipe(150000 * ItemHazard.block, PU238.block(), new ItemStack(ModBlocks.block_pu239));
-		
+
 		addRecipe(210000 * ItemHazard.nugget, PU239.nugget(), new ItemStack(ModItems.nugget_pu240));
 		addRecipe(210000 * ItemHazard.billet, PU239.billet(), new ItemStack(ModItems.billet_pu240));
 		addRecipe(210000, PU239.ingot(), new ItemStack(ModItems.ingot_pu240));
@@ -92,7 +92,7 @@ public class RBMKOutgasserRecipes {
 		addRecipe(750000 * ItemHazard.nugget, AM241.nugget(), new ItemStack(ModItems.nugget_am242));
 		addRecipe(750000 * ItemHazard.billet, AM241.billet(), new ItemStack(ModItems.billet_am242));
 		addRecipe(750000, AM241.ingot(), new ItemStack(ModItems.ingot_am242));
-		
+		*/
 		addRecipe(690000 * ItemHazard.nugget, SA326.nugget(), new ItemStack(ModItems.nugget_solinium));
 		addRecipe(690000 * ItemHazard.billet, SA326.billet(), new ItemStack(ModItems.billet_solinium));
 		addRecipe(690000, SA326.ingot(), new ItemStack(ModItems.ingot_solinium));
