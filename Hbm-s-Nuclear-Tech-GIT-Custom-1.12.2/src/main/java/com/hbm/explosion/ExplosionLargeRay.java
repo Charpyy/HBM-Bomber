@@ -136,9 +136,12 @@ public class ExplosionLargeRay {
 			for(int i = radius+10; i>=0; i--){
 				iY = (int) Math.floor(posY + (vec.yCoord * i));
 
-				if(iY < minY || iY > maxY){
+				if(iY > maxY){
 					pseudoresistance[i] = 0;
 					continue;
+				}
+				if(iY < minY){
+					pseudoresistance[i] = Float.POSITIVE_INFINITY;
 				}
 
 				iX = (int) Math.floor(posX + (vec.xCoord * i));
@@ -206,6 +209,7 @@ public class ExplosionLargeRay {
 		} else {
 			if(b == Blocks.SANDSTONE) return 4F;
 			if(b == Blocks.OBSIDIAN) return 18F;
+			if(b == Blocks.BEDROCK) return Float.POSITIVE_INFINITY;
 			return b.getExplosionResistance(null);
 		}
 	}
