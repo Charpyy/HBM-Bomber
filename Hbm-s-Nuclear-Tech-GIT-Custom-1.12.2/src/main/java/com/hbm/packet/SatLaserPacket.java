@@ -1,7 +1,6 @@
 package com.hbm.packet;
 
 import com.hbm.items.tool.ItemSatInterface;
-import com.hbm.lib.Library;
 import com.hbm.saveddata.satellites.Satellite;
 import com.hbm.saveddata.satellites.SatelliteSavedData;
 
@@ -9,15 +8,11 @@ import com.openwar.hbmapi.CSVManager.CSVReader;
 import com.openwar.hbmapi.CSVManager.HBMController;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-
-import com.hbm.core.HbmDatabaseOpenwar;
 
 public class SatLaserPacket implements IMessage {
 

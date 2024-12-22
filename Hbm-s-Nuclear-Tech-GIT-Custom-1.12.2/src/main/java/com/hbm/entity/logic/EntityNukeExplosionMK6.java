@@ -102,6 +102,7 @@ public class EntityNukeExplosionMK6 extends Entity implements IChunkLoader {
 			EntityFalloutRain falloutRain = new EntityFalloutRain(this.world);
 			falloutRain.doFallout = false;
 			falloutRain.doFlood = false;
+			falloutRain.doDrain = false;
 			falloutRain.posX = this.posX;
 			falloutRain.posY = this.posY;
 			falloutRain.posZ = this.posZ;

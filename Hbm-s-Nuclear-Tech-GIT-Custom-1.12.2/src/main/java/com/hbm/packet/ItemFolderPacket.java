@@ -23,7 +23,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import com.hbm.core.HbmDatabaseOpenwar;
 import com.hbm.inventory.AssemblerRecipes;
 
 

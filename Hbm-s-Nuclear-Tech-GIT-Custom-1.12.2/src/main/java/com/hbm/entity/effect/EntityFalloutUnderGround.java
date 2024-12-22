@@ -75,6 +75,7 @@ public class EntityFalloutUnderGround extends Entity implements IChunkLoader {
 	public int falloutRainRadius2 = 0;
 	public boolean falloutRainDoFallout = false;
 	public boolean falloutRainDoFlood = false;
+	public boolean falloutRainDoDrain = false;
 	public boolean falloutRainFire = false;
 
 	public EntityFalloutUnderGround(World p_i1582_1_) {
@@ -195,6 +196,7 @@ public class EntityFalloutUnderGround extends Entity implements IChunkLoader {
 					EntityFalloutRain falloutRain = new EntityFalloutRain(this.world);
 					falloutRain.doFallout = falloutRainDoFallout;
 					falloutRain.doFlood = falloutRainDoFlood;
+					falloutRain.doDrain = falloutRainDoDrain;
 					falloutRain.posX = this.posX;
 					falloutRain.posY = this.posY;
 					falloutRain.posZ = this.posZ;
@@ -425,6 +427,7 @@ public class EntityFalloutUnderGround extends Entity implements IChunkLoader {
 		falloutRainRadius2 = nbt.getInteger("fR2");
 		falloutRainDoFallout = nbt.getBoolean("fRfallout");
 		falloutRainDoFlood = nbt.getBoolean("fRflood");
+		falloutRainDoDrain = nbt.getBoolean("fRdrain");
 		falloutRainFire = nbt.getBoolean("fRfire");
 	}
 
@@ -436,6 +439,7 @@ public class EntityFalloutUnderGround extends Entity implements IChunkLoader {
 		nbt.setInteger("fR2", falloutRainRadius2);
 		nbt.setBoolean("fRfallout", falloutRainDoFallout);
 		nbt.setBoolean("fRflood", falloutRainDoFlood);
+		nbt.setBoolean("fRdrain", falloutRainDoDrain);
 		nbt.setBoolean("fRfire", falloutRainFire);
 	}
 

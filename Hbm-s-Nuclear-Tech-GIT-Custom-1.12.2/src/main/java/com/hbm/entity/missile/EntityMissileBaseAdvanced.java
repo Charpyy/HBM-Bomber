@@ -82,6 +82,13 @@ public abstract class EntityMissileBaseAdvanced extends Entity implements IChunk
 		velocity = 0.0;
 		this.setSize(1.5F, 9F);
 	}
+	public void redirectMissile(int tX,int tZ){
+		targetX = tX;
+		targetZ = tZ;
+		Vec3d vector = new Vec3d(targetX - startX, 0, targetZ - startZ);
+		accelXZ = decelY = 1/vector.lengthVector();
+		decelY *= 2;
+	}
 	public void setResponsiveEntity(Entity responsive){
 		responsiveEntity=responsive;
 	}

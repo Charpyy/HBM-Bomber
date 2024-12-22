@@ -151,7 +151,7 @@ public class ExplosionLargeRay {
 					pseudoresistance[i]=actres;
 				}else{
 					//on prend en gros le truc le plus faible : la resistance du bloc ou celle de son accroche (on considère qu'il est 10% attaché par lui même)
-					pseudoresistance[i]=2/(1/actres+1/(dev2*actres+dev3*pseudoresistance[i+1]));
+					pseudoresistance[i]=dev4/(1/actres+1/(dev2*actres+dev3*pseudoresistance[i+1]));
 					isair[i]= b == Blocks.AIR;
 				}
 			}

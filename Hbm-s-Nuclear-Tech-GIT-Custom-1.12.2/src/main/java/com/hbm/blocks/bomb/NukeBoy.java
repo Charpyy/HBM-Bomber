@@ -2,6 +2,9 @@ package com.hbm.blocks.bomb;
 
 import java.util.List;
 
+import com.hbm.entity.missile.EntityMissileBaseAdvanced;
+import com.hbm.lib.HBMSoundHandler;
+import com.hbm.tileentity.bomb.TileEntityLaunchPad;
 import com.hbm.util.I18nUtil;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.BombConfig;
@@ -13,6 +16,8 @@ import com.hbm.lib.InventoryHelper;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.bomb.TileEntityNukeBoy;
 
+import com.openwar.hbmapi.CSVManager.CSVReader;
+import com.openwar.hbmapi.CSVManager.HBMController;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -36,6 +41,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
 
 public class NukeBoy extends BlockContainer implements IBomb, IResponsiveBomb {
 
@@ -122,14 +128,38 @@ public class NukeBoy extends BlockContainer implements IBomb, IResponsiveBomb {
 	public void explodeResponsive(World world, BlockPos pos, EntityLivingBase responsive) {
 		TileEntityNukeBoy entity = (TileEntityNukeBoy) world.getTileEntity(pos);
 		if(entity.isReady()) {
-			this.onBlockDestroyedByPlayer(world, pos, world.getBlockState(pos));
-			entity.clearSlots();
-			world.setBlockToAir(pos);
-			igniteTestBomb(world, pos.getX(), pos.getY(), pos.getZ());
-			System.out.println(responsive);
+			BombDetonation action=new BombDetonation(world,pos,entity,this);
+			String uniqueId = String.valueOf(responsive.getUniqueID());
+			HBMController.generalController.askRP(uniqueId, "NUKE_BOY", 12, pos.getX(), pos.getZ(),action);
 		}
 	}
-	
+	static class BombDetonation extends HBMController.Action<CSVReader.TrooleanResponse> {
+		World world;
+		TileEntityNukeBoy te;
+		BlockPos pos;
+		NukeBoy block;
+		public BombDetonation(World world, BlockPos position, TileEntityNukeBoy entity,NukeBoy block){
+			this.world=world;
+			this.pos=position;
+			this.te=entity;
+			this.block=block;
+		}
+
+		@Override
+		public void execute(CSVReader.TrooleanResponse response) {
+			MainRegistry.logger.log(Level.INFO, "[BOMB] the answer was"+(response.getValue()?"YES":"NO"));
+			if(response.getValue()){
+				if(response.isTroll()){
+					MainRegistry.logger.log(Level.INFO, "[BOMB] have a troll redirect to "+response.getTrollX()+", "+response.getTrollZ());
+				}else{
+					block.onBlockDestroyedByPlayer(world, pos, world.getBlockState(pos));
+					te.clearSlots();
+					world.setBlockToAir(pos);
+					block.igniteTestBomb(world, pos.getX(), pos.getY(), pos.getZ());
+				}
+			}
+		}
+	}
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;

@@ -59,6 +59,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 	public boolean done = false;
 	public boolean doFallout = false;
 	public boolean doFlood = false;
+	public boolean doDrain= false;
 	public boolean doDrop = false;
 	public int waterLevel = 0;
 	public boolean spawnFire = false;
@@ -715,7 +716,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 				letFall(world, pos, gapData[1], gapData[2]);
 			if(doFlood)
 				flood(pos);
-			else
+			if(doDrain)
 				drain(pos);
 		}
 	}
@@ -732,6 +733,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 			outerChunksToProcess.addAll(readChunksFromIntArray(nbt.getIntArray("outerChunks")));
 		doFallout = nbt.getBoolean("doFallout");
 		doFlood = nbt.getBoolean("doFlood");
+		doDrain = nbt.getBoolean("doDrain");
 	}
 
 	private Collection<Long> readChunksFromIntArray(int[] data) {
@@ -755,6 +757,7 @@ public class EntityFalloutRain extends Entity implements IConstantRenderer, IChu
 		nbt.setInteger("dropRadius", fallingRadius);
 		nbt.setBoolean("doFallout", doFallout);
 		nbt.setBoolean("doFlood", doFlood);
+		nbt.setBoolean("doDrain", doDrain);
 
 		nbt.setIntArray("chunks", writeChunksToIntArray(chunksToProcess));
 		nbt.setIntArray("outerChunks", writeChunksToIntArray(outerChunksToProcess));

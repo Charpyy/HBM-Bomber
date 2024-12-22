@@ -10,15 +10,20 @@ import static com.hbm.items.ModItems.sat_laser;
 
 public class LevelManager {
     public static HashMap<Item,Integer> levelsMap = new HashMap<>();
+    public static HashMap<Item,Boolean> teamMap = new HashMap<>();
     public static boolean registered=false;
-    public static void registerItem(Item item, int level){
+    public static void registerItem(Item item, int level,boolean isTeam){
         levelsMap.put((Item)item, level);
+        teamMap.put((Item)item, isTeam);
+    }
+    public static void registerItem(Item item, int level){
+        registerItem(item,level,false);
     }
     public static int getItemLevel(Item item){
         return levelsMap.get(item);
     }
     public static boolean isTeam(Item item){
-        return item.equals(mp_warhead_15_nuclear);
+        return teamMap.getOrDefault(item,false);
     }
     public static boolean isItemLeveled(Item item){
         return levelsMap.containsKey(item);
@@ -32,10 +37,11 @@ public class LevelManager {
         registerItem(mp_warhead_10_buster, 36);
         registerItem(mp_warhead_15_he, 40);
         registerItem(mp_warhead_15_incendiary, 42);
-        registerItem(mp_warhead_15_nuclear, 20);
         registerItem(missile_soyuz0,40);
         registerItem(sat_radar, 46);
         registerItem(sat_laser, 56);
+        registerItem(mp_warhead_15_nuclear, 20,true);
+        registerItem(Item.getItemFromBlock(ModBlocks.nuke_boy),20,true);
     }
     public static void regiseterIfNot(){
         if(!registered){
