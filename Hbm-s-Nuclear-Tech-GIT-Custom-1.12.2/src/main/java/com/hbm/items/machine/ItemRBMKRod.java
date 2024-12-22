@@ -1,178 +1,67 @@
-		switch(this.function) {
-		case PASSIVE: function = TextFormatting.RED + "" + selfRate;
-			break;
-		case LOG_TEN: function = "log10(%1$s + 1) * %2$s";
-			break;
-		case PLATEU: function = "(1 - e^(-%1$s / 25)) * %2$s";
-			break;
-		case ARCH: function = "(%1$s - %1$s² / "+archLength+") * %2$s";
-			break;
-		case SIGMOID: function = "%2$s / (1 + e^(-0.1 * %1$s + 5)";
-			break;
-		case SQUARE_ROOT: function = "sqrt(%1$s) * %2$s";
-			break;
-		case LINEAR: function = "%1$s * %2$s";
-			break;
-		case QUADRATIC: function = "%1$s² * %2$s";
-			break;
-		case EXPERIMENTAL: function = "%1$s * (sin(%1$s) + 1) * %2$s";
-			break;
-		default: function = "ERROR";
-		}
-		
-		double enrichment = getEnrichment(stack);
-		
-		if(enrichment < 1) {
-			enrichment = reactivityModByEnrichment(enrichment);
-			String enrichmodif = TextFormatting.YELLOW + "*" + ((int)(enrichment * 1000D) / 1000D) + TextFormatting.WHITE;
-			String enrichmentPer = TextFormatting.GOLD + " (" + ((int)(enrichment * 1000D) / 10D) + "%)";
-			
-			return String.format(function, selfRate > 0 ? "(x" + enrichmodif + TextFormatting.RED + " + " + selfRate + "" + TextFormatting.WHITE + ")" : "(x" + enrichmodif + ")", reactivity).concat(enrichmentPer);
-		}
-		
-		return String.format(function, selfRate > 0 ? "(x" + TextFormatting.RED + " + " + selfRate + "" + TextFormatting.WHITE + ")" : "x", reactivity);
-	}
+package com.hbm.items.machine;
 
-	public static enum EnumDepleteFunc {
-		LINEAR,			//old function
-		RAISING_SLOPE,	//for breeding fuels such as MEU, maximum of 110% at 28% depletion
-		BOOSTED_SLOPE,	//for strong breeding fuels such Th232, maximum of 132% at 64% depletion
-		GENTLE_SLOPE,	//recommended for most fuels, maximum barely over the start, near the beginning
-		STATIC;			//for arcade-style neutron sources
-	}
+import java.util.List;
 
-	public double reactivityModByEnrichment(double enrichment) {
-		
-		switch(this.depFunc) {
-		default:
-		case LINEAR: return enrichment;
-		case STATIC: return 1D;
-		case BOOSTED_SLOPE: return enrichment + Math.sin((enrichment - 1) * (enrichment - 1) * Math.PI); //x + sin([x - 1]^2 * pi) works
-		case RAISING_SLOPE: return enrichment + (Math.sin(enrichment * Math.PI) / 2D); //x + (sin(x * pi) / 2) actually works
-		case GENTLE_SLOPE: return enrichment + (Math.sin(enrichment * Math.PI) / 3D); //x + (sin(x * pi) / 3) also works
-		}
-	}
-	
-	/**
-	 * Xenon generated per tick, linear function
-	 * @param flux
-	 * @return
-	 */
-	public double xenonGenFunc(double flux) {
-		return flux * xGen;
-	}
-	
-	/**
-	 * Xenon burned away per tick, quadratic function
-	 * @param flux
-	 * @return
-	 */
-	public double xenonBurnFunc(double flux) {
-		return (flux * flux) / xBurn;
-	}
-	
-	/**
-		switch(this.function) {
-		case PASSIVE: function = TextFormatting.RED + "" + selfRate;
-			break;
-		case LOG_TEN: function = "log10(%1$s + 1) * %2$s";
-			break;
-		case PLATEU: function = "(1 - e^(-%1$s / 25)) * %2$s";
-			break;
-		case ARCH: function = "(%1$s - %1$s² / "+archLength+") * %2$s";
-			break;
-		case SIGMOID: function = "%2$s / (1 + e^(-0.1 * %1$s + 5)";
-			break;
-		case SQUARE_ROOT: function = "sqrt(%1$s) * %2$s";
-			break;
-		case LINEAR: function = "%1$s * %2$s";
-			break;
-		case QUADRATIC: function = "%1$s² * %2$s";
-			break;
-		case EXPERIMENTAL: function = "%1$s * (sin(%1$s) + 1) * %2$s";
-			break;
-		default: function = "ERROR";
-		}
-		
-		double enrichment = getEnrichment(stack);
-		
-		if(enrichment < 1) {
-			enrichment = reactivityModByEnrichment(enrichment);
-			String enrichmodif = TextFormatting.YELLOW + "*" + ((int)(enrichment * 1000D) / 1000D) + TextFormatting.WHITE;
-		switch(this.function) {
-		case PASSIVE: function = TextFormatting.RED + "" + selfRate;
-			break;
-		case LOG_TEN: function = "log10(%1$s + 1) * %2$s";
-			break;
-		case PLATEU: function = "(1 - e^(-%1$s / 25)) * %2$s";
-			break;
-		case ARCH: function = "(%1$s - %1$s² / "+archLength+") * %2$s";
-			break;
-		case SIGMOID: function = "%2$s / (1 + e^(-0.1 * %1$s + 5)";
-			break;
-		case SQUARE_ROOT: function = "sqrt(%1$s) * %2$s";
-			break;
-		case LINEAR: function = "%1$s * %2$s";
-			break;
-		case QUADRATIC: function = "%1$s² * %2$s";
-			break;
-		case EXPERIMENTAL: function = "%1$s * (sin(%1$s) + 1) * %2$s";
-			break;
-		default: function = "ERROR";
-		}
-		
-		double enrichment = getEnrichment(stack);
-		
-		if(enrichment < 1) {
-			enrichment = reactivityModByEnrichment(enrichment);
-			String enrichmodif = TextFormatting.YELLOW + "*" + ((int)(enrichment * 1000D) / 1000D) + TextFormatting.WHITE;
-			String enrichmentPer = TextFormatting.GOLD + " (" + ((int)(enrichment * 1000D) / 10D) + "%)";
-			
-			return String.format(function, selfRate > 0 ? "(x" + enrichmodif + TextFormatting.RED + " + " + selfRate + "" + TextFormatting.WHITE + ")" : "(x" + enrichmodif + ")", reactivity).concat(enrichmentPer);
-		}
-		
-		return String.format(function, selfRate > 0 ? "(x" + TextFormatting.RED + " + " + selfRate + "" + TextFormatting.WHITE + ")" : "x", reactivity);
-	}
+import com.hbm.interfaces.IItemHazard;
+import com.hbm.items.ModItems;
+import com.hbm.main.MainRegistry;
+import com.hbm.modules.ItemHazardModule;
+import com.hbm.tileentity.machine.rbmk.IRBMKFluxReceiver.NType;
+import com.hbm.tileentity.machine.rbmk.RBMKDials;
+import com.hbm.util.I18nUtil;
 
-	public static enum EnumDepleteFunc {
-		LINEAR,			//old function
-		RAISING_SLOPE,	//for breeding fuels such as MEU, maximum of 110% at 28% depletion
-		BOOSTED_SLOPE,	//for strong breeding fuels such Th232, maximum of 132% at 64% depletion
-		GENTLE_SLOPE,	//recommended for most fuels, maximum barely over the start, near the beginning
-		STATIC;			//for arcade-style neutron sources
-	}
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 
-	public double reactivityModByEnrichment(double enrichment) {
-		
-		switch(this.depFunc) {
-		default:
-		case LINEAR: return enrichment;
-		case STATIC: return 1D;
-		case BOOSTED_SLOPE: return enrichment + Math.sin((enrichment - 1) * (enrichment - 1) * Math.PI); //x + sin([x - 1]^2 * pi) works
-		case RAISING_SLOPE: return enrichment + (Math.sin(enrichment * Math.PI) / 2D); //x + (sin(x * pi) / 2) actually works
-		case GENTLE_SLOPE: return enrichment + (Math.sin(enrichment * Math.PI) / 3D); //x + (sin(x * pi) / 3) also works
-		}
-	}
+public class ItemRBMKRod extends Item implements IItemHazard {
+
+	public static final double xe135HalflifeMulPerTick = 0.9999241662036941; // 0.5^(1/9140) for a 9.14h halflife
 	
-	/**
-	 * Xenon generated per tick, linear function
-	 * @param flux
-	 * @return
-	 */
-	public double xenonGenFunc(double flux) {
-		return flux * xGen;
-	}
+	public ItemRBMKPellet pellet;
+	public String fullName = "";			//full name of the fuel rod
+	public double reactivity;				//endpoint of the function
+	public double selfRate;					//self-inflicted flux from self-igniting fuels
+	public double archLength = 1000;		//used for arches of the function
+	public EnumBurnFunc function = EnumBurnFunc.LOG_TEN;
+	public EnumDepleteFunc depFunc = EnumDepleteFunc.GENTLE_SLOPE;
+	public double xGen = 0.5D;				//multiplier for xenon production
+	public double xBurn = 50D;				//divider for xenon burnup
+	public double heat = 1D;				//heat produced per outFlux
+	public double yield;					//total potential inFlux the rod can take in its lifetime
+	public double meltingPoint = 1000D;		//the maximum heat of the rod's hull before shit hits the fan. the core can be as hot as it wants to be
+	public double diffusion = 0.02D;		//the speed at which the core heats the hull
+	public NType nType = NType.SLOW;		//neutronType, the most efficient neutron type for fission
+	public NType rType = NType.FAST;		//releaseType, the type of neutrons released by this fuel
+
+	public float fuelR = 0.105F;
+	public float fuelG = 0.247F;
+	public float fuelB = 0.015F;
+	public float cherenkovR = 0.4F;
+	public float cherenkovG = 0.9F;
+	public float cherenkovB = 1F;
 	
-	/**
-	 * Xenon burned away per tick, quadratic function
-	 * @param flux
-	 * @return
-	 */
-	public double xenonBurnFunc(double flux) {
-		return (flux * flux) / xBurn;
-	}
-	
-	/**
+	/*   _____
+	 * ,I I I I,
+	 * |'-----'|
+	 * |       |
+	 *  '-----'
+	 *  I I I I
+	 *  I I I I
+	 *  I I I I
+	 *  I I I I
+	 *  I I I I
+	 *  I I I I
+	 * ,I I I I,
+	 * |'-----'|
+	 * |       |
 	 *  '-----'
 	 *  I I I I
 	 *  
@@ -687,4 +576,4 @@
 		setHullHeat(stack, 20.0D);
 		setMeltdownPercent(stack, 0D);
 	}
-}
+	}
