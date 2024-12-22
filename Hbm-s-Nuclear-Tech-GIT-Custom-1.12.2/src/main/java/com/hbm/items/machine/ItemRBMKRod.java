@@ -340,11 +340,10 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		
 		if(enrichment < 1) {
 			enrichment = reactivityModByEnrichment(enrichment);
-			String reactivity = TextFormatting.YELLOW + "" + ((int)(this.reactivity * enrichment * 1000D) / 1000D) + TextFormatting.WHITE;
+			String enrichmodif = TextFormatting.YELLOW + "*" + ((int)(enrichment * 1000D) / 1000D) + TextFormatting.WHITE;
 			String enrichmentPer = TextFormatting.GOLD + " (" + ((int)(enrichment * 1000D) / 10D) + "%)";
 			
-			return String.format(function, selfRate > 0 ? "(x" + TextFormatting.RED + " + " + selfRate + "" + TextFormatting.WHITE + ")" : "x", reactivity).concat(enrichmentPer);
-		}
+			return String.format(function, selfRate > 0 ? "(x" + enrichmodif + TextFormatting.RED + " + " + selfRate + "" + TextFormatting.WHITE + ")" : "(x" + enrichmodif + ")", reactivity).concat(enrichmentPer);		}
 		
 		return String.format(function, selfRate > 0 ? "(x" + TextFormatting.RED + " + " + selfRate + "" + TextFormatting.WHITE + ")" : "x", reactivity);
 	}
