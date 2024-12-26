@@ -403,22 +403,17 @@ public class SILEXRecipes {
 		for(int i = 0; i < 5; i++) {				
 			// MEA //
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mea, 1, i), new SILEXRecipe(600, 100, EnumWavelengths.VISIBLE)
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am241), 72 - i * 12))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM241.ordinal()), 5 + 3 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.NEPTUNIUM.ordinal()), 5 + 2 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.NEPTUNIUM.ordinal()), 5 + 2 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.AMERICIUM242.ordinal()), 3 + 4 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_coal_tiny), 10 + i)) 
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am241), 30 - i * 6))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am242), 60 - i * 12))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.AMERICIUM242.ordinal()), 10 + 18 * i))
 					);
 		}
 		for(int i = 0; i < 5; i++) {		    
 			recipes.put(new ComparableStack(ModItems.rbmk_pellet_mea, 1, i + 5), new SILEXRecipe(600, 100, EnumWavelengths.VISIBLE)
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am_mix), 72 - i * 12))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.PLUTONIUM241.ordinal()), 5 + 3 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.NEPTUNIUM.ordinal()), 5 + 2 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.NEPTUNIUM.ordinal()), 5 + 3 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.AMERICIUM242.ordinal()), 3 + 4 * i))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 10))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 4))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am241), 30 - i * 6))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_am242), 60 - i * 12))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.AMERICIUM242.ordinal()), 6 + 18 * i))
 					);
 		}
 		for(int i = 0; i < 5; i++) {
