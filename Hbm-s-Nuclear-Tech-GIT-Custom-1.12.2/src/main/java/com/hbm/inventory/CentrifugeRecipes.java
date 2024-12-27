@@ -35,10 +35,10 @@ public class CentrifugeRecipes {
 				new ItemStack(ModItems.nuclear_waste_tiny, 2) });
 		
 		recipes.put(new ComparableStack(ModItems.waste_plutonium), new ItemStack[] {
+				new ItemStack(ModItems.nugget_u238, 2),
 				new ItemStack(ModItems.nugget_pu_mix, 1),
-				new ItemStack(ModItems.nugget_pu_mix, 1),
-				new ItemStack(ModItems.nugget_technetium, 1),
-				new ItemStack(ModItems.nuclear_waste_tiny, 3) });
+				new ItemStack(ModItems.nuclear_waste_tiny, 1),
+				new ItemStack(ModItems.nuclear_waste_tiny, 2) });
 		
 		recipes.put(new ComparableStack(ModItems.waste_mox), new ItemStack[] {
 				new ItemStack(ModItems.nugget_plutonium, 2),
@@ -262,7 +262,7 @@ public class CentrifugeRecipes {
 		for(Entry<Integer, String> entry : BedrockOreRegistry.oreIndexes.entrySet()) {
 			int oreMeta = entry.getKey();
 			String oreName = entry.getValue();
- 			recipes.put(new ComparableStack(ModItems.ore_bedrock, 1, oreMeta), new ItemStack[] { 
+ 			/*recipes.put(new ComparableStack(ModItems.ore_bedrock, 1, oreMeta), new ItemStack[] {
 				new ItemStack(ModItems.ore_bedrock_centrifuged, 1, oreMeta), 
 				new ItemStack(ModItems.ore_bedrock_centrifuged, 1, oreMeta), 
 				new ItemStack(Blocks.GRAVEL, 1),
@@ -296,7 +296,7 @@ public class CentrifugeRecipes {
 				ItemBedrockOre.getOut(oreMeta, 1), 
 				ItemBedrockOre.getOut(oreMeta, 1), 
 				ItemBedrockOre.getOut(oreMeta, 1), 
-				ItemBedrockOre.getOut(oreMeta, 1) });
+				ItemBedrockOre.getOut(oreMeta, 1) });*/
 		}
 	}
 
