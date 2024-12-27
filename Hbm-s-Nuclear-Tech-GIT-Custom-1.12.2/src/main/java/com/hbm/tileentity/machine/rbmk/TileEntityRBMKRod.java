@@ -76,6 +76,12 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 		if(!world.isRemote) {
 			
 			if(inventory.getStackInSlot(0).getItem() instanceof ItemRBMKRod) {
+				//we finish cooling and if we are still hot, BOOOM
+				super.update();
+				if(this.heat > this.maxHeat()) {
+					this.meltdown();
+					return;
+				}
 				ItemRBMKRod rod = ((ItemRBMKRod)inventory.getStackInSlot(0).getItem());
 				this.fuelR = rod.fuelR;
 				this.fuelG = rod.fuelG;
@@ -101,15 +107,11 @@ public class TileEntityRBMKRod extends TileEntityRBMKSlottedBase implements IRBM
 					}
 				}
 				
-				super.update();
+
 				//for spreading, we want the buffered flux to be 0 because we want to know exactly how much gets reflected back
 				this.fluxFast = 0;
 				this.fluxSlow = 0;
 
-				if(this.heat > this.maxHeat()) {
-					this.meltdown();
-					return;
-				}
 				
 				if(fluxOut > 0){
 					spreadFlux(this.isModerated() ? NType.SLOW : rType, fluxOut);

@@ -15,7 +15,6 @@ import com.hbm.blocks.machine.rbmk.RBMKBase;
 import com.hbm.entity.effect.EntitySpear;
 import com.hbm.entity.projectile.EntityRBMKDebris;
 import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
-import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.config.MachineConfig;
 import com.hbm.lib.ForgeDirection;
 import com.hbm.lib.HBMSoundHandler;
@@ -58,8 +57,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacketReceiver, ITickable, IControllable {
 
 	public static int rbmkHeight = 4;
-	
+
 	public double heat = 20.0D;
+	public double newheatdelta = 0.0D;
 	public double jumpheight = 0.0D;
 	public float downwardSpeed = 0.0F;
 	public boolean falling = false;
@@ -193,10 +193,10 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 	 * Moves heat to neighboring parts, if possible, in a relatively fair manner
 	 */
 	private void moveHeat() {
-		
+		heat+=newheatdelta;
+		newheatdelta=0.0;
 		List<TileEntityRBMKBase> rec = new ArrayList<>();
 		rec.add(this);
-		double heatTot = this.heat;
 		int waterTot = this.water;
 		int steamTot = this.steam;
 		
@@ -217,23 +217,25 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			
 			index++;
 		}
-		
+
+		double stepSize = RBMKDials.getColumnHeatFlow(world);
 		for(TileEntityRBMKBase base : heatCache) {
 			
 			if(base != null) {
+				double demidelta = (this.heat - base.heat)/2.0; //demi delta pr cibler la moyenne
+				base.newheatdelta += demidelta * stepSize;
+				this.heat -= demidelta * stepSize;
 				rec.add(base);
-				heatTot += base.heat;
 				waterTot += base.water;
 				steamTot += base.steam;
 			}
 		}
 		
 		int members = rec.size();
-		double stepSize = RBMKDials.getColumnHeatFlow(world);
-		
+
 		if(members > 1) {
 			
-			double targetHeat = heatTot / (double)members;
+
 			
 			int tWater = waterTot / members;
 			int rWater = waterTot % members;
@@ -241,9 +243,7 @@ public abstract class TileEntityRBMKBase extends TileEntity implements INBTPacke
 			int rSteam = steamTot % members;
 			
 			for(TileEntityRBMKBase rbmk : rec) {
-				double delta = targetHeat - rbmk.heat;
-				rbmk.heat += delta * stepSize;
-				
+
 				//set to the averages, rounded down
 				rbmk.water = tWater;
 				rbmk.steam = tSteam;
