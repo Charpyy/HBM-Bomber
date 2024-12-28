@@ -297,11 +297,11 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		
 		switch(this.function) {
 		case PASSIVE: return selfRate * enrichment;
-		case LOG_TEN: return Math.log10(flux + 1) * reactivity;
+		case LOG_TEN: return Math.log10(flux + 1) * reactivity / 2D;
 		case PLATEU: return (1 - Math.pow(Math.E, -flux / 25D)) * reactivity;
 		case ARCH: return Math.max((flux - (flux * flux / archLength)) * reactivity, 0D);
 		case SIGMOID: return reactivity / (1 + Math.pow(Math.E, -0.1D * flux + 5));
-		case SQUARE_ROOT: return Math.sqrt(flux) * reactivity; //reactivity in decipercent
+		case SQUARE_ROOT: return Math.sqrt(flux) / 10D * reactivity;
 		case LINEAR: return flux * reactivity; //reactivity in percent
 		case QUADRATIC: return flux * flux * reactivity; //reactivity in percent
 		case EXPERIMENTAL: return flux * (Math.sin(flux) + 1) * reactivity;
@@ -317,7 +317,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 		switch(this.function) {
 		case PASSIVE: function = TextFormatting.RED + "" + selfRate;
 			break;
-		case LOG_TEN: function = "log10(%1$s + 1) * %2$s";
+		case LOG_TEN: function = "log10(%1$s + 1) / 2 * %2$s";
 			break;
 		case PLATEU: function = "(1 - e^(-%1$s / 25)) * %2$s";
 			break;
@@ -325,7 +325,7 @@ public class ItemRBMKRod extends Item implements IItemHazard {
 			break;
 		case SIGMOID: function = "%2$s / (1 + e^(-0.1 * %1$s + 5)";
 			break;
-		case SQUARE_ROOT: function = "sqrt(%1$s) * %2$s";
+		case SQUARE_ROOT: function = "sqrt(%1$s) /10 * %2$s";
 			break;
 		case LINEAR: function = "%1$s * %2$s";
 			break;

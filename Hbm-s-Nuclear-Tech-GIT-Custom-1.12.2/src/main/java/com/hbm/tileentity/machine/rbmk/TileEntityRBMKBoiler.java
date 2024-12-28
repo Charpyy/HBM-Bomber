@@ -63,7 +63,8 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 	
 	@Override
 	public void update() {
-		
+		super.update();
+
 		if(!world.isRemote) {
 
 			if(timer < gamerulePollTime){
@@ -96,8 +97,6 @@ public class TileEntityRBMKBoiler extends TileEntityRBMKSlottedBase implements I
 			if(steam.getFluidAmount() > 0)
 				fillFluidInit(steam);
 		}
-		
-		super.update();
 	}
 
 	public int makeLossless(int water, Fluid type){ //rounds down to the lower base 10 so it stays int

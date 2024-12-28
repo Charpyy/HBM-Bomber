@@ -69,9 +69,9 @@ public class StorageDrumRecipes {
 		addRecipe(new ComparableStack(ModItems.ingot_pu238, 1), new ItemStack(ModItems.ingot_lead, 1), (int)(VersatileConfig.getLongDecayChance()*3), 0, 500);
 		addRecipe(new ComparableStack(ModItems.nugget_pu238, 1), new ItemStack(ModItems.nugget_lead, 1), (int)(VersatileConfig.getLongDecayChance()*0.3), 0, 50);
 		addRecipe(new ComparableStack(ModItems.ingot_pu239, 1), new ItemStack(ModItems.ingot_u235, 1), (int)(VersatileConfig.getLongDecayChance()*1), 0, 500);
-		addRecipe(new ComparableStack(ModItems.nugget_pu239, 1), new ItemStack(ModItems.ingot_u235, 1), (int)(VersatileConfig.getLongDecayChance()*0.1), 0, 50);
+		addRecipe(new ComparableStack(ModItems.nugget_pu239, 1), new ItemStack(ModItems.nugget_u235, 1), (int)(VersatileConfig.getLongDecayChance()*0.1), 0, 50);
 		addRecipe(new ComparableStack(ModItems.ingot_pu240, 1), new ItemStack(ModItems.ingot_th232, 1), (int)(VersatileConfig.getLongDecayChance()*30), 0, 500);
-		addRecipe(new ComparableStack(ModItems.nugget_pu240, 1), new ItemStack(ModItems.ingot_th232, 1), (int)(VersatileConfig.getLongDecayChance()*3), 0, 50);
+		addRecipe(new ComparableStack(ModItems.nugget_pu240, 1), new ItemStack(ModItems.nugget_th232, 1), (int)(VersatileConfig.getLongDecayChance()*3), 0, 50);
 	}
 
 	public static void addRecipe(ComparableStack input, ItemStack output, int chance, int wasteLiquid, int wasteGas){
