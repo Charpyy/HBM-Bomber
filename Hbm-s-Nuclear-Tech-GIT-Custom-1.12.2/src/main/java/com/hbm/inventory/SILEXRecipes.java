@@ -910,13 +910,13 @@ public class SILEXRecipes {
 		recipes.put(CU.crystal(), new SILEXRecipe(900, 100, EnumWavelengths.MICRO)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_copper), 64))
 				.addOut(new WeightedRandomObject(new ItemStack(Blocks.GRAVEL), 12))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cadmium), 24))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cadmium), 12))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.sulfur), 12))
 				);
 		recipes.put(PB.crystal(), new SILEXRecipe(900, 100, EnumWavelengths.MICRO)
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_lead), 64))
 				.addOut(new WeightedRandomObject(new ItemStack(Blocks.GRAVEL), 12))
-				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cadmium), 24))
+				.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_cadmium), 12))
 				.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_gold), 12))
 				);
 		recipes.put(TI.crystal(), new SILEXRecipe(900, 100, EnumWavelengths.MICRO)
