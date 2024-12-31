@@ -291,12 +291,13 @@ public class CentrifugeRecipes {
 				new ItemStack(ModItems.ore_bedrock_enriched, 1, oreMeta), 
 				new ItemStack(ModItems.ore_bedrock_enriched, 1, oreMeta), 
 				new ItemStack(Blocks.GRAVEL, 1),
-				new ItemStack(Blocks.GRAVEL, 1) });
-			recipes.put(new ComparableStack(ModItems.ore_bedrock_enriched, 1, oreMeta), new ItemStack[] { 
+				new ItemStack(Blocks.GRAVEL, 1) });*/
+			//recipes.put(new ComparableStack(ModItems.ore_bedrock_enriched, 1, oreMeta), new ItemStack[] {
+			recipes.put(new ComparableStack(ModItems.ore_bedrock, 1, oreMeta), new ItemStack[] {
+				ItemBedrockOre.getOut(oreMeta, 1),
 				ItemBedrockOre.getOut(oreMeta, 1), 
 				ItemBedrockOre.getOut(oreMeta, 1), 
-				ItemBedrockOre.getOut(oreMeta, 1), 
-				ItemBedrockOre.getOut(oreMeta, 1) });*/
+				ItemBedrockOre.getOut(oreMeta, 1) });
 		}
 	}
 
