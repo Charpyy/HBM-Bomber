@@ -226,14 +226,14 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 		for(int i = 5; i <= 6; i++) {
 
 			if(inventory.getStackInSlot(i).getItem() == ModItems.upgrade_effect_1)
-				extra += acidRequired * 3;
+				extra += acidRequired * 1;
 			if(inventory.getStackInSlot(i).getItem() == ModItems.upgrade_effect_2)
-				extra += acidRequired * 4;
+				extra += acidRequired * 2;
 			if(inventory.getStackInSlot(i).getItem() == ModItems.upgrade_effect_3)
-				extra += acidRequired * 5;
+				extra += acidRequired * 3;
 		}
 
-		return acidRequired + Math.min(extra, 500);
+		return Math.min(acidRequired +extra, 16000);
 	}
 
 	public float getFreeChance() {
@@ -250,7 +250,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 				chance += 0.15F;
 		}
 
-		return Math.min(chance, 0.3F);
+		return chance;
 	}
 
 	public int getDuration() {
@@ -269,7 +269,7 @@ public class TileEntityMachineCrystallizer extends TileEntityMachineBase impleme
 				durationMod *= 0.1F;
 		}
 
-		return (int) (duration * Math.max(durationMod, 0.1F));
+		return (int) (duration * Math.max(durationMod, 0.0625F));
 	}
 
 	public int getPowerRequired() {

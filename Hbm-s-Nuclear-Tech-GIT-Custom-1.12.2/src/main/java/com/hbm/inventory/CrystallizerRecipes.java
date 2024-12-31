@@ -118,6 +118,7 @@ public class CrystallizerRecipes {
 			addRecipe(new ComparableStack(ModItems.ore_bedrock_purified, 1, oreMeta), new FluidStack(ModForgeFluids.nitric_acid, 250), new ItemStack(ModItems.ore_bedrock_nitrated, 1, oreMeta));
 			addRecipe(new ComparableStack(ModItems.ore_bedrock_nitrocrystalline, 1, oreMeta), new FluidStack(ModForgeFluids.solvent, 100), new ItemStack(ModItems.ore_bedrock_seared, 1, oreMeta));
 			addRecipe(new ComparableStack(ModItems.ore_bedrock_exquisite, 1, oreMeta), new FluidStack(ModForgeFluids.radiosolvent, 50), new ItemStack(ModItems.ore_bedrock_perfect, 1, oreMeta));
+			addRecipe(new ComparableStack(ModItems.ore_bedrock, 1, oreMeta), new FluidStack(ModForgeFluids.acid, 8000), new ItemStack(ModItems.ore_bedrock_enriched, 2, oreMeta));
 		}
 	}
 
