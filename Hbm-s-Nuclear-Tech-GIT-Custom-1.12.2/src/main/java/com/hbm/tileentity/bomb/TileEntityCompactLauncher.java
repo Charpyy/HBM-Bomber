@@ -238,7 +238,7 @@ public class TileEntityCompactLauncher extends TileEntityLoadedBase implements I
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 10.0F, 1.0F);
 		int tX = inventory.getStackInSlot(1).getTagCompound().getInteger("xCoord");
 		int tZ = inventory.getStackInSlot(1).getTagCompound().getInteger("zCoord");
-		float distance=(tX-pos.getX())*(tX-pos.getX())+(tZ-pos.getZ())*(tZ-pos.getZ());
+		double distance=Math.sqrt((tX-pos.getX())*(tX-pos.getX())+(tZ-pos.getZ())*(tZ-pos.getZ()));
 		float inaccuracy=0.1F * (multipart.fins==null? 1 : (Float) multipart.fins.attributes[0]) * (Float) multipart.chip.attributes[0];
 		int tXm=tX+(int)(inaccuracy*distance*world.rand.nextGaussian());
 		int tZm=tZ+(int)(inaccuracy*distance*world.rand.nextGaussian());

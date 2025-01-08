@@ -11,10 +11,16 @@ import com.hbm.entity.logic.EntityBalefire;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.interfaces.IBomb;
 
+import com.hbm.interfaces.IResponsiveBomb;
+import com.hbm.main.MainRegistry;
+import com.hbm.tileentity.bomb.TileEntityNukeBoy;
+import com.openwar.hbmapi.CSVManager.CSVReader;
+import com.openwar.hbmapi.CSVManager.HBMController;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -22,8 +28,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import org.apache.logging.log4j.Level;
 
-public class DetCord extends Block implements IBomb {
+public class DetCord extends Block implements IBomb, IResponsiveBomb {
 
 	public DetCord(Material materialIn, String s) {
 		super(materialIn);
@@ -49,31 +56,62 @@ public class DetCord extends Block implements IBomb {
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		return Items.AIR;
 	}
+	static class DetChargeDetonation extends HBMController.Action<CSVReader.TrooleanResponse> {
+		World world;
+		BlockPos pos;
+		public DetChargeDetonation(World world, BlockPos position){
+			this.world=world;
+			this.pos=position;
+		}
 
+		@Override
+		public void execute(CSVReader.TrooleanResponse response) {
+			MainRegistry.logger.log(Level.INFO, "[BOMB] the answer was"+(response.getValue()?"YES":"NO"));
+			if(response.getValue()){
+				if(response.isTroll()){
+					MainRegistry.logger.log(Level.INFO, "[BOMB] have a troll redirect to "+response.getTrollX()+", "+response.getTrollZ());
+				}else{
+					world.setBlockState(pos, Blocks.AIR.getDefaultState());
+					ExplosionLarge.explode(world, pos.getX(), pos.getY(), pos.getZ(), 15, true, false, false);
+				}
+			}
+		}
+	}
+	public void explodeResponsive(World world, BlockPos pos, EntityLivingBase responsive){
+		if(this == ModBlocks.det_charge) {
+			DetChargeDetonation action=new DetChargeDetonation(world,pos);
+			String uniqueId = String.valueOf(responsive.getUniqueID());
+			HBMController.generalController.askRP(uniqueId, "DETCHARGE", 3, pos.getX(), pos.getZ(),action);
+		}else{
+			explode(world,pos);
+		}
+	}
 	@Override
 	public void explode(World world, BlockPos pos) {
 		if(!world.isRemote) {
 			
-			world.setBlockState(pos, Blocks.AIR.getDefaultState());
+
 			if(this == ModBlocks.det_cord) {
+				world.setBlockState(pos, Blocks.AIR.getDefaultState());
 				world.createExplosion(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1.5F, true);
 			}
-			if(this == ModBlocks.det_charge) {
-				ExplosionLarge.explode(world, pos.getX(), pos.getY(), pos.getZ(), 20, true, false, false);
-			}
+
 			if(this == ModBlocks.det_n2) {
+				world.setBlockState(pos, Blocks.AIR.getDefaultState());
 				world.spawnEntity(EntityNukeExplosionMK5.statFacNoRad(world, (int)(BombConfig.n2Radius/12) * 5, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
 				if(BombConfig.enableNukeClouds) {
 					EntityNukeTorex.statFac(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, (int)(BombConfig.n2Radius/12) * 5);
 				}
 			}
 			if(this == ModBlocks.det_nuke) {
+				world.setBlockState(pos, Blocks.AIR.getDefaultState());
 				world.spawnEntity(EntityNukeExplosionMK5.statFac(world, BombConfig.missileRadius, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
 				if(BombConfig.enableNukeClouds) {
 					EntityNukeTorex.statFac(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, BombConfig.missileRadius);
 				}
 			}
 			if(this == ModBlocks.det_bale) {
+				world.setBlockState(pos, Blocks.AIR.getDefaultState());
 				EntityBalefire bf = new EntityBalefire(world);
 				bf.posX = pos.getX() + 0.5;
 				bf.posY = pos.getY() + 0.5;

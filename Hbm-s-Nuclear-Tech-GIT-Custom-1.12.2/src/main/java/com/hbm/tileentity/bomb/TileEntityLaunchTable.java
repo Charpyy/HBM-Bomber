@@ -238,7 +238,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), HBMSoundHandler.missileTakeoff, SoundCategory.BLOCKS, 10.0F, 1.0F);
 		int tX = inventory.getStackInSlot(1).getTagCompound().getInteger("xCoord");
 		int tZ = inventory.getStackInSlot(1).getTagCompound().getInteger("zCoord");
-		float distance=(tX-pos.getX())*(tX-pos.getX())+(tZ-pos.getZ())*(tZ-pos.getZ());
+		double distance= Math.sqrt((tX-pos.getX())*(tX-pos.getX())+(tZ-pos.getZ())*(tZ-pos.getZ()));
 		float inaccuracy=0.1F * (multipart.fins==null? 1 : (Float) multipart.fins.attributes[0]) * (Float) multipart.chip.attributes[0];
 		int tXm=tX+(int)(inaccuracy*distance*world.rand.nextGaussian());
 		int tZm=tZ+(int)(inaccuracy*distance*world.rand.nextGaussian());
@@ -267,7 +267,7 @@ public class TileEntityLaunchTable extends TileEntityLoadedBase implements ITick
 		}
 		if(wh==ModItems.mp_warhead_15_nuclear){
 			neededpoints=12;
-			missilename="NUKE";
+			missilename="NUKE_15";
 		}
 
 		EntityMissileCustom missile = new EntityMissileCustom(world, pos.getX() + 0.5F, pos.getY() + 1.5F, pos.getZ() + 0.5F, tXm, tZm, multipart);
