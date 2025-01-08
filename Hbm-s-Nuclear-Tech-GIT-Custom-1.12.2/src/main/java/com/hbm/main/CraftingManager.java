@@ -287,6 +287,8 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.nugget_pu239, 9), new Object[] { "#", '#', PU239.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.ingot_pu240, 1), new Object[] { "###", "###", "###", '#', PU240.nugget() });
 		addRecipeAuto(new ItemStack(ModItems.nugget_pu240, 9), new Object[] { "#", '#', PU240.ingot() });
+		addRecipeAuto(new ItemStack(ModItems.ingot_pu241, 1), new Object[] { "###", "###", "###", '#', PU241.nugget() });
+		addRecipeAuto(new ItemStack(ModItems.nugget_pu241, 9), new Object[] { "#", '#', PU241.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.ingot_th232, 1), new Object[] { "###", "###", "###", '#', TH232.nugget() });
 		addRecipeAuto(new ItemStack(ModItems.nugget_th232, 9), new Object[] { "#", '#', TH232.ingot() });
 		addRecipeAuto(new ItemStack(ModItems.ingot_uranium, 1), new Object[] { "###", "###", "###", '#', U.nugget() });
@@ -1897,6 +1899,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModBlocks.block_pu238, 1), new Object[] { "###", "###", "###", '#', PU238.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.block_pu239, 1), new Object[] { "###", "###", "###", '#', PU239.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.block_pu240, 1), new Object[] { "###", "###", "###", '#', PU240.ingot() });
+		addRecipeAuto(new ItemStack(ModBlocks.block_pu241, 1), new Object[] { "###", "###", "###", '#', PU241.ingot() });
 		addRecipeAuto(new ItemStack(ModBlocks.block_plutonium_fuel, 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_plutonium_fuel });
 		addRecipeAuto(new ItemStack(ModBlocks.block_thorium_fuel, 1), new Object[] { "###", "###", "###", '#', ModItems.ingot_thorium_fuel });
 		addRecipeAuto(new ItemStack(ModBlocks.block_solinium, 1), new Object[] { "###", "###", "###", '#', SA327.ingot() });
@@ -1911,6 +1914,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.ingot_pu238, 9), new Object[] { "#", '#', PU238.block() });
 		addRecipeAuto(new ItemStack(ModItems.ingot_pu239, 9), new Object[] { "#", '#', PU239.block() });
 		addRecipeAuto(new ItemStack(ModItems.ingot_pu240, 9), new Object[] { "#", '#', PU240.block() });
+		addRecipeAuto(new ItemStack(ModItems.ingot_pu241, 9), new Object[] { "#", '#', PU241.block() });
 		addRecipeAuto(new ItemStack(ModItems.ingot_plutonium_fuel, 9), new Object[] { "#", '#', ModBlocks.block_plutonium_fuel });
 		addRecipeAuto(new ItemStack(ModItems.ingot_thorium_fuel, 9), new Object[] { "#", '#', ModBlocks.block_thorium_fuel });
 		addRecipeAuto(new ItemStack(ModItems.ingot_solinium, 9), new Object[] { "#", '#', SA327.block() });
@@ -2111,10 +2115,8 @@ public class CraftingManager {
 		add1To9Pair(ModItems.ingot_co60, ModItems.nugget_co60);
 		add1To9Pair(ModItems.ingot_au198, ModItems.nugget_au198);
 
-		add1To9Pair(ModItems.ingot_pu241, ModItems.nugget_pu241);
-		add1To9Pair(ModItems.ingot_am241, ModItems.nugget_am241);
-		add1To9Pair(ModItems.ingot_am242, ModItems.nugget_am242);
-		add1To9Pair(ModItems.ingot_am_mix, ModItems.nugget_am_mix);
+		addMineralSet(ModItems.ingot_am241, ModItems.nugget_am241, ModBlocks.block_am241);
+		addMineralSet(ModItems.ingot_am242, ModItems.nugget_am242, ModBlocks.block_am242);
 		add1To9Pair(ModItems.ingot_americium_fuel, ModItems.nugget_americium_fuel);
 
 		add1To9Pair(ModItems.powder_coal, ModItems.powder_coal_tiny);
@@ -2515,6 +2517,7 @@ public class CraftingManager {
 		addRecipeAuto(new ItemStack(ModItems.ashglasses, 1), new Object[] { "I I", "GPG", 'I', ModItems.plate_polymer, 'G', ModBlocks.glass_ash, 'P', ANY_PLASTIC.ingot() });
 
 		addMineralSet(ModItems.nugget_pu_mix, ModItems.ingot_pu_mix, ModBlocks.block_pu_mix);
+		addMineralSet(ModItems.nugget_am_mix, ModItems.ingot_am_mix, ModBlocks.block_am_mix);
 		add1To9Pair(ModItems.ingot_neptunium_fuel, ModItems.nugget_neptunium_fuel);
 
 		addShapelessAuto(new ItemStack(ModItems.billet_uranium, 2), new Object[] { ModItems.billet_uranium_fuel, U238.billet() });
