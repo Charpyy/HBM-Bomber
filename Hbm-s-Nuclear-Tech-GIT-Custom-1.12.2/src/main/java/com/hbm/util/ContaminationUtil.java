@@ -617,7 +617,7 @@ public class ContaminationUtil {
 				res = 1;
 			if(isLiving && rad3d > 0){
 				float eRads = rad3d;
-				eRads /= (float)(dmgLen * dmgLen * Math.sqrt(res));
+				eRads /= (float)(dmgLen * dmgLen * res);
 				
 				contaminate((EntityLivingBase)e, HazardType.RADIATION, ContaminationType.CREATIVE, eRads);
 			}
@@ -629,10 +629,10 @@ public class ContaminationUtil {
 			}
 			
 			if(fire3d > 0.025) {
-				float fireDmg = fire3d;
-				fireDmg /= (float)(dmgLen * dmgLen * dmgLen * res * res);
-				if(fireDmg > 0.025){
-					if(fireDmg > 0.1 && e instanceof EntityPlayer) {
+				float eFire = fire3d;
+				eFire /= (float)(dmgLen * dmgLen * dmgLen * res * res * res);
+				if(eFire > 0.025){
+					if(eFire > 0.1 && e instanceof EntityPlayer) {
 						EntityPlayer p = (EntityPlayer) e;
 						
 						if(p.getHeldItemMainhand().getItem() == ModItems.marshmallow && p.getRNG().nextInt((int)len) == 0) {
@@ -643,7 +643,7 @@ public class ContaminationUtil {
 							p.setHeldItem(EnumHand.OFF_HAND, new ItemStack(ModItems.marshmallow_roasted));
 						}
 					}
-					e.attackEntityFrom(DamageSource.IN_FIRE, fireDmg);
+					e.attackEntityFrom(DamageSource.IN_FIRE, eFire);
 					e.setFire(5);
 				}
 			}

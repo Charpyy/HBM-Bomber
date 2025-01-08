@@ -2765,7 +2765,7 @@ public class ModItems {
 			.setYield(100000000D)
 			.setStats(0.287D) //600b fission with 2.4n, 100b capture : 43/50 pass, 6/50 fis
 			.setFunction(EnumBurnFunc.LINEAR)
-			.setHeat(0.7D) // 1/10 fissioned > 1 flux in = 0.287out = 0.2 heat
+			.setHeat(0.84D) // 6/50 fissioned > 1 flux in = 0.287out = 0.24 heat
 			.setMeltingPoint(2865)
 			.setFuelColor(0.513F, 0.541F, 0.498F)
 			.addRadiation(ItemHazard.u233 * ItemHazard.rod_rbmk).toItem()
