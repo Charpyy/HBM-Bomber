@@ -3064,7 +3064,7 @@ public class CraftingManager {
 		addShapelessAuto(new ItemStack(billet, 4), new Object[] { new ItemStack(out, 1, 0) });
 	}
 
-	//Fill rods with 6 nuggets
+	//Fill rods with 8 billet
 	public static void addRBMKRod(Item billet, Item out){
 		addShapelessAuto(new ItemStack(out), new Object[] { ModItems.rbmk_fuel_empty, billet, billet, billet, billet, billet, billet, billet, billet });
 	}
