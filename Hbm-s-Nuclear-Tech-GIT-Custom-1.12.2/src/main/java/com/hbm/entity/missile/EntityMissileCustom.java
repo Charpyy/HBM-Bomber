@@ -331,9 +331,7 @@ public class EntityMissileCustom extends Entity implements IChunkLoader, IRadarD
 
 		Block b = this.world.getBlockState(new BlockPos((int) this.posX, (int) this.posY, (int) this.posZ)).getBlock();
 		if((b != Blocks.AIR && b != Blocks.WATER && b != Blocks.FLOWING_WATER) || posY < 1) {
-			if(posY < 1){
-				this.setLocationAndAngles((int)this.posX, world.getHeight((int)this.posX, (int)this.posZ), (int)this.posZ, 0, 0);
-			}
+			this.setLocationAndAngles((int)this.posX, world.getHeight((int)this.posX, (int)this.posZ), (int)this.posZ, 0, 0);
 			if (!this.world.isRemote) {
 				if(this.ticksExisted > 100)
 					onImpact();

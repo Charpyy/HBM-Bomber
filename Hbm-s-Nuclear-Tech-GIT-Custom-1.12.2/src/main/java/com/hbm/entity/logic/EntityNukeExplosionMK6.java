@@ -98,19 +98,6 @@ public class EntityNukeExplosionMK6 extends Entity implements IChunkLoader {
 			explosion.processChunk(BombConfig.mk5);
 
 		} else {
-
-			EntityFalloutRain falloutRain = new EntityFalloutRain(this.world);
-			falloutRain.doFallout = false;
-			falloutRain.doFlood = false;
-			falloutRain.doDrain = false;
-			falloutRain.posX = this.posX;
-			falloutRain.posY = this.posY;
-			falloutRain.posZ = this.posZ;
-			if(spawnFire)
-				falloutRain.spawnFire = true;
-			falloutRain.setScale((int) ((this.radius * 2.5F) * BombConfig.falloutRange * 0.01F), this.radius+4);
-			this.world.spawnEntity(falloutRain);
-
 			this.clearLoadedChunks();
 			unloadMainChunk();
 			this.setDead();

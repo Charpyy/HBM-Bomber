@@ -7,6 +7,11 @@
         "meta=3": { "model": "hbm:waste_grass_tall_3" },
         "meta=4": { "model": "hbm:waste_grass_tall_4" },
         "meta=5": { "model": "hbm:waste_grass_tall_5" },
-        "meta=6": { "model": "hbm:waste_grass_tall_6" }
+        "meta=6": { "model": "hbm:waste_grass_tall_6" },
+        "meta=7": { "model": "hbm:waste_grass_tall_7" },
+        "meta=8": { "model": "hbm:waste_grass_tall_8" },
+        "meta=9": { "model": "hbm:waste_grass_tall_9" },
+        "meta=10": { "model": "hbm:waste_grass_tall_10" },
+        "meta=11": { "model": "hbm:waste_grass_tall_11" }
     }
 }

@@ -110,7 +110,7 @@ public class ExplosionLarge {
 		if(!CompatibilityConfig.isWarDim(world)){
 			return;
 		}
-		for(int j = 0; j < count; j++) {
+		for(int j = 0; j < count && false; j++) {
 			
 			double phi = rand.nextDouble() * (Math.PI * 2);
 			double costheta = rand.nextDouble() * 2 - 1;
