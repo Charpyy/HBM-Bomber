@@ -64,6 +64,16 @@ public class RBMKDials {
 		}
 	}
 	public static double getGamerule(World world,String key){
+		double def=1.0;
+		if(key.equals(KEY_MK6_GEN_MODIF)){
+			def=0.000005;
+		} else if (key.equals(KEY_MK6_BACK_MODIF)) {
+			def=5.0;
+		} else if (key.equals(KEY_MK6_SELF_MODIF)) {
+			def=0.1;
+		} else if (key.equals(KEY_MK6_RAY_MODIF)) {
+			def=7.0;
+		}
 		return shittyWorkaroundParseDouble(world.getGameRules().getString(key),1.0);
 	}
 	/**
