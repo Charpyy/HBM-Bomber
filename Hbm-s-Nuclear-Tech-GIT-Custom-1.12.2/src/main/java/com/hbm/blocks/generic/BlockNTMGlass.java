@@ -105,7 +105,7 @@ public class BlockNTMGlass extends BlockBreakable implements IRadResistantBlock,
 		if(this.isRadResistant){
 			tooltip.add("§2[" + I18nUtil.resolveKey("trait.radshield") + "]");
 		}
-		if(hardness > 50){
+		if(hardness > 20){
 			tooltip.add("§6" + I18nUtil.resolveKey("trait.blastres", hardness));
 		}
 	}

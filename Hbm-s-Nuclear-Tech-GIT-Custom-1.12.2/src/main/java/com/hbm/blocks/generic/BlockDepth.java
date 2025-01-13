@@ -43,7 +43,7 @@ public class BlockDepth extends Block {
 		float hardness = this.getExplosionResistance(null);
 		tooltip.add("§d[" + I18nUtil.resolveKey("trait.unmineable") + "]");
 		tooltip.add("§e" + I18nUtil.resolveKey("trait.destroybyexplosion"));
-		if(hardness > 50){
+		if(hardness > 20){
 			tooltip.add("§6" + I18nUtil.resolveKey("trait.blastres", hardness));
 		}
 	}

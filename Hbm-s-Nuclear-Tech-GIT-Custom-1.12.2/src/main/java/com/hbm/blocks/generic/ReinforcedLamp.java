@@ -86,7 +86,7 @@ public class ReinforcedLamp extends Block implements IRadResistantBlock {
 	public void addInformation(ItemStack stack, World player, List<String> tooltip, ITooltipFlag advanced) {
 		float hardness = this.getExplosionResistance(null);
 		tooltip.add("§2[Radiation Shielding]§r");
-		if(hardness > 50){
+		if(hardness > 20){
 			tooltip.add("§6Blast Resistance: "+hardness+"§r");
 		}
 	}

@@ -55,7 +55,7 @@ public class BlockBase extends Block {
 		}
 		
 		float hardness = this.getExplosionResistance(null);
-		if(hardness > 50){
+		if(hardness > 20){
 			list.add(TextFormatting.GOLD + I18nUtil.resolveKey("trait.blastres", hardness));
 		}
 	}

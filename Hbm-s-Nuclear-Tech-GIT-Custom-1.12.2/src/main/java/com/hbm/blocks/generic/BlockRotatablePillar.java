@@ -38,7 +38,7 @@ public class BlockRotatablePillar extends BlockRotatedPillar {
 			tooltip.add(I18nUtil.resolveKey("tile.block_euphemium_cluster.desc"));
 		}
 		float hardness = this.getExplosionResistance(null);
-		if(hardness > 50){
+		if(hardness > 20){
 			tooltip.add("§6" + I18nUtil.resolveKey("trait.blastres", hardness));
 		}
 	}

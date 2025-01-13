@@ -53,7 +53,7 @@ public class BlockRadResistant extends Block implements IRadResistantBlock {
 		super.addInformation(stack, player, tooltip, advanced);
 		tooltip.add("§2[" + I18nUtil.resolveKey("trait.radshield") + "]");
 		float hardness = this.getExplosionResistance(null);
-		if(hardness > 50){
+		if(hardness > 20){
 			tooltip.add("§6" + I18nUtil.resolveKey("trait.blastres", hardness));
 		}
 	}
