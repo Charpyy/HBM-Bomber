@@ -2115,8 +2115,8 @@ public class CraftingManager {
 		add1To9Pair(ModItems.ingot_co60, ModItems.nugget_co60);
 		add1To9Pair(ModItems.ingot_au198, ModItems.nugget_au198);
 
-		addMineralSet(ModItems.ingot_am241, ModItems.nugget_am241, ModBlocks.block_am241);
-		addMineralSet(ModItems.ingot_am242, ModItems.nugget_am242, ModBlocks.block_am242);
+		addMineralSet(ModItems.nugget_am241, ModItems.ingot_am241, ModBlocks.block_am241);
+		addMineralSet(ModItems.nugget_am242, ModItems.ingot_am242, ModBlocks.block_am242);
 		add1To9Pair(ModItems.ingot_americium_fuel, ModItems.nugget_americium_fuel);
 
 		add1To9Pair(ModItems.powder_coal, ModItems.powder_coal_tiny);

@@ -250,7 +250,7 @@ public class SILEXRecipes {
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.powder_xe135_tiny), 3))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_neptunium), 30 - i * 7))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nugget_u238), 66 - i * 4))
-					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.NEPTUNIUM.ordinal()), 4 + 5 * i))
+					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_long_tiny, 1, ItemWasteLong.WasteClass.NEPTUNIUM.ordinal()), 1 + 8 * i))
 					.addOut(new WeightedRandomObject(new ItemStack(ModItems.nuclear_waste_short_tiny, 1, ItemWasteShort.WasteClass.NEPTUNIUM.ordinal()), 0 + 3 * i)) );
 		}
 		for(int i = 0; i < 5; i++) {	
